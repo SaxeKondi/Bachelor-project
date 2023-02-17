@@ -23,6 +23,8 @@ class SubNode:
         self.z_forces = []
         self.start_zforce = -1
         self.z_cal = False
+        self.x_speed = 0
+        self.y_speed = 0
         #self.pub = pub
         rospy.Subscriber("/xyPlane", Twist, self.callback1)     # Suscribirse a movimiento en el plano XY
         rospy.Subscriber("/zAxis", Twist, self.callback2)        # Suscribirse a movimiento en el eje Z
@@ -32,6 +34,8 @@ class SubNode:
     def callback1(self, msg):
         print(msg)
         xy_velocities = [msg.linear.x, msg.linear.y, 0, 0, 0, 0] # msg.linear.x, msg.linear.y, msg.linear.z
+        self.x_speed = msg.linear.x
+        self.y_speed = msg.linear.y
         self.controller.speedL(xy_velocities) # los ultimos 3 valores son la orientacion? ESTOY ENVIANDO VELOCIDADES
 
     def callback2(self, msg):
@@ -62,16 +66,12 @@ class SubNode:
             else:
                 z_velocity = 0
 
-        self.controller.speedL([0, 0, z_velocity, 0, 0, 0])
+        self.controller.speedL([self.x_speed, self.y_speed, z_velocity, 0, 0, 0])
 
     def callback4(self, msg):
         print(msg.data)
         if msg.data == True:
-            self.z_cal = True
-
-
-
-        
+            self.z_cal = True     
 
         
          
