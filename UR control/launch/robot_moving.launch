@@ -1,0 +1,14 @@
+<launch>
+  <!-- <node name = "Dataset" pkg="robot_android" type="bash_runDataSet.sh"/> -->
+  <node name = "ClientA" pkg="robot_android" type="saveMQTT_bottomBandA1.py"/>
+  <node name = "ClientB" pkg="robot_android" type="saveMQTT_bottomBandA2.py"/>
+  <node name = "ClientC" pkg="robot_android" type="saveMQTT_upperBandA1.py"/>
+  <node name = "ClientD" pkg="robot_android" type="saveMQTT_upperBandA2.py"/>
+  <node name = "ClientE" pkg="robot_android" type="saveMQTT_EF.py"/>
+  <node name = "ClientF" pkg="robot_android" type="saveMQTT_jointsPR.py"/>
+  <node name = "OptoSensorMeasurements" pkg="robot_android" type="optoSensor_publisher.py"/> 
+  <node name = "JointsNode" pkg="robot_android" type="multipleNodes.py" output="screen"/>
+  <node name = "ReadJoysticks" pkg="robot_android" type="severalSubs.py"/>
+  <!-- <node name = "Restrictions"  pkg="robot_android" type="restrictions.py" output="screen"/> --> <!-- decomentar cuando esté bien definido este nodo, sin ser peligroso. -->
+  <include file="$(find mqtt_client)/launch/standalone.launch"/>
+</launch>

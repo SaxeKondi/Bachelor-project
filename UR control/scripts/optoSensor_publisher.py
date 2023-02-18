@@ -38,7 +38,7 @@ if __name__ == '__main__':
             print("Forces:" + str(forces))
             #print("Torques:" + str(torques))
 
-            pub.publish(str(forces[2]))
+            pub.publish(str(forces))
             
             if forces[2] > 8:
                 pub2.publish(0)
