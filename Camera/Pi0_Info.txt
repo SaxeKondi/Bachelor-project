@@ -1,13 +1,16 @@
 SSH:
-	Hostname: "pi0Frederik.local" or "pi0frederik.local"
+	Hostname: "pi0Frederik.local"
 
 Login:
-	Username: "pi0Frederik" or "pi0frederik" or "pi0"
+	Username: "pi0"
 	password: "12345678"
 
 Internet:
 	SSID: "FBI VAN NR. 4"
 	Password: "12345678"
+
+IP:
+	IP: 192.168.219.243p
 
 
 https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html
