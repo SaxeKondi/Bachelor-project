@@ -82,11 +82,11 @@ if __name__ == '__main__':
     try:
         #os.system('motion -m')
         rospy.init_node('ReadJoysticks', anonymous=True)
-        robot_ip = '192.168.1.105'
-        print("ROBOT starts!")
+        # robot_ip = '192.168.1.105'
+        # print("ROBOT starts!")
        
         #pub = rospy.Publisher('/endEffector', String, queue_size=10)
-        SubNode(rtde_control.RTDEControlInterface(robot_ip))
+        # SubNode(rtde_control.RTDEControlInterface(robot_ip))
         #PubNode.talker()
         
         rospy.spin()
