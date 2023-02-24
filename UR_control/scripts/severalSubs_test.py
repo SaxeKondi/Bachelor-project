@@ -15,11 +15,19 @@ import ast
 from etherdaq import EtherDAQ
 import time
 import threading
+
+class test_cont:
+    def __init__(self):
+        pass
+
+    def speedL(self, temp):
+        pass
  
 class SubNode:
 
     def __init__(self, controller):
         self.controller = controller
+        controller.setTcp([0, 0, 0.10, 0, 0, 0])
         self.z_forces = []
         self.start_zforce = -1
         self.z_cal = False
@@ -87,35 +95,43 @@ class SubNode:
         print(msg)
         if msg.data == True:
             self.controller.speedL([0, 0, 0, self.r_speed, 0, 0])
+        else:
+            self.controller.speedL([0, 0, 0, 0, 0, 0])
 
     def roll_n_sub(self, msg):
         print(msg)
         if msg.data == True:
             self.controller.speedL([0, 0, 0, -self.r_speed, 0, 0])
+        else:
+            self.controller.speedL([0, 0, 0, 0, 0, 0])
 
     def pitch_p_sub(self, msg):
         print(msg)
         if msg.data == True:
             self.controller.speedL([0, 0, 0, 0, self.r_speed, 0])
+        else:
+            self.controller.speedL([0, 0, 0, 0, 0, 0])
 
     def pitch_n_sub(self, msg):
         print(msg)
         if msg.data == True:
             self.controller.speedL([0, 0, 0, 0, -self.r_speed, 0])
+        else:
+            self.controller.speedL([0, 0, 0, 0, 0, 0])
 
     def yaw_p_sub(self, msg):
         print(msg)
         if msg.data == True:
             self.controller.speedL([0, 0, 0, 0, 0, self.r_speed])
+        else:
+            self.controller.speedL([0, 0, 0, 0, 0, 0])
 
     def yaw_n_sub(self, msg):
         print(msg)
         if msg.data == True:
             self.controller.speedL([0, 0, 0, 0, 0, -self.r_speed])
-
-
-        
-         
+        else:
+            self.controller.speedL([0, 0, 0, 0, 0, 0])
 
 
        
@@ -126,8 +142,10 @@ if __name__ == '__main__':
         # robot_ip = '192.168.1.105'
         # print("ROBOT starts!")
        
-        #pub = rospy.Publisher('/endEffector', String, queue_size=10)
+        # pub = rospy.Publisher('/endEffector', String, queue_size=10)
         # SubNode(rtde_control.RTDEControlInterface(robot_ip))
+        temp_cont = test_cont()
+        SubNode(temp_cont)
         #PubNode.talker()
         
         rospy.spin()
