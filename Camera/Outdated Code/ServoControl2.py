@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
 
 class ServoController:
-    def __init__(self, controlPin, angle = 0, frequency = 100, updateInterval = 10):
+    def __init__(self, controlPin = 32, angle = 0, frequency = 100, updateInterval = 10):
         self.controlPin = controlPin
 
         self.maxAngle = 180
@@ -42,12 +42,12 @@ class ServoController:
 
     def updateAngle(self):
         if(int(time.time()*1000) - self.lastUpdated >= self.updateInterval):
-            self.currentAngle += (self.currentAngle - self.targetAngle) / abs((self.currentAngle - self.targetAngle)) #Increments or decrements the current angle by 1
+            if(self.currentAngle != self.targetAngle):
+                self.currentAngle += (self.currentAngle - self.targetAngle) / abs((self.currentAngle - self.targetAngle)) #Increments or decrements the current angle by 1
             self.positivePulseWidth = (self.currentAngle / (self.maxAngle - self.minAngle)) * (self.maxPulseWidth - self.minPulseWidth) + self.minPulseWidth #Finds the pulse width needed to achieve the desired angle
             self.dutyCycle = (self.positivePulseWidth / 1000000) / (1 / self.frequency) * 100 #Finds the duty cycle to achieve the desired pulse width given the frequency
 
-            self.pwm.changeFrequency(self.frequency)
-            self.pwm.changeDutyCycle(self.dutyCycle)
+            self.pwm.ChangeDutyCycle(self.dutyCycle)
 
             self.lastUpdated = int(time.time()*1000)
             
