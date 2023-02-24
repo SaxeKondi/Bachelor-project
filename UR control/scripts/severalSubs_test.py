@@ -25,25 +25,35 @@ class SubNode:
         self.z_cal = False
         self.x_speed = 0
         self.y_speed = 0
+        self.r_speed = 0.01
         #self.pub = pub
-        rospy.Subscriber("/xyPlane", Twist, self.callback1)     # Suscribirse a movimiento en el plano XY
-        rospy.Subscriber("/zAxis", Twist, self.callback2)        # Suscribirse a movimiento en el eje Z
-        rospy.Subscriber("/optoSensor", String, self.callback3)
-        rospy.Subscriber("/zCal", Bool, self.callback4)
+        rospy.Subscriber("/xyPlane", Twist, self.xy_sub)     # Suscribirse a movimiento en el plano XY
+        rospy.Subscriber("/zAxis", Twist, self.z_sub)        # Suscribirse a movimiento en el eje Z
+        rospy.Subscriber("/optoSensor", String, self.optoSensor_sub)
+        rospy.Subscriber("/zCal", Bool, self.zCal_sub)
+        
+        rospy.Subscriber("/RRoll_positive", Bool, self.roll_p_sub)
+        rospy.Subscriber("/RRoll_negative", Bool, self.roll_n_sub)
+
+        rospy.Subscriber("/RPitch_positive", Bool, self.pitch_p_sub)
+        rospy.Subscriber("/RPitch_negative", Bool, self.pitch_n_sub)
+
+        rospy.Subscriber("/RYaw_positive", Bool, self.yaw_p_sub)
+        rospy.Subscriber("/RYaw_negative", Bool, self.yaw_n_sub)
     
-    def callback1(self, msg):
+    def xy_sub(self, msg):
         print(msg)
         xy_velocities = [msg.linear.x, msg.linear.y, 0, 0, 0, 0] # msg.linear.x, msg.linear.y, msg.linear.z
         self.x_speed = msg.linear.x
         self.y_speed = msg.linear.y
         self.controller.speedL(xy_velocities) # los ultimos 3 valores son la orientacion? ESTOY ENVIANDO VELOCIDADES
 
-    def callback2(self, msg):
+    def z_sub(self, msg):
         print(msg)
         z_velocity = [0, 0, msg.linear.z, 0, 0, 0]
         self.controller.speedL(z_velocity)
 
-    def callback3(self, msg):
+    def optoSensor_sub(self, msg):
         #print(msg)
         z_velocity = 0
         z_force = ast.literal_eval(msg.data)[2]
@@ -68,10 +78,41 @@ class SubNode:
 
         self.controller.speedL([self.x_speed, self.y_speed, z_velocity, 0, 0, 0])
 
-    def callback4(self, msg):
+    def zCal_sub(self, msg):
         print(msg.data)
         if msg.data == True:
-            self.z_cal = True     
+            self.z_cal = True  
+
+    def roll_p_sub(self, msg):
+        print(msg)
+        if msg.data == True:
+            self.controller.speedL([0, 0, 0, self.r_speed, 0, 0])
+
+    def roll_n_sub(self, msg):
+        print(msg)
+        if msg.data == True:
+            self.controller.speedL([0, 0, 0, -self.r_speed, 0, 0])
+
+    def pitch_p_sub(self, msg):
+        print(msg)
+        if msg.data == True:
+            self.controller.speedL([0, 0, 0, 0, self.r_speed, 0])
+
+    def pitch_n_sub(self, msg):
+        print(msg)
+        if msg.data == True:
+            self.controller.speedL([0, 0, 0, 0, -self.r_speed, 0])
+
+    def yaw_p_sub(self, msg):
+        print(msg)
+        if msg.data == True:
+            self.controller.speedL([0, 0, 0, 0, 0, self.r_speed])
+
+    def yaw_n_sub(self, msg):
+        print(msg)
+        if msg.data == True:
+            self.controller.speedL([0, 0, 0, 0, 0, -self.r_speed])
+
 
         
          
@@ -82,11 +123,11 @@ if __name__ == '__main__':
     try:
         #os.system('motion -m')
         rospy.init_node('ReadJoysticks', anonymous=True)
-        robot_ip = '192.168.1.105'
-        print("ROBOT starts!")
+        # robot_ip = '192.168.1.105'
+        # print("ROBOT starts!")
        
         #pub = rospy.Publisher('/endEffector', String, queue_size=10)
-        SubNode(rtde_control.RTDEControlInterface(robot_ip))
+        # SubNode(rtde_control.RTDEControlInterface(robot_ip))
         #PubNode.talker()
         
         rospy.spin()
