@@ -1,34 +1,31 @@
 import time
-import RPi.GPIO as GPIO
-
-GPIO.setmode(GPIO.BOARD)
+import pigpio
 
 class ServoController:
-    def __init__(self, controlPin, angle = 0, updateInterval = 10):
+    def __init__(self, controlPin, updateInterval = 0):
+        self.pi = pigpio.pi()
         self.controlPin = controlPin
 
         self.maxAngle = 180
         self.minAngle = 0
-        self.maxFrequency = 330
-        self.minFrequency = 50
 
-        self.targetAngle = angle
+        self.targetAngle = 0
         self.currentAngle = 0
 
-        self.frequency = (self.currentAngle / (self.maxAngle - self.minAngle)) * (self.maxFrequency - self.minFrequency) + self.minFrequency
-        self.positivePulseWidth = 1000 #given in microseconds
-        self.dutyCycle = (self.positivePulseWidth / 1000000) / (1 / self.frequency) * 100 #Finds the duty cycle to achieve constant positive pulse width no matter the frequency
+        self.minPulseWidth = 500 #given in microseconds
+        self.maxPulseWidth = self.minPulseWidth + ((2550 - 400) / 200) * 180 #given in microseconds
+        
+        self.positivePulseWidth = (self.currentAngle / (self.maxAngle - self.minAngle)) * (self.maxPulseWidth - self.minPulseWidth) + self.minPulseWidth
         
         self.updateInterval = updateInterval #Time in millisecons
         self.lastUpdated = int(time.time()*1000)
 
-        GPIO.setup(self.controlPin, GPIO.OUT)
-        self.pwm = GPIO.PWM(self.controlPin, frequency)
-        self.pwm.start(self.dutyCycle)
+
+        self.pi.set_servo_pulsewidth(self.controlPin, self.positivePulseWidth)
 
     def __del__(self):
-        self.pwm.stop()
-        GPIO.cleanup(self.controlPin)
+        self.pi.set_servo_pulsewidth(self.controlPin, 0)
+        self.pi.stop()
 
     def setTargetAngle(self, angle):
         if(angle > 180):
@@ -38,16 +35,25 @@ class ServoController:
         else:
             self.targetAngle = angle
 
-    def updateAngle(self):
+        self.positivePulseWidth = (self.targetAngle / (self.maxAngle - self.minAngle)) * (self.maxPulseWidth - self.minPulseWidth) + self.minPulseWidth #Finds the pulse width needed to achieve the desired angle
+        self.pi.set_servo_pulsewidth(self.controlPin, self.positivePulseWidth)
+
+    def changeAngle(self, value):
+        self.targetAngle = self.currentAngle + value
+
+        if(self.targetAngle > 180):
+            self.targetAngle = 180
+        elif(self.targetAngle < 0):
+            self.targetAngle = 0
+
         if(int(time.time()*1000) - self.lastUpdated >= self.updateInterval):
-            self.currentAngle += (self.currentAngle - self.targetAngle) / abs((self.currentAngle - self.targetAngle)) #Increments or decrements the current angle by 1
-            self.frequency = (self.currentAngle / (self.maxAngle - self.minAngle)) * (self.maxFrequency - self.minFrequency) + self.minFrequency #Finds the frequncy needed to achieve the desired angle
-            self.dutyCycle = (self.positivePulseWidth / 1000000) / (1 / self.frequency) * 100 #Finds the duty cycle to achieve constant positive pulse width no matter the frequency
-
-            self.pwm.changeFrequency(self.frequency)
-            self.pwm.changeDutyCycle(self.dutyCycle)
-
+            self.positivePulseWidth = (self.targetAngle / (self.maxAngle - self.minAngle)) * (self.maxPulseWidth - self.minPulseWidth) + self.minPulseWidth #Finds the pulse width needed to achieve the desired angle
+            self.pi.set_servo_pulsewidth(self.controlPin, self.positivePulseWidth)
+        
+            self.currentAngle = self.targetAngle
             self.lastUpdated = int(time.time()*1000)
+
+        
             
 
 

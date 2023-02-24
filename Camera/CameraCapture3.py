@@ -11,7 +11,6 @@ camera.resolution = cam_res
 rawCapture = PiRGBArray(camera, size = disp_res)
 
 time.sleep(2)
-print("sir")
 while True:
     camera.capture(rawCapture, format="bgr", resize = disp_res)
     image = rawCapture.array
