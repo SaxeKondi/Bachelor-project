@@ -1,0 +1,5 @@
+ssh pi0@pi0Frederik.local
+
+scp {/path/to/file} pi0@pi0Frederik.local:~/Program/{Camera,Needle,UR_Control}
+
+
