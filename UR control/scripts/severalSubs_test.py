@@ -27,13 +27,14 @@ class SubNode:
 
     def __init__(self, controller):
         self.controller = controller
-        controller.setTcp([0, 0, 0.10, 0, 0, 0])
+        #TCP-offset = 3.5 + 22.4 cm (3.5 = TCP-optoSensor, 22.4 = optoSensor-new_TCP)
+        controller.setTcp([0, 0, (22.4 + 3.5) / 100, 0, 0, 0])
         self.z_forces = []
         self.start_zforce = -1
         self.z_cal = False
         self.x_speed = 0
         self.y_speed = 0
-        self.r_speed = 0.01
+        self.r_speed = 0.1
         #self.pub = pub
         rospy.Subscriber("/xyPlane", Twist, self.xy_sub)     # Suscribirse a movimiento en el plano XY
         rospy.Subscriber("/zAxis", Twist, self.z_sub)        # Suscribirse a movimiento en el eje Z
@@ -139,13 +140,13 @@ if __name__ == '__main__':
     try:
         #os.system('motion -m')
         rospy.init_node('ReadJoysticks', anonymous=True)
-        # robot_ip = '192.168.1.105'
-        # print("ROBOT starts!")
+        robot_ip = '192.168.1.105'
+        print("ROBOT starts!")
        
         # pub = rospy.Publisher('/endEffector', String, queue_size=10)
-        # SubNode(rtde_control.RTDEControlInterface(robot_ip))
-        temp_cont = test_cont()
-        SubNode(temp_cont)
+        SubNode(rtde_control.RTDEControlInterface(robot_ip))
+        # temp_cont = test_cont()
+        # SubNode(temp_cont)
         #PubNode.talker()
         
         rospy.spin()
