@@ -9,7 +9,7 @@ def callback(msg):
 def listener():
 
     rospy.init_node('GetOptoSensorMeasurements', anonymous=True)
-    rospy.Subscriber("optoSensor", String, callback)
+    rospy.Subscriber("/depth", String, callback)
     rospy.spin()
     
 if __name__ == '__main__':
