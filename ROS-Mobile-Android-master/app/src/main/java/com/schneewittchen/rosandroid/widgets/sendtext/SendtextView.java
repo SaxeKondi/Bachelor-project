@@ -9,8 +9,12 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.widget.EditText;
 
-import com.schneewittchen.rosandroid.ui.views.widgets.WidgetView;
+import com.schneewittchen.rosandroid.R;
+import com.schneewittchen.rosandroid.ui.views.widgets.PublisherWidgetView;
+import com.schneewittchen.rosandroid.widgets.button.ButtonEntity;
 
 import javax.annotation.Nullable;
 
@@ -24,13 +28,15 @@ import javax.annotation.Nullable;
  * @modified by Nils Rottmann
  */
 
-public class SendtextView extends WidgetView {
+public class SendtextView extends PublisherWidgetView {
 
     public static final String TAG = SendtextView.class.getSimpleName();
 
     TextPaint textPaint;
     Paint backgroundPaint;
     StaticLayout staticLayout;
+
+    String data;
 
     public SendtextView(Context context) {
         super(context);
@@ -44,7 +50,7 @@ public class SendtextView extends WidgetView {
 
     private void init() {
         backgroundPaint = new Paint();
-        backgroundPaint.setColor(Color.BLACK);
+        backgroundPaint.setColor(getResources().getColor(R.color.colorPrimary));
         backgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         textPaint = new TextPaint();
@@ -53,9 +59,39 @@ public class SendtextView extends WidgetView {
         textPaint.setTextSize(20 * getResources().getDisplayMetrics().density);
     }
 
+//    private void sendText(String text){
+//        data = text;
+//        this.publishViewData(new SendtextData(data));
+//
+//        // Redraw
+//        invalidate();
+//    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (this.editMode) {
+//            return super.onTouchEvent(event);
+//        }
+//
+//        switch (event.getActionMasked()) {
+//            case MotionEvent.ACTION_UP:
+////                EditText simpleEditText = (EditText) findViewById(R.id.simpleEditText);
+//                textPaint.setColor(getResources().getColor(R.color.colorPrimary));
+//                sendText(data);
+//                break;
+//            case MotionEvent.ACTION_DOWN:
+//                sendText(data);
+//                break;
+//            default:
+//                return false;
+//        }
+//
+//        return true;
+//    }
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         float width = getWidth();
         float height = getHeight();
         float textLayoutWidth = width;

@@ -9,11 +9,12 @@ import com.schneewittchen.rosandroid.R;
 import com.schneewittchen.rosandroid.model.entities.widgets.BaseEntity;
 import com.schneewittchen.rosandroid.ui.views.details.PublisherWidgetViewHolder;
 import com.schneewittchen.rosandroid.utility.Utils;
+import com.schneewittchen.rosandroid.widgets.button.ButtonEntity;
 
 import java.util.Collections;
 import java.util.List;
 
-import std_msgs.Bool;
+
 
 /**
  * TODO: Description
@@ -28,44 +29,44 @@ import std_msgs.Bool;
  */
 public class SendtextDetailVH extends PublisherWidgetViewHolder {
 
-    private EditText labelTextText;
-    private Spinner labelTextRotationSpinner;
-
+    private EditText sendTextText;
+    private Spinner sendTextRotationSpinner;
     private ArrayAdapter<CharSequence> rotationAdapter;
 
 
     @Override
     public void initView(View view) {
-        labelTextText = view.findViewById(R.id.labelText);
-        labelTextRotationSpinner = view.findViewById(R.id.labelTextRotation);
+        sendTextText = view.findViewById(R.id.sendTextTypeText);
+        sendTextRotationSpinner = view.findViewById(R.id.sendTextTypeRotation);
 
         // Init spinner
         rotationAdapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.button_rotation, android.R.layout.simple_spinner_dropdown_item);
+                R.array.sendtext_rotation, android.R.layout.simple_spinner_dropdown_item);
 
-        labelTextRotationSpinner.setAdapter(rotationAdapter);
+        sendTextRotationSpinner.setAdapter(rotationAdapter);
     }
 
     @Override
     public void bindEntity(BaseEntity entity) {
         SendtextEntity sendtextEntity = (SendtextEntity) entity;
-        int position = rotationAdapter.getPosition(Utils.numberToDegrees(sendtextEntity.rotation));
+        sendTextText.setText(sendtextEntity.text);
 
-        labelTextText.setText(sendtextEntity.text);
-        labelTextRotationSpinner.setSelection(position);
+        String degrees = Utils.numberToDegrees(sendtextEntity.rotation);
+        sendTextRotationSpinner.setSelection(rotationAdapter.getPosition(degrees));
     }
 
     @Override
-    public void updateEntity(BaseEntity entity) {
-        int rotation = Utils.degreesToNumber(labelTextRotationSpinner.getSelectedItem().toString());
+    protected void updateEntity(BaseEntity entity) {
+        SendtextEntity sendtextEntity = (SendtextEntity) entity;
 
-        ((SendtextEntity) entity).text = labelTextText.getText().toString();
-        ((SendtextEntity) entity).rotation = rotation;
+        sendtextEntity.text = sendTextText.getText().toString();
+        String degrees = sendTextRotationSpinner.getSelectedItem().toString();
+        sendtextEntity.rotation = Utils.degreesToNumber(degrees);
     }
 
     @Override
     public List<String> getTopicTypes() {
-        return Collections.singletonList(Bool._TYPE);
+        return Collections.singletonList(std_msgs.String._TYPE);
     }
 
 

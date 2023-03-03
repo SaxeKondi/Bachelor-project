@@ -1,9 +1,7 @@
 package com.schneewittchen.rosandroid.widgets.sendtext;
 
-import com.schneewittchen.rosandroid.model.entities.widgets.SilentWidgetEntity;
+import com.schneewittchen.rosandroid.model.entities.widgets.PublisherWidgetEntity;
 import com.schneewittchen.rosandroid.model.repositories.rosRepo.message.Topic;
-
-import std_msgs.Bool;
 
 
 /**
@@ -17,7 +15,7 @@ import std_msgs.Bool;
  * @updated on 01.04.2021
  * @modified by Nico Studt
  */
-public class SendtextEntity extends SilentWidgetEntity {
+public class SendtextEntity extends PublisherWidgetEntity {
 
     public String text;
     public int rotation;
@@ -26,7 +24,7 @@ public class SendtextEntity extends SilentWidgetEntity {
         this.width = 3;
         this.height = 1;
         this.topic = new Topic("dis", std_msgs.String._TYPE);
-        this.text = "A label";
+        this.text = "Input";
         this.rotation = 0;
     }
 }
