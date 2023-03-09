@@ -35,7 +35,6 @@ public class SendtextView extends PublisherWidgetView {
     TextPaint textPaint;
     Paint backgroundPaint;
     StaticLayout staticLayout;
-
     String data;
 
     public SendtextView(Context context) {
@@ -59,34 +58,36 @@ public class SendtextView extends PublisherWidgetView {
         textPaint.setTextSize(20 * getResources().getDisplayMetrics().density);
     }
 
-//    private void sendText(String text){
-//        data = text;
-//        this.publishViewData(new SendtextData(data));
-//
-//        // Redraw
-//        invalidate();
-//    }
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (this.editMode) {
-//            return super.onTouchEvent(event);
-//        }
-//
-//        switch (event.getActionMasked()) {
-//            case MotionEvent.ACTION_UP:
-////                EditText simpleEditText = (EditText) findViewById(R.id.simpleEditText);
-//                textPaint.setColor(getResources().getColor(R.color.colorPrimary));
-//                sendText(data);
-//                break;
-//            case MotionEvent.ACTION_DOWN:
-//                sendText(data);
-//                break;
-//            default:
-//                return false;
-//        }
-//
-//        return true;
-//    }
+    private void sendText(String text){
+        data = text;
+        this.publishViewData(new SendtextData(data));
+
+        // Redraw
+        invalidate();
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.editMode) {
+            return super.onTouchEvent(event);
+        }
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_UP:
+//                EditText simpleEditText = (EditText) findViewById(R.id.simpleEditText);
+
+                textPaint.setColor(getResources().getColor(R.color.colorPrimary));
+                sendText("hej");
+                break;
+            case MotionEvent.ACTION_DOWN:
+                textPaint.setColor(getResources().getColor(R.color.color_attention));
+                sendText("hej");
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
 
     @Override
     public void onDraw(Canvas canvas) {
