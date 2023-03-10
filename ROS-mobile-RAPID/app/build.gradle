@@ -4,13 +4,13 @@ plugins {
 
 android {
     namespace 'com.example.ros_mobile_rapid'
-    compileSdk 33
+    compileSdkVersion 33
     buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.example.ros_mobile_rapid"
-        minSdk 21
-        targetSdk 33
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -31,17 +31,18 @@ android {
 }
 
 dependencies {
+
     // implementation 'androidx.work:work-runtime:2.7.1'
-    implementation 'androidx.work:work-runtime:2.8.0'
+    implementation 'androidx.work:work-runtime:2.8.0-beta02'
 
     //implementation 'androidx.work:work-runtime-ktx:2.7.0-alpha05'
 
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.6.0' // mantener: la 1.7.0 genera error.
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     // ROS
     implementation "org.ros.rosjava_core:rosjava:0.3.6"
@@ -60,5 +61,5 @@ dependencies {
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // To use constraint layout compose
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha07"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha04"
 }
