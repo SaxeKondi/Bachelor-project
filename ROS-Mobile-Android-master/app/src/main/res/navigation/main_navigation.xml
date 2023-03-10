@@ -77,5 +77,14 @@
         android:name="com.schneewittchen.rosandroid.ui.fragments.details.DetailContentFragment"
         android:label="DetailGroupOverviewFragment"
         tools:layout="@layout/fragment_detail_content"/>
+    <fragment
+        android:id="@+id/needleFragment"
+        android:name="com.schneewittchen.rosandroid.ui.fragments.needle.NeedleFragment"
+        android:label="NeedleFragment" />
+    <action
+        android:id="@+id/action_to_needleFragment"
+        app:destination="@id/needleFragment"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/main_navigation" />
 
 </navigation>

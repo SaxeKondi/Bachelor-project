@@ -98,6 +98,8 @@ public class MainFragment extends Fragment implements OnBackPressedListener {
                     case "Master":
                         navController.navigate(R.id.action_to_masterFragment);
                         break;
+                    case "Needle":
+                        navController.navigate(R.id.action_to_needleFragment);
                     case "Details":
                         navController.navigate(R.id.action_to_detailFragment);
                         break;
