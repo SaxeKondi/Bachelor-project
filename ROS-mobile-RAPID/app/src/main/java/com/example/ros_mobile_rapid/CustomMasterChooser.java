@@ -150,6 +150,12 @@ public class CustomMasterChooser extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        //Prevent user from going back to Launcher Activity since no Master is connected.
+        this.moveTaskToBack(true);
+    }
+
 private static class RosURIPattern
 {
     /* A word boundary or end of input.  This is to stop foo.sure from matching as foo.su */
