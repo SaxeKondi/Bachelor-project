@@ -30,8 +30,8 @@ class needle:
         self.y1 = 0
         self.depth = 20.0
         self.ldepth = 19.0
-        self.min_length = 118
-        self.max_length = 168
+        self.min_length = 97
+        self.max_length = 147
         self.ratio = (self.max_length - self.min_length)/self.resolution
         self.y2 = -1 - self.depth
         self.length =  np.sqrt((self.b**2) + (self.c**2) - np.cos(np.arctan((self.y2-self.y1)/(self.x2-self.x1))+ (self.v * np.pi/180) + (np.pi/2))*2*self.b*self.c)-self.min_length
