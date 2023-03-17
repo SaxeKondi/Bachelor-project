@@ -1,5 +1,6 @@
 package com.example.ros_mobile_rapid;
 
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -29,6 +30,7 @@ import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MASTER_CHOOSER_REQUEST_CODE = 0;
+    private static final int NOTIFICATION_REQUEST_CODE = 0;
     private ServiceConnection nodeMainExecutorServiceConnection;
     private NodeMainExecutorService nodeMainExecutorService;
     private MutableLiveData<NodeMainExecutor> nodeMainExecutorMutableLiveData = new MutableLiveData<>();
@@ -37,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent updatedIntent = null;
+        PendingIntent updatedPendingIntent = PendingIntent.getActivity(
+                this,
+                NOTIFICATION_REQUEST_CODE,
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE| PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
@@ -48,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         nodeMainExecutorServiceConnection = new NodeMainExecutorServiceConnection(customUri);
-
     }
 
     @Override
@@ -77,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, NodeMainExecutorService.class);
         stopService(intent);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -141,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
+            TestNode TestNode = new TestNode(this,"TestNode");
+            nodeMainExecutor.execute(TestNode, nodeConfiguration);
     }
 
     @SuppressWarnings("NonStaticInnerClassInSecureContext")

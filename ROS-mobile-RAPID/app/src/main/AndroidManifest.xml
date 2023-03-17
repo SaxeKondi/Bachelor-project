@@ -19,6 +19,13 @@
         tools:replace="android:icon"
         tools:node="replace"
         tools:targetApi="33">
+        <service android:name="org.ros.android.NodeMainExecutorService"
+            android:exported="false"
+            android:permission="TODO">   <!-- ESTO QUIZAS NO SEA NECESARIO -->
+            <intent-filter>
+                <action android:name="org.ros.android.NodeMainExecutorService" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".CustomMasterChooser"
             android:exported="true">

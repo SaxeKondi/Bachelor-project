@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -353,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void init(NodeMainExecutor nodeMainExecutor) {
-
+        Log.d("myTag", "Node Executor");
         //Network configuration with ROS master
         final NodeConfiguration nodeConfiguration = NodeConfiguration.newPublic(
                 InetAddressFactory.newNonLoopback().getHostAddress()
@@ -366,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
-
+        Log.d("myTag", "Node Executor_test_node");
         if(enableCamera) {
             CameraNode cameraNode = new CameraNode(this,cameraProviderFuture,nodeName);
             nodeMainExecutor.execute(cameraNode, nodeConfiguration);

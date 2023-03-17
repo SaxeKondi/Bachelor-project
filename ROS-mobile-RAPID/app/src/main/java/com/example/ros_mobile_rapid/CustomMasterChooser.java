@@ -125,7 +125,7 @@ public class CustomMasterChooser extends AppCompatActivity {
                             // If the displayed URI is valid then pack that into the intent.
                             // Package the intent to be consumed by the calling activity.
                             Intent mIntent = new Intent(CustomMasterChooser.this, MainActivity.class);
-                            mIntent.putExtra(MASTER_URI,Master_URI.getText().toString());
+                            mIntent.putExtra(MASTER_URI,uri);
 
                             //mIntent.putExtra(ENABLE_NLP,enableNlp);
                             startActivity(mIntent);
