@@ -1,0 +1,10 @@
+Python scripts remember to do this for all files:
+    sudo chmod +x [name of python file]
+
+
+
+
+While in catkin ws folder:
+    catkin build [name of workspace folder]
+    source devel/setup.bash
+    roslaunch [name of workspace folder] [name of launch file]

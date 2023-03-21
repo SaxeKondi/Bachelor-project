@@ -4,15 +4,14 @@ import time
 import cv2
 
 cam_res = (1920,1080)
-disp_res = (480,360)
 
 camera = PiCamera()
 camera.resolution = cam_res
-rawCapture = PiRGBArray(camera, size = disp_res)
+rawCapture = PiRGBArray(camera, size = cam_res)
 
 time.sleep(2)
 while True:
-    camera.capture(rawCapture, format="bgr", resize = disp_res)
+    camera.capture(rawCapture, format="bgr", resize = cam_res)
     image = rawCapture.array
 
     cv2.imshow("Video Capture", image)
