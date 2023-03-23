@@ -38,7 +38,7 @@ public class JoystickNode extends AbstractNodeMain {
 
     @Override
     public void onStart(final ConnectedNode connectedNode) {
-        publisher = connectedNode.newPublisher(nodeName+"/Twist", std_msgs.String._TYPE);
+        publisher = connectedNode.newPublisher(nodeName+"/Twist", geometry_msgs.Twist._TYPE);
         geometry_msgs.Twist vel = publisher.newMessage();
         // This CancellableLoop will be canceled automatically when the node shuts
         // down.

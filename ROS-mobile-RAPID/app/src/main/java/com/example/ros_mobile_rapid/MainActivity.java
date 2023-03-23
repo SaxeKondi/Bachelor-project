@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 //                this,
 //                NOTIFICATION_REQUEST_CODE,
 //                notificationIntent,
-//                PendingIntent.FLAG_IMMUTABLE| PendingIntent.FLAG_UPDATE_CURRENT
+//                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
 //        );
 
         NeedleDepthText = findViewById(R.id.needle_depth);
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
         nodeMainExecutor.execute(TextSend, nodeConfiguration);
-        nodeMainExecutor.execute(RobotControl, nodeConfiguration);
+        nodeMainExecutor.execute(RobotControl, nodeConfiguration.setNodeName("virtual_joystick"));
     }
 
 
