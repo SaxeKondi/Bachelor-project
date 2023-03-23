@@ -1,8 +1,5 @@
 package com.example.ros_mobile_rapid;
 
-import android.content.Context;
-import android.util.Log;
-
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -15,43 +12,51 @@ import org.ros.node.topic.Publisher;
  *
  * @author damonkohler@google.com (Damon Kohler)
  */
-public class TestNode extends AbstractNodeMain {
-
-    private final Context context;
+public class JoystickNode extends AbstractNodeMain {
     private String nodeName;
-    private Publisher<std_msgs.String> publisher;
 
-    public TestNode(Context context, String nodeName) {
-        this.context = context;
-        //this.previewView = previewView;
+    private double x_speed;
+    private double y_speed;
+    private double z_speed;
+
+    private Publisher<geometry_msgs.Twist> publisher;
+
+    public JoystickNode( String nodeName) {
         this.nodeName = nodeName;
+    }
+
+    public void editspeed(Double x_speed, Double y_speed, Double z_speed){
+        this.x_speed = x_speed;
+        this.y_speed = y_speed;
+        this.z_speed = z_speed;
     }
 
     @Override
     public GraphName getDefaultNodeName() {
-        return GraphName.of(nodeName + "/TestNode");
+        return GraphName.of(nodeName + "/JoystickNode");
     }
 
     @Override
     public void onStart(final ConnectedNode connectedNode) {
-         publisher = connectedNode.newPublisher(nodeName+"/String", std_msgs.String._TYPE);
-         std_msgs.String str = publisher.newMessage();
+        publisher = connectedNode.newPublisher(nodeName+"/Twist", std_msgs.String._TYPE);
+        geometry_msgs.Twist vel = publisher.newMessage();
         // This CancellableLoop will be canceled automatically when the node shuts
         // down.
         connectedNode.executeCancellableLoop(new CancellableLoop() {
-            private int sequenceNumber;
-
             @Override
             protected void setup() {
-                sequenceNumber = 0;
+                x_speed = 0;
+                y_speed = 0;
+                z_speed = 0;
             }
 
             @Override
             protected void loop() throws InterruptedException {
+                vel.getLinear().setX(x_speed);
+                vel.getLinear().setY(y_speed);
+                vel.getLinear().setZ(z_speed);
 
-                str.setData("Hello world! " + sequenceNumber);
-                publisher.publish(str);
-                sequenceNumber++;
+                publisher.publish(vel);
                 Thread.sleep(1000);
             }
         });
