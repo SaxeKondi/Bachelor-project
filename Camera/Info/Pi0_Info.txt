@@ -10,7 +10,7 @@ Internet:
 	Password: "12345678"
 
 IP:
-	IP: 192.168.219.243p
+	IP: 192.168.219.243
 
 
 https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html

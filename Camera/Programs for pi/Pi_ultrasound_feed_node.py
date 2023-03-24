@@ -10,9 +10,9 @@ class ultrasoundPublisher:
     def __init__(self):
         # Params
         self.image = None
-        self.cap = cv2.VideoCapture(0)  #Might need to be changed depending on which id the ultrasound scanner gets
-        self.pixelWidth = 1920
-        self.pixelHeight = 1080
+        self.cap = cv2.VideoCapture(4)  #Might need to be changed depending on which id the ultrasound scanner gets
+        self.pixelWidth = 720
+        self.pixelHeight = 480
 
         #sets the resolution
         self.cap.set(3,self.pixelWidth)
@@ -20,7 +20,7 @@ class ultrasoundPublisher:
 
         self.br = CvBridge()
         # Node cycle rate (in Hz).
-        self.loop_rate = rospy.Rate(30)
+        self.loop_rate = rospy.Rate(15)
 
         # Publishers
         self.pub = rospy.Publisher('ultrasound_feed', CompressedImage, queue_size=1)
@@ -38,9 +38,9 @@ class ultrasoundPublisher:
 
   
 def main():
-    rospy.init_node('Camera', anonymous=True)
+    rospy.init_node('Ultrasound', anonymous=True)
 
-    publisher = cameraPublisher()
+    publisher = ultrasoundPublisher()
       
     publisher.start()
     
