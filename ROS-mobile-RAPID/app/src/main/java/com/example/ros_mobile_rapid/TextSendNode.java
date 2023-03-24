@@ -15,7 +15,7 @@ import org.ros.node.topic.Publisher;
  * @author damonkohler@google.com (Damon Kohler)
  */
 public class TextSendNode extends AbstractNodeMain {
-    private String nodeName;
+    private final String nodeName;
 
     private String text;
     private Publisher<std_msgs.String> publisher;

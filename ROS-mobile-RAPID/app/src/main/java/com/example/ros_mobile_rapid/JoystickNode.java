@@ -1,11 +1,14 @@
 package com.example.ros_mobile_rapid;
 
+import android.util.Log;
+
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.NodeMain;
 import org.ros.node.topic.Publisher;
+import org.ros.rosjava_geometry.Vector3;
 
 /**
  * A simple {@link Publisher} {@link NodeMain}.
@@ -13,22 +16,21 @@ import org.ros.node.topic.Publisher;
  * @author damonkohler@google.com (Damon Kohler)
  */
 public class JoystickNode extends AbstractNodeMain {
-    private String nodeName;
+    private final String nodeName;
 
-    private double x_speed;
-    private double y_speed;
-    private double z_speed;
+    private Vector3 speeds = new Vector3(0,0,0);
 
+    private final double max_speed;
     private Publisher<geometry_msgs.Twist> publisher;
-
-    public JoystickNode( String nodeName) {
+    private Boolean send = false;
+    public JoystickNode(double max_speed, String nodeName) {
+        this.max_speed = max_speed;
         this.nodeName = nodeName;
     }
 
-    public void editspeed(Double x_speed, Double y_speed, Double z_speed){
-        this.x_speed = x_speed;
-        this.y_speed = y_speed;
-        this.z_speed = z_speed;
+    public void editspeed(Vector3 speeds){
+        this.send = true;
+        this.speeds = speeds.scale(max_speed);
     }
 
     @Override
@@ -45,19 +47,18 @@ public class JoystickNode extends AbstractNodeMain {
         connectedNode.executeCancellableLoop(new CancellableLoop() {
             @Override
             protected void setup() {
-                x_speed = 0;
-                y_speed = 0;
-                z_speed = 0;
-            }
 
+            }
             @Override
             protected void loop() throws InterruptedException {
-                vel.getLinear().setX(x_speed);
-                vel.getLinear().setY(y_speed);
-                vel.getLinear().setZ(z_speed);
-
+                if (send){
+                vel.getLinear().setX(speeds.getX());
+                vel.getLinear().setY(speeds.getY());
+                vel.getLinear().setZ(speeds.getZ());
                 publisher.publish(vel);
-                Thread.sleep(1000);
+                send = false;
+                }
+                Thread.sleep(100);
             }
         });
     }

@@ -20,17 +20,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.ros_mobile_rapid.fragments.HomeFragment;
+import com.google.android.material.tabs.TabLayout;
 
 import org.ros.address.InetAddressFactory;
 import org.ros.android.MasterChooser;
 import org.ros.android.NodeMainExecutorService;
-import org.ros.android.view.VirtualJoystickView;
 import org.ros.exception.RosRuntimeException;
 import org.ros.internal.node.client.MasterClient;
 import org.ros.internal.node.xmlrpc.XmlRpcTimeoutException;
 import org.ros.namespace.GraphName;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
+import org.ros.rosjava_geometry.Vector3;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -38,6 +42,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.regex.Pattern;
+
+import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MASTER_CHOOSER_REQUEST_CODE = 0;
@@ -47,15 +53,47 @@ public class MainActivity extends AppCompatActivity {
     private MutableLiveData<NodeMainExecutor> nodeMainExecutorMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<NodeConfiguration> nodeConfigurationMutableLiveData= new MutableLiveData<>();
 
-    private EditText NeedleDepthText;
-    private Button NeedleDepthButton;
-    private VirtualJoystickView virtualJoystickView;
-    TextSendNode TextSend = new TextSendNode( "NeedleDepth");
-    JoystickNode RobotControl = new JoystickNode( "RobotControl");
+    private TabLayout tabLayout;
+
+    private ViewPager2 viewpager2;
+
+    MyViewPageAdapter myViewPageAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tabLayout = findViewById(R.id.tabLayout2);
+        viewpager2 = findViewById(R.id.viewpager);
+        myViewPageAdapter = new MyViewPageAdapter(this);
+        viewpager2.setAdapter(myViewPageAdapter);
+        viewpager2.setUserInputEnabled(false);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewpager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewpager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.getTabAt(position).select();
+            }
+        });
 
 //        Intent updatedIntent = null;
 //        PendingIntent updatedPendingIntent = PendingIntent.getActivity(
@@ -64,14 +102,6 @@ public class MainActivity extends AppCompatActivity {
 //                notificationIntent,
 //                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
 //        );
-
-        NeedleDepthText = findViewById(R.id.needle_depth);
-        NeedleDepthButton = findViewById(R.id.needle_depth_button);
-        NeedleDepthButton.setEnabled(false);
-        virtualJoystickView = findViewById(R.id.joystick_robot);
-        virtualJoystickView.EnableSnapping();
-
-
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
 
@@ -83,35 +113,6 @@ public class MainActivity extends AppCompatActivity {
         }
         nodeMainExecutorServiceConnection = new NodeMainExecutorServiceConnection(customUri);
 
-        NeedleDepthText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input = s.toString();
-                if(input.isEmpty() || Integer.parseInt(input) < 0) {
-                    NeedleDepthText.setError("Please enter valid depth");
-                    NeedleDepthButton.setEnabled(false);
-                }
-                else {
-                    NeedleDepthText.setError(null);
-                    NeedleDepthButton.setEnabled(true);
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        NeedleDepthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextSend.edittext(NeedleDepthText.getText().toString());
-            }
-        });
     }
 
     @Override
@@ -203,8 +204,8 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
-        nodeMainExecutor.execute(TextSend, nodeConfiguration);
-        nodeMainExecutor.execute(RobotControl, nodeConfiguration.setNodeName("virtual_joystick"));
+        nodeMainExecutor.execute(HomeFragment.TextSend, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
     }
 
 
