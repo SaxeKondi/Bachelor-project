@@ -24,7 +24,6 @@ import androidx.lifecycle.MutableLiveData;
 import org.ros.address.InetAddressFactory;
 import org.ros.android.MasterChooser;
 import org.ros.android.NodeMainExecutorService;
-import org.ros.android.view.VirtualJoystickView;
 import org.ros.exception.RosRuntimeException;
 import org.ros.internal.node.client.MasterClient;
 import org.ros.internal.node.xmlrpc.XmlRpcTimeoutException;
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText NeedleDepthText;
     private Button NeedleDepthButton;
-    private VirtualJoystickView virtualJoystickView;
     TextSendNode TextSend = new TextSendNode( "NeedleDepth");
     JoystickNode RobotControl = new JoystickNode( "RobotControl");
     @Override
@@ -68,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         NeedleDepthText = findViewById(R.id.needle_depth);
         NeedleDepthButton = findViewById(R.id.needle_depth_button);
         NeedleDepthButton.setEnabled(false);
-        virtualJoystickView = findViewById(R.id.joystick_robot);
-        virtualJoystickView.EnableSnapping();
 
 
         Intent intent = getIntent();
@@ -204,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
         nodeMainExecutor.execute(TextSend, nodeConfiguration);
-        nodeMainExecutor.execute(RobotControl, nodeConfiguration.setNodeName("virtual_joystick"));
+        nodeMainExecutor.execute(RobotControl, nodeConfiguration);
     }
 
 

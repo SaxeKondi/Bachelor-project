@@ -14,7 +14,6 @@ import org.ros.node.topic.Publisher;
  */
 public class JoystickNode extends AbstractNodeMain {
     private String nodeName;
-
     private double x_speed;
     private double y_speed;
     private double z_speed;
