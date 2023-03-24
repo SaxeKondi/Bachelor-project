@@ -1,0 +1,3 @@
+overfør script ti pi'en
+overfør launch fil til pi'en
+check om servoer kan køre på alle pins
