@@ -12,9 +12,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Depth in millimeters"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
-        app:hintEnabled="false"
+        app:hintEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +27,6 @@
             android:layout_height="wrap_content"
             android:digits="0123456789"
             android:gravity="center_horizontal"
-            android:hint="mm"
             android:inputType="number|numberDecimal"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -41,5 +41,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
+
+<!--https://stackoverflow.com/questions/39964718/virtual-joystick-in-android-sdk    -->
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:JV_buttonColor="#FF6E40"
+        custom:JV_buttonSizeRatio="15%"
+        custom:JV_borderColor="#00796B"
+        custom:JV_backgroundColor="#009688"
+        custom:JV_borderWidth="4dp"
+        custom:JV_fixedCenter="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
