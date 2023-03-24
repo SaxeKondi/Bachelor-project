@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.text.TextWatcher;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -40,7 +37,7 @@ public class CustomMasterChooser extends AppCompatActivity {
 
         final Pattern uriPattern = RosURIPattern.URI;
 
-        Master_URI = findViewById(R.id.connect_ip);
+        Master_URI = findViewById(R.id.master_ip);
         connectButton = findViewById(R.id.connect_button);
 
         Master_URI.addTextChangedListener(new TextWatcher() {

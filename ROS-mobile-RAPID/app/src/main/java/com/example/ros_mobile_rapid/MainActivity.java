@@ -1,6 +1,5 @@
 package com.example.ros_mobile_rapid;
 
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -8,7 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,7 +24,11 @@ import androidx.lifecycle.MutableLiveData;
 import org.ros.address.InetAddressFactory;
 import org.ros.android.MasterChooser;
 import org.ros.android.NodeMainExecutorService;
+import org.ros.android.view.VirtualJoystickView;
 import org.ros.exception.RosRuntimeException;
+import org.ros.internal.node.client.MasterClient;
+import org.ros.internal.node.xmlrpc.XmlRpcTimeoutException;
+import org.ros.namespace.GraphName;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
@@ -27,6 +36,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MASTER_CHOOSER_REQUEST_CODE = 0;
@@ -35,18 +46,31 @@ public class MainActivity extends AppCompatActivity {
     private NodeMainExecutorService nodeMainExecutorService;
     private MutableLiveData<NodeMainExecutor> nodeMainExecutorMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<NodeConfiguration> nodeConfigurationMutableLiveData= new MutableLiveData<>();
+
+    private EditText NeedleDepthText;
+    private Button NeedleDepthButton;
+    private VirtualJoystickView virtualJoystickView;
+    TextSendNode TextSend = new TextSendNode( "NeedleDepth");
+    JoystickNode RobotControl = new JoystickNode( "RobotControl");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent updatedIntent = null;
-        PendingIntent updatedPendingIntent = PendingIntent.getActivity(
-                this,
-                NOTIFICATION_REQUEST_CODE,
-                notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE| PendingIntent.FLAG_UPDATE_CURRENT
-        );
+//        Intent updatedIntent = null;
+//        PendingIntent updatedPendingIntent = PendingIntent.getActivity(
+//                this,
+//                NOTIFICATION_REQUEST_CODE,
+//                notificationIntent,
+//                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+//        );
+
+        NeedleDepthText = findViewById(R.id.needle_depth);
+        NeedleDepthButton = findViewById(R.id.needle_depth_button);
+        NeedleDepthButton.setEnabled(false);
+        virtualJoystickView = findViewById(R.id.joystick_robot);
+        virtualJoystickView.EnableSnapping();
+
 
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
@@ -58,6 +82,36 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         nodeMainExecutorServiceConnection = new NodeMainExecutorServiceConnection(customUri);
+
+        NeedleDepthText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString();
+                if(input.isEmpty() || Integer.parseInt(input) < 0) {
+                    NeedleDepthText.setError("Please enter valid depth");
+                    NeedleDepthButton.setEnabled(false);
+                }
+                else {
+                    NeedleDepthText.setError(null);
+                    NeedleDepthButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        NeedleDepthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextSend.edittext(NeedleDepthText.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -149,9 +203,11 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
-            TestNode TestNode = new TestNode(this,"TestNode");
-            nodeMainExecutor.execute(TestNode, nodeConfiguration);
+        nodeMainExecutor.execute(TextSend, nodeConfiguration);
+        nodeMainExecutor.execute(RobotControl, nodeConfiguration.setNodeName("virtual_joystick"));
     }
+
+
 
     @SuppressWarnings("NonStaticInnerClassInSecureContext")
     private final class NodeMainExecutorServiceConnection implements ServiceConnection {
