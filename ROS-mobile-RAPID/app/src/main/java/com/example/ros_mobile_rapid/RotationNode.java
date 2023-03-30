@@ -1,6 +1,6 @@
 package com.example.ros_mobile_rapid;
 
-import android.util.Log;
+import android.content.Context;
 
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
@@ -8,56 +8,51 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.NodeMain;
 import org.ros.node.topic.Publisher;
-import org.ros.rosjava_geometry.Vector3;
 
 /**
  * A simple {@link Publisher} {@link NodeMain}.
  *
  * @author damonkohler@google.com (Damon Kohler)
  */
-public class JoystickNode extends AbstractNodeMain {
+public class RotationNode extends AbstractNodeMain {
     private final String nodeName, topicName;
 
-    private Vector3 speeds = new Vector3(0,0,0);
+    private Publisher<std_msgs.Int8> publisher;
+    private byte rotation = 0;
+    private boolean send = false;
 
-    private final double max_speed;
-    private Publisher<geometry_msgs.Twist> publisher;
-    private Boolean send = false;
-    public JoystickNode(double max_speed, String Name) {
-        this.max_speed = max_speed;
+    public RotationNode( String Name) {
         this.nodeName = Name;
         this.topicName = Name;
     }
 
-    public void editspeed(Vector3 speeds){
+    public void editrotation(byte rotation){
+        this.rotation = rotation;
         this.send = true;
-        this.speeds = speeds.scale(max_speed);
-    }
 
+    }
     @Override
     public GraphName getDefaultNodeName() {
-        return GraphName.of(nodeName + "/JoystickNode");
+        return GraphName.of(nodeName + "/RotationNode");
     }
 
     @Override
     public void onStart(final ConnectedNode connectedNode) {
-        publisher = connectedNode.newPublisher(topicName, geometry_msgs.Twist._TYPE);
-        geometry_msgs.Twist vel = publisher.newMessage();
+        publisher = connectedNode.newPublisher(topicName, std_msgs.Int8._TYPE);
+        std_msgs.Int8 rot = publisher.newMessage();
         // This CancellableLoop will be canceled automatically when the node shuts
         // down.
         connectedNode.executeCancellableLoop(new CancellableLoop() {
             @Override
             protected void setup() {
-
             }
+
             @Override
             protected void loop() throws InterruptedException {
                 if (send){
-                vel.getLinear().setX(speeds.getX());
-                vel.getLinear().setY(speeds.getY());
-                vel.getLinear().setZ(speeds.getZ());
-                publisher.publish(vel);
-                send = false;
+                    rot.setData(rotation);
+                    publisher.publish(rot);
+                    send = false;
                 }
                 Thread.sleep(100);
             }
