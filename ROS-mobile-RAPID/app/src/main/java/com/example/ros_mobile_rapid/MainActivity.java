@@ -7,13 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,27 +18,20 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.ros_mobile_rapid.fragments.HomeFragment;
+import com.example.ros_mobile_rapid.fragments.UltraSoundFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import org.ros.address.InetAddressFactory;
 import org.ros.android.MasterChooser;
 import org.ros.android.NodeMainExecutorService;
 import org.ros.exception.RosRuntimeException;
-import org.ros.internal.node.client.MasterClient;
-import org.ros.internal.node.xmlrpc.XmlRpcTimeoutException;
-import org.ros.namespace.GraphName;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
-import org.ros.rosjava_geometry.Vector3;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MASTER_CHOOSER_REQUEST_CODE = 0;
@@ -206,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
         nodeMainExecutor.execute(HomeFragment.TextSend, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.YawControl, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.RollControl, nodeConfiguration);
+        nodeMainExecutor.execute(UltraSoundFragment.PiCamera, nodeConfiguration);
     }
 
 
@@ -251,6 +242,10 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceDisconnected(final ComponentName name) {
             Toast.makeText(MainActivity.this, "Service disconnected", Toast.LENGTH_LONG).show();
         }
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 }
 

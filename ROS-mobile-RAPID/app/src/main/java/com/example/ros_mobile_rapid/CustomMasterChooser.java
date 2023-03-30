@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 
 public class CustomMasterChooser extends AppCompatActivity {
     private static final int DEFAULT_PORT = 11311;
-
     private EditText Master_URI;
     private Button connectButton;
     public static final String MASTER_URI = "com.example.umarosandroid.MASTER_URI";
@@ -39,7 +38,6 @@ public class CustomMasterChooser extends AppCompatActivity {
 
         Master_URI = findViewById(R.id.master_ip);
         connectButton = findViewById(R.id.connect_button);
-
         Master_URI.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -136,6 +134,16 @@ public class CustomMasterChooser extends AppCompatActivity {
                 });
             }
         });
+        }
+
+        @Override
+        protected void onStart(){
+        super.onStart();
+            Master_URI.setEnabled(true);
+            connectButton.setEnabled(true);
+            findViewById(R.id.Disconnected_text).setVisibility(View.VISIBLE);
+            findViewById(R.id.Connected_text).setVisibility(View.INVISIBLE);
+
         }
 
     protected void toast(final String text) {
