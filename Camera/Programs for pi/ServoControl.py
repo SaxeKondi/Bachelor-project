@@ -2,7 +2,7 @@ import time
 import pigpio
 
 class ServoController:
-    def __init__(self, controlPin, angle, updateInterval = 0):
+    def __init__(self, controlPin, angle = 0, updateInterval = 0):
         self.pi = pigpio.pi()
         self.controlPin = controlPin
 
