@@ -25,7 +25,7 @@ class cameraPublisher:
         self.loop_rate = rospy.Rate(30)
 
         # Publishers
-        self.pub = rospy.Publisher('cam_feed_comp', CompressedImage, queue_size=1)
+        self.pub = rospy.Publisher('camera_feed_compressed', CompressedImage, queue_size=1)
 
 
     def start(self):
