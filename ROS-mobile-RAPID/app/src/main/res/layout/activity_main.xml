@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_us"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -27,13 +28,19 @@
             android:id="@+id/tab_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Main" />
+            android:text="Robot control" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Video Only" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ultrasound" />
     </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.ros_mobile_rapid.fragments.HomeFragment;
+import com.example.ros_mobile_rapid.fragments.USFragment;
 import com.example.ros_mobile_rapid.fragments.VideoOnlyFragment;
 
 public class MyViewPageAdapter extends FragmentStateAdapter {
@@ -22,6 +23,8 @@ public class MyViewPageAdapter extends FragmentStateAdapter {
                 return new HomeFragment();
             case 1:
                 return new VideoOnlyFragment();
+            case 2:
+                return new USFragment();
             default:
                 return new HomeFragment();
         }
@@ -29,6 +32,6 @@ public class MyViewPageAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
