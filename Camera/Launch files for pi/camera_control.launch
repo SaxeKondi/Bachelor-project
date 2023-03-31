@@ -1,0 +1,8 @@
+<launch>
+  <node 
+    name = "CameraControl" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_camera_control_node.py" 
+    output = "screen"
+  />
+</launch>

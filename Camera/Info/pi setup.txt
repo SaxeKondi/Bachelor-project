@@ -1,0 +1,26 @@
+Use 32 bit buster (debian 10) image
+
+#install ros noetic
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt update
+
+sudo apt-get install python3-rosdep python3-rosinstall-generator python3-vcstools python3-vcstool build-essential
+sudo rosdep init
+rosdep update
+mkdir ~/ros_catkin_ws
+cd ~/ros_catkin_ws
+sudo pip3 install -U rospkg
+sudo pip3 install -U rosdistro
+rosinstall_generator desktop --rosdistro noetic --deps --tar > noetic-desktop.rosinstall
+mkdir ./src
+vcs import --input noetic-desktop.rosinstall ./src
+rosdep install --from-paths ./src --ignore-packages-from-source --rosdistro noetic -y
+./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3
+
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+install catkin
+
+
