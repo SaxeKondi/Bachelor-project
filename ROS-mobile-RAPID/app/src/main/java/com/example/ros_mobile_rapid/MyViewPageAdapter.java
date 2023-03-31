@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.ros_mobile_rapid.fragments.HomeFragment;
-import com.example.ros_mobile_rapid.fragments.UltraSoundFragment;
+import com.example.ros_mobile_rapid.fragments.VideoOnlyFragment;
 
 public class MyViewPageAdapter extends FragmentStateAdapter {
 
@@ -21,7 +21,7 @@ public class MyViewPageAdapter extends FragmentStateAdapter {
             case 0:
                 return new HomeFragment();
             case 1:
-                return new UltraSoundFragment();
+                return new VideoOnlyFragment();
             default:
                 return new HomeFragment();
         }

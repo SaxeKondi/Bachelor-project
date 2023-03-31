@@ -9,18 +9,17 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.ros_mobile_rapid.CameraSubscriberNode;
 import com.example.ros_mobile_rapid.R;
 
-import io.github.controlwear.virtual.joystick.android.JoystickView;
-
-public class UltraSoundFragment extends Fragment {
+public class VideoOnlyFragment extends Fragment {
 
     private ImageView PiCameraView;
+    private ImageView USCameraView;
     public static CameraSubscriberNode PiCamera = new CameraSubscriberNode("PiCamera");
+    public static CameraSubscriberNode USCamera = new CameraSubscriberNode("USCamera");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,17 +29,24 @@ public class UltraSoundFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ultra_sound, container, false);
+        return inflater.inflate(R.layout.fragment_video_only, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         PiCameraView = getView().findViewById(R.id.pi_camera);
+        USCameraView = getView().findViewById(R.id.us_camera);
 
-        PiCamera.listen.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+        PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
                 PiCameraView.setImageBitmap(PiCamera.map);
+            }
+        });
+        USCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                USCameraView.setImageBitmap(USCamera.map);
             }
         });
     }

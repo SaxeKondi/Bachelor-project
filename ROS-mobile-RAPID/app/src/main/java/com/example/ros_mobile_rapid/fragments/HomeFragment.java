@@ -27,26 +27,21 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class HomeFragment extends Fragment {
     private EditText NeedleDepthText;
     private Button NeedleDepthButton;
-
     private static byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
-
     private Button Roll_pos;
-
     private Button Roll_neg;
-
+    private Button Pitch_pos;
+    private Button Pitch_neg;
     private Button Yaw_pos;
-
     private Button Yaw_neg;
     private JoystickView JoystickRobot;
     public static TextPublisherNode TextSend = new TextPublisherNode( "NeedleDepth");
     public static JoystickNode RobotControl = new JoystickNode(0.35, "RobotControl");
-
     public static RotationNode RollControl = new RotationNode("Roll");
 
+    public static RotationNode PitchControl = new RotationNode("Pitch");
     public static RotationNode YawControl = new RotationNode("Yaw");
-
     private Vector3 RobotVector = new Vector3(0,0,0);
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +63,16 @@ public class HomeFragment extends Fragment {
         NeedleDepthButton = getView().findViewById(R.id.needle_depth_button);
         NeedleDepthButton.setEnabled(false);
 
+        Roll_pos = getView().findViewById(R.id.roll_pos);
+        Roll_neg = getView().findViewById(R.id.roll_neg);
+
+        Pitch_pos = getView().findViewById(R.id.pitch_pos);
+        Pitch_neg = getView().findViewById(R.id.pitch_neg);
+
         Yaw_pos = getView().findViewById(R.id.yaw_pos);
         Yaw_neg = getView().findViewById(R.id.yaw_neg);
 
-        Roll_pos = getView().findViewById(R.id.roll_pos);
-        Roll_neg = getView().findViewById(R.id.roll_neg);
+
 
 
         JoystickRobot.setOnMoveListener(new JoystickView.OnMoveListener() {
@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment {
                     NeedleDepthButton.setEnabled(true);
                 }
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -112,42 +111,18 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Yaw_pos.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Yaw_neg.setEnabled(false);
-                    YawControl.editrotation(Rotate_pos);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    YawControl.editrotation(Rotate_default);
-                    Yaw_neg.setEnabled(true);
-                }
-                return true;
-            }
-        });
-
-        Yaw_neg.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Yaw_pos.setEnabled(false);
-                    YawControl.editrotation(Rotate_neg);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Yaw_pos.setEnabled(true);
-                    YawControl.editrotation(Rotate_default);
-                }
-                return true;
-            }
-        });
-
         Roll_pos.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     Roll_neg.setEnabled(false);
+                    Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     RollControl.editrotation(Rotate_pos);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Roll_neg.setEnabled(true);
+                    Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     RollControl.editrotation(Rotate_default);
                 }
                 return true;
@@ -159,10 +134,85 @@ public class HomeFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     Roll_pos.setEnabled(false);
+                    Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     RollControl.editrotation(Rotate_neg);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Roll_pos.setEnabled(true);
+                    Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     RollControl.editrotation(Rotate_default);
+                }
+                return true;
+            }
+        });
+
+        Pitch_pos.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Pitch_neg.setEnabled(false);
+                    Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    PitchControl.editrotation(Rotate_pos);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Pitch_neg.setEnabled(true);
+                    Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    PitchControl.editrotation(Rotate_default);
+                }
+                return true;
+            }
+        });
+
+        Pitch_neg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Pitch_pos.setEnabled(false);
+                    Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    PitchControl.editrotation(Rotate_neg);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Pitch_pos.setEnabled(true);
+                    Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    PitchControl.editrotation(Rotate_default);
+                }
+                return true;
+            }
+        });
+        Yaw_pos.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Yaw_neg.setEnabled(false);
+                    Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    YawControl.editrotation(Rotate_pos);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Yaw_neg.setEnabled(true);
+                    Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    YawControl.editrotation(Rotate_default);
+                }
+                return true;
+            }
+        });
+
+        Yaw_neg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Yaw_pos.setEnabled(false);
+                    Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    YawControl.editrotation(Rotate_neg);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Yaw_pos.setEnabled(true);
+                    Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    YawControl.editrotation(Rotate_default);
                 }
                 return true;
             }

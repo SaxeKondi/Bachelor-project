@@ -2,7 +2,6 @@ package com.example.ros_mobile_rapid;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -27,7 +26,7 @@ public class CameraSubscriberNode extends AbstractNodeMain {
 
     public Bitmap map;
 
-    public MutableLiveData<Bitmap> listen = new MutableLiveData<>();
+    public MutableLiveData<Bitmap> mapMutableLiveData = new MutableLiveData<>();
     private Subscriber<sensor_msgs.CompressedImage> subscriber;
 
     public CameraSubscriberNode(String Name) {
@@ -53,7 +52,7 @@ public class CameraSubscriberNode extends AbstractNodeMain {
             @Override
             public void onNewMessage(sensor_msgs.CompressedImage image) {
                 map = convert(image);
-                listen.postValue(map);
+                mapMutableLiveData.postValue(map);
             }
         });
     }

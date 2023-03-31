@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,7 +17,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.ros_mobile_rapid.fragments.HomeFragment;
-import com.example.ros_mobile_rapid.fragments.UltraSoundFragment;
+import com.example.ros_mobile_rapid.fragments.VideoOnlyFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import org.ros.address.InetAddressFactory;
@@ -194,9 +193,11 @@ public class MainActivity extends AppCompatActivity {
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
         nodeMainExecutor.execute(HomeFragment.TextSend, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
-        nodeMainExecutor.execute(HomeFragment.YawControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RollControl, nodeConfiguration);
-        nodeMainExecutor.execute(UltraSoundFragment.PiCamera, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.PitchControl, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.YawControl, nodeConfiguration);
+        nodeMainExecutor.execute(VideoOnlyFragment.PiCamera, nodeConfiguration);
+        nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
     }
 
 
