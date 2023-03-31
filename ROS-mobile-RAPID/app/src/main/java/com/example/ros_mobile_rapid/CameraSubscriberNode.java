@@ -23,15 +23,16 @@ import sensor_msgs.CompressedImage;
  */
 public class CameraSubscriberNode extends AbstractNodeMain {
     private final String nodeName, topicName;
-
+    private static double scaling;
     public Bitmap map;
 
     public MutableLiveData<Bitmap> mapMutableLiveData = new MutableLiveData<>();
     private Subscriber<sensor_msgs.CompressedImage> subscriber;
 
-    public CameraSubscriberNode(String Name) {
+    public CameraSubscriberNode(String Name, double scaling) {
         this.nodeName = Name;
         this.topicName = Name;
+        this.scaling = scaling;
     }
 
     @Override
@@ -41,9 +42,9 @@ public class CameraSubscriberNode extends AbstractNodeMain {
 
     private Bitmap convert(CompressedImage image) {
         ChannelBuffer buffer = image.getData();
-        return BitmapFactory.decodeByteArray(buffer.array(), buffer.arrayOffset(), buffer.readableBytes());
+        Bitmap orgBitmap = BitmapFactory.decodeByteArray(buffer.array(), buffer.arrayOffset(), buffer.readableBytes());
+        return Bitmap.createScaledBitmap(orgBitmap, (int) (orgBitmap.getWidth() * this.scaling), (int) (orgBitmap.getHeight() * this.scaling), false);
     }
-
     @Override
     public void onStart(ConnectedNode connectedNode) {
 

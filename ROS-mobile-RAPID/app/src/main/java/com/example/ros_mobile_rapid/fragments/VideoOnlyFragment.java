@@ -18,8 +18,8 @@ public class VideoOnlyFragment extends Fragment {
 
     private ImageView PiCameraView;
     private ImageView USCameraView;
-    public static CameraSubscriberNode PiCamera = new CameraSubscriberNode("PiCamera");
-    public static CameraSubscriberNode USCamera = new CameraSubscriberNode("USCamera");
+    public static CameraSubscriberNode PiCamera = new CameraSubscriberNode("PiCamera",1.2);
+    public static CameraSubscriberNode USCamera = new CameraSubscriberNode("USCamera", 2);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
