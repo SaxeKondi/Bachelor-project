@@ -7,6 +7,7 @@
     android:background="@color/black"
     tools:context=".fragments.HomeFragment">
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -46,29 +47,57 @@
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystick_robot"
         android:layout_width="116dp"
-        android:layout_height="115dp"
+        android:layout_height="116dp"
         app:JV_backgroundSizeRatio="65%"
         app:JV_borderColor="@color/blue_main_500"
         app:JV_borderWidth="4dp"
         app:JV_buttonColor="@color/blue_main_200"
         app:JV_buttonSizeRatio="35%"
         app:JV_fixedCenter="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.793" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        android:id="@+id/joystick_camera"
+        android:layout_width="116dp"
+        android:layout_height="116dp"
+        app:JV_backgroundSizeRatio="65%"
+        app:JV_borderColor="@color/blue_main_500"
+        app:JV_borderWidth="4dp"
+        app:JV_buttonColor="@color/blue_main_200"
+        app:JV_buttonSizeRatio="35%"
+        app:JV_fixedCenter="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <Button
+        android:id="@+id/z_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Z +"
+        app:layout_constraintEnd_toStartOf="@+id/joystick_camera"
+        app:layout_constraintStart_toEndOf="@+id/joystick_robot"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <Button
+        android:id="@+id/z_neg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Z -"
+        app:layout_constraintEnd_toStartOf="@+id/joystick_camera"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toEndOf="@+id/joystick_robot"
+        app:layout_constraintTop_toBottomOf="@+id/z_pos" />
 
     <Button
         android:id="@+id/roll_pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="616dp"
+        android:layout_marginEnd="16dp"
         android:text="Roll +"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/pitch_pos"
+        app:layout_constraintTop_toTopOf="@+id/pitch_pos" />
 
     <Button
         android:id="@+id/roll_neg"
@@ -83,10 +112,11 @@
         android:id="@+id/pitch_pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Pitch +"
-        app:layout_constraintStart_toEndOf="@+id/roll_pos"
-        app:layout_constraintTop_toTopOf="@+id/roll_pos" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/z_neg" />
 
     <Button
         android:id="@+id/pitch_neg"
@@ -120,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
+        app:layout_constraintGuide_percent="0.33019978" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

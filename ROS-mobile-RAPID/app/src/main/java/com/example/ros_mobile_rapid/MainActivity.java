@@ -193,9 +193,11 @@ public class MainActivity extends AppCompatActivity {
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
         nodeMainExecutor.execute(HomeFragment.TextSend, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.CameraControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RollControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.PitchControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.YawControl, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.ZControl, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.PiCamera, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
     }

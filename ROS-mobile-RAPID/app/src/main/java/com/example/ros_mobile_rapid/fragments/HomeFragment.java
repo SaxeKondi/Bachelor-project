@@ -33,7 +33,6 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class HomeFragment extends Fragment {
     private EditText NeedleDepthText;
     private Button NeedleDepthButton;
-
     private ImageView PiCameraView;
     private ImageView USCameraView;
     private static byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
@@ -43,14 +42,20 @@ public class HomeFragment extends Fragment {
     private Button Pitch_neg;
     private Button Yaw_pos;
     private Button Yaw_neg;
+
+    private Button Z_pos;
+    private Button Z_neg;
     private JoystickView JoystickRobot;
+    private JoystickView JoystickCamera;
     public static TextPublisherNode TextSend = new TextPublisherNode( "NeedleDepth");
     public static JoystickNode RobotControl = new JoystickNode(0.35, "RobotControl");
+    public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl");
     public static RotationNode RollControl = new RotationNode("Roll");
-
     public static RotationNode PitchControl = new RotationNode("Pitch");
     public static RotationNode YawControl = new RotationNode("Yaw");
+    public static RotationNode ZControl = new RotationNode("ZAxis");
     private Vector3 RobotVector = new Vector3(0,0,0);
+    private Vector3 CameraVector = new Vector3(0,0,0);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         JoystickRobot = getView().findViewById(R.id.joystick_robot);
+        JoystickCamera = getView().findViewById(R.id.joystick_camera);
+
+        Z_pos = getView().findViewById(R.id.z_pos);
+        Z_neg = getView().findViewById(R.id.z_neg);
 
         NeedleDepthText = getView().findViewById(R.id.needle_depth);
 
@@ -107,6 +116,15 @@ public class HomeFragment extends Fragment {
                 RobotControl.editspeed(RobotVector);
             }
         },10);
+
+        JoystickCamera.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
+                double str = (double) strength / 100;
+                CameraVector = new Vector3(str*Math.cos(angle),str*Math.sin(angle),0);
+                CameraControl.editspeed(CameraVector);
+            }
+        },10);
         NeedleDepthText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -135,6 +153,41 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        Z_pos.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Z_neg.setEnabled(false);
+                    Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    ZControl.editrotation(Rotate_pos);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Z_neg.setEnabled(true);
+                    Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    ZControl.editrotation(Rotate_default);
+                }
+                return true;
+            }
+        });
+
+        Z_neg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Z_pos.setEnabled(false);
+                    Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    ZControl.editrotation(Rotate_neg);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Z_pos.setEnabled(true);
+                    Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
+                    ZControl.editrotation(Rotate_default);
+                }
+                return true;
+            }
+        });
         Roll_pos.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
