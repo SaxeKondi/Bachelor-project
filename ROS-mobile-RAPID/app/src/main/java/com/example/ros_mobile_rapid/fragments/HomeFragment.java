@@ -1,10 +1,15 @@
 package com.example.ros_mobile_rapid.fragments;
 
+import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.PiCamera;
+import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.USCamera;
+
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.ros_mobile_rapid.JoystickNode;
 import com.example.ros_mobile_rapid.R;
@@ -27,6 +33,9 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class HomeFragment extends Fragment {
     private EditText NeedleDepthText;
     private Button NeedleDepthButton;
+
+    private ImageView PiCameraView;
+    private ImageView USCameraView;
     private static byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
     private Button Roll_pos;
     private Button Roll_neg;
@@ -72,9 +81,24 @@ public class HomeFragment extends Fragment {
         Yaw_pos = getView().findViewById(R.id.yaw_pos);
         Yaw_neg = getView().findViewById(R.id.yaw_neg);
 
+        PiCameraView = getView().findViewById(R.id.pi_cam);
+        USCameraView = getView().findViewById(R.id.us_cam);
 
 
 
+
+        PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                PiCameraView.setImageBitmap(PiCamera.map);
+            }
+        });
+        USCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                USCameraView.setImageBitmap(USCamera.map);
+            }
+        });
         JoystickRobot.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {

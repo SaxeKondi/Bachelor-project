@@ -21,8 +21,6 @@ public class USFragment extends Fragment {
 
     private ImageView USCameraView;
 
-//    public static CameraSubscriberNode USCamera = new CameraSubscriberNode("USCamera", 2);
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
