@@ -8,66 +8,34 @@
     tools:context=".fragments.HomeFragment">
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Depth in millimeters"
-        android:textColorHint="@color/white"
-        android:visibility="gone"
-        app:boxBackgroundMode="outline"
-        app:hintEnabled="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/needle_depth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="0123456789"
-            android:gravity="center_horizontal"
-            android:inputType="number|numberDecimal"
-            android:textColor="@color/white" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/needle_depth_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Confirm needle depth"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystick_robot"
-        android:layout_width="116dp"
-        android:layout_height="116dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         app:JV_backgroundSizeRatio="65%"
         app:JV_borderColor="@color/blue_main_500"
         app:JV_borderWidth="4dp"
         app:JV_buttonColor="@color/blue_main_200"
         app:JV_buttonSizeRatio="35%"
         app:JV_fixedCenter="false"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/z_pos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystick_camera"
-        android:layout_width="116dp"
-        android:layout_height="116dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         app:JV_backgroundSizeRatio="65%"
         app:JV_borderColor="@color/blue_main_500"
         app:JV_borderWidth="4dp"
         app:JV_buttonColor="@color/blue_main_200"
         app:JV_buttonSizeRatio="35%"
         app:JV_fixedCenter="false"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/z_pos"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
@@ -75,19 +43,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Z +"
-        app:layout_constraintEnd_toStartOf="@+id/joystick_camera"
-        app:layout_constraintStart_toEndOf="@+id/joystick_robot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
         android:id="@+id/z_neg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Z -"
-        app:layout_constraintEnd_toStartOf="@+id/joystick_camera"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toEndOf="@+id/joystick_robot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/z_pos" />
 
     <Button
@@ -95,36 +61,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:layout_weight="1"
         android:text="Roll +"
         app:layout_constraintEnd_toStartOf="@+id/pitch_pos"
-        app:layout_constraintTop_toTopOf="@+id/pitch_pos" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/roll_neg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
         android:text="Roll -"
-        app:layout_constraintStart_toStartOf="@+id/roll_pos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pitch_neg"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roll_pos" />
 
     <Button
         android:id="@+id/pitch_pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_weight="1"
         android:text="Pitch +"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/z_neg" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/pitch_neg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_weight="1"
         android:text="Pitch -"
-        app:layout_constraintStart_toStartOf="@+id/pitch_pos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pitch_pos" />
 
     <Button
@@ -132,17 +105,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_weight="1"
         android:text="Yaw +"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pitch_pos"
-        app:layout_constraintTop_toTopOf="@+id/pitch_pos" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/yaw_neg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
         android:text="Yaw -"
-        app:layout_constraintStart_toStartOf="@+id/yaw_pos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pitch_neg"
         app:layout_constraintTop_toBottomOf="@+id/yaw_pos" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -150,7 +128,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33019978" />
+        app:layout_constraintGuide_percent="0.33" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -158,6 +136,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.66" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.825" />
 
     <ImageView
         android:id="@+id/pi_cam"

@@ -18,6 +18,7 @@
         android:theme="@style/Theme.ROSmobileRAPID"
         tools:replace="android:icon"
         tools:node="replace"
+        android:screenOrientation="landscape"
         tools:targetApi="33">
         <service android:name="org.ros.android.NodeMainExecutorService"
             android:exported="false"
@@ -28,6 +29,7 @@
         </service>
         <activity
             android:name=".CustomMasterChooser"
+            android:screenOrientation="landscape"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +39,7 @@
         </activity>
 
         <activity android:name=".MainActivity"
+            android:screenOrientation="landscape"
             android:exported="true"
             android:parentActivityName=".CustomMasterChooser">
             <!-- The meta-data tag is required if you support API level 15 and lower -->

@@ -4,6 +4,7 @@ import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.PiCamera;
 import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.USCamera;
 
 import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -11,28 +12,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.ros_mobile_rapid.JoystickNode;
 import com.example.ros_mobile_rapid.R;
-import com.example.ros_mobile_rapid.RotationNode;
-import com.example.ros_mobile_rapid.TextPublisherNode;
+import com.example.ros_mobile_rapid.Int8Node;
 
 import org.ros.rosjava_geometry.Vector3;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class HomeFragment extends Fragment {
-    private EditText NeedleDepthText;
-    private Button NeedleDepthButton;
     private ImageView PiCameraView;
     private ImageView USCameraView;
     private static byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
@@ -47,13 +42,12 @@ public class HomeFragment extends Fragment {
     private Button Z_neg;
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
-    public static TextPublisherNode TextSend = new TextPublisherNode( "NeedleDepth");
     public static JoystickNode RobotControl = new JoystickNode(0.35, "RobotControl");
     public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl");
-    public static RotationNode RollControl = new RotationNode("Roll");
-    public static RotationNode PitchControl = new RotationNode("Pitch");
-    public static RotationNode YawControl = new RotationNode("Yaw");
-    public static RotationNode ZControl = new RotationNode("ZAxis");
+    public static Int8Node RollControl = new Int8Node("Roll");
+    public static Int8Node PitchControl = new Int8Node("Pitch");
+    public static Int8Node YawControl = new Int8Node("Yaw");
+    public static Int8Node ZControl = new Int8Node("ZAxis");
     private Vector3 RobotVector = new Vector3(0,0,0);
     private Vector3 CameraVector = new Vector3(0,0,0);
     @Override
@@ -75,11 +69,6 @@ public class HomeFragment extends Fragment {
 
         Z_pos = getView().findViewById(R.id.z_pos);
         Z_neg = getView().findViewById(R.id.z_neg);
-
-        NeedleDepthText = getView().findViewById(R.id.needle_depth);
-
-        NeedleDepthButton = getView().findViewById(R.id.needle_depth_button);
-        NeedleDepthButton.setEnabled(false);
 
         Roll_pos = getView().findViewById(R.id.roll_pos);
         Roll_neg = getView().findViewById(R.id.roll_neg);
@@ -125,34 +114,6 @@ public class HomeFragment extends Fragment {
                 CameraControl.editspeed(CameraVector);
             }
         },10);
-        NeedleDepthText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input = s.toString();
-                if(input.isEmpty() || Integer.parseInt(input) < 0) {
-                    NeedleDepthText.setError("Please enter valid depth");
-                    NeedleDepthButton.setEnabled(false);
-                }
-                else {
-                    NeedleDepthText.setError(null);
-                    NeedleDepthButton.setEnabled(true);
-                }
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        NeedleDepthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextSend.edittext(NeedleDepthText.getText().toString());
-            }
-        });
-
         Z_pos.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -160,12 +121,12 @@ public class HomeFragment extends Fragment {
                     Z_neg.setEnabled(false);
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    ZControl.editrotation(Rotate_pos);
+                    ZControl.editint(Rotate_pos);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Z_neg.setEnabled(true);
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    ZControl.editrotation(Rotate_default);
+                    ZControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -178,12 +139,12 @@ public class HomeFragment extends Fragment {
                     Z_pos.setEnabled(false);
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    ZControl.editrotation(Rotate_neg);
+                    ZControl.editint(Rotate_neg);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Z_pos.setEnabled(true);
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    ZControl.editrotation(Rotate_default);
+                    ZControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -195,12 +156,12 @@ public class HomeFragment extends Fragment {
                     Roll_neg.setEnabled(false);
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    RollControl.editrotation(Rotate_pos);
+                    RollControl.editint(Rotate_pos);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Roll_neg.setEnabled(true);
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    RollControl.editrotation(Rotate_default);
+                    RollControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -213,12 +174,12 @@ public class HomeFragment extends Fragment {
                     Roll_pos.setEnabled(false);
                     Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    RollControl.editrotation(Rotate_neg);
+                    RollControl.editint(Rotate_neg);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Roll_pos.setEnabled(true);
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    RollControl.editrotation(Rotate_default);
+                    RollControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -231,12 +192,12 @@ public class HomeFragment extends Fragment {
                     Pitch_neg.setEnabled(false);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    PitchControl.editrotation(Rotate_pos);
+                    PitchControl.editint(Rotate_pos);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Pitch_neg.setEnabled(true);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    PitchControl.editrotation(Rotate_default);
+                    PitchControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -249,12 +210,12 @@ public class HomeFragment extends Fragment {
                     Pitch_pos.setEnabled(false);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
-                    PitchControl.editrotation(Rotate_neg);
+                    PitchControl.editint(Rotate_neg);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Pitch_pos.setEnabled(true);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    PitchControl.editrotation(Rotate_default);
+                    PitchControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -266,12 +227,12 @@ public class HomeFragment extends Fragment {
                     Yaw_neg.setEnabled(false);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    YawControl.editrotation(Rotate_pos);
+                    YawControl.editint(Rotate_pos);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Yaw_neg.setEnabled(true);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    YawControl.editrotation(Rotate_default);
+                    YawControl.editint(Rotate_default);
                 }
                 return true;
             }
@@ -284,12 +245,12 @@ public class HomeFragment extends Fragment {
                     Yaw_pos.setEnabled(false);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
-                    YawControl.editrotation(Rotate_neg);
+                    YawControl.editint(Rotate_neg);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Yaw_pos.setEnabled(true);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    YawControl.editrotation(Rotate_default);
+                    YawControl.editint(Rotate_default);
                 }
                 return true;
             }

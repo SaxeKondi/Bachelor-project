@@ -1,7 +1,5 @@
 package com.example.ros_mobile_rapid;
 
-import android.content.Context;
-
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -14,26 +12,26 @@ import org.ros.node.topic.Publisher;
  *
  * @author damonkohler@google.com (Damon Kohler)
  */
-public class RotationNode extends AbstractNodeMain {
+public class Int8Node extends AbstractNodeMain {
     private final String nodeName, topicName;
 
     private Publisher<std_msgs.Int8> publisher;
     private byte rotation = 0;
     private boolean send = false;
 
-    public RotationNode( String Name) {
+    public Int8Node(String Name) {
         this.nodeName = Name;
         this.topicName = Name;
     }
 
-    public void editrotation(byte rotation){
+    public void editint(byte rotation){
         this.rotation = rotation;
         this.send = true;
 
     }
     @Override
     public GraphName getDefaultNodeName() {
-        return GraphName.of(nodeName + "/RotationNode");
+        return GraphName.of(nodeName + "/Int8Node");
     }
 
     @Override

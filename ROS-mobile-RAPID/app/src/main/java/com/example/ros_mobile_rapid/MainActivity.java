@@ -3,11 +3,13 @@ package com.example.ros_mobile_rapid;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.ros_mobile_rapid.fragments.HomeFragment;
+import com.example.ros_mobile_rapid.fragments.USFragment;
 import com.example.ros_mobile_rapid.fragments.VideoOnlyFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -89,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
 //                notificationIntent,
 //                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
 //        );
+        if (savedInstanceState == null) {
+            Log.d("myTag", "This is my message");
+        }
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
 
@@ -121,9 +127,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+////        unbindService(nodeMainExecutorServiceConnection);
+////        final Intent intent = new Intent(this, NodeMainExecutorService.class);
+////        stopService(intent);
+//    }
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed(){
+        super.onBackPressed();
         unbindService(nodeMainExecutorServiceConnection);
         final Intent intent = new Intent(this, NodeMainExecutorService.class);
         stopService(intent);
@@ -191,7 +205,8 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
-        nodeMainExecutor.execute(HomeFragment.TextSend, nodeConfiguration);
+        nodeMainExecutor.execute(USFragment.NeedleDepthAngleTextSend, nodeConfiguration);
+        nodeMainExecutor.execute(USFragment.NeedleAutoStartNode, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.CameraControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RollControl, nodeConfiguration);
@@ -240,15 +255,10 @@ public class MainActivity extends AppCompatActivity {
                 init(nodeMainExecutorService);
             }
         }
-
         @Override
         public void onServiceDisconnected(final ComponentName name) {
             Toast.makeText(MainActivity.this, "Service disconnected", Toast.LENGTH_LONG).show();
         }
-    }
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
     }
 }
 

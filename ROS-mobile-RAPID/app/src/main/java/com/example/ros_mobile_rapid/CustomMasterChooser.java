@@ -1,6 +1,7 @@
 package com.example.ros_mobile_rapid;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;

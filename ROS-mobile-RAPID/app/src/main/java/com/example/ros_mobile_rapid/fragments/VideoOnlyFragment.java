@@ -1,5 +1,6 @@
 package com.example.ros_mobile_rapid.fragments;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import androidx.lifecycle.Observer;
 
 import com.example.ros_mobile_rapid.CameraSubscriberNode;
 import com.example.ros_mobile_rapid.R;
+
+import java.util.Objects;
 
 public class VideoOnlyFragment extends Fragment {
 
