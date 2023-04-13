@@ -5,7 +5,7 @@ import random
 #import pigpio
 import numpy as np
 import rospy
-from std_msgs.msg import String, Bool
+from std_msgs.msg import String, Bool, Int8
 
 
 
@@ -14,7 +14,7 @@ class needle:
     #pi = pigpio.pi()
     def __init__(self):
         self.controlPin = 12
-        self.controlPin = 13
+        self.controlPin2 = 13
         self.frequency = 1000
         self.resolution = 1000
 
@@ -45,9 +45,9 @@ class needle:
         self.old_time = rospy.get_time()
         self.start = False
         #self.pub = rospy.Publisher('/depth', String, queue_size = 10)
-        rospy.Subscriber("/chatter", String, self.callback)
+        rospy.Subscriber("/NeedleDepth", String, self.callback)
         #rospy.Subscriber("/chatter", Bool, self.callback)
-        rospy.Subscriber("/start", Bool, self.callback2)
+        rospy.Subscriber("/start", Int8, self.callback2)
         rospy.Subscriber("/stop", Bool, self.callback3)
         #rospy.Subscriber("/chatter2", Bool, self.callback4)
     def callback(self, msg):
@@ -98,7 +98,7 @@ class needle:
     #         #rospy.sleep(0.2)
             
     def callback2(self,msg):
-        if msg.data == True:
+        if msg.data == 1:
             self.start = True
         # if self.start == True:
         #     print("sut mig")
