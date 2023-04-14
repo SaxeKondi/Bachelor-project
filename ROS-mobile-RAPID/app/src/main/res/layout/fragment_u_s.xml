@@ -24,7 +24,7 @@
         android:text="AutoDepth"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
@@ -33,13 +33,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="224dp"
         android:layout_height="65dp"
-        android:hint="Depth in millimeters"
+        android:hint="Artery depth in mm"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:hintEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
         app:layout_constraintVertical_bias="0.5">
@@ -49,7 +49,7 @@
             android:id="@+id/needle_depth_angle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="0123456789/."
+            android:digits="0123456789"
             android:gravity="center_horizontal"
             android:inputType="number|numberDecimal"
             android:textColor="@color/white"

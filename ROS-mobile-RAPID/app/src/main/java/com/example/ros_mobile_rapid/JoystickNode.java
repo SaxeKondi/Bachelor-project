@@ -1,7 +1,5 @@
 package com.example.ros_mobile_rapid;
 
-import android.util.Log;
-
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;

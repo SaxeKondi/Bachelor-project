@@ -4,14 +4,8 @@ import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.PiCamera;
 import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.USCamera;
 
 import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,9 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+
+import com.example.ros_mobile_rapid.Int8Node;
 import com.example.ros_mobile_rapid.JoystickNode;
 import com.example.ros_mobile_rapid.R;
-import com.example.ros_mobile_rapid.Int8Node;
 
 import org.ros.rosjava_geometry.Vector3;
 

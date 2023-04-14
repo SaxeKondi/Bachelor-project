@@ -18,8 +18,8 @@ import threading
 class SubNode:
     def __init__(self, controller):
         self.controller = controller
-        #TCP-offset = 3.5 + 22.4 cm (3.5 = TCP->optoSensor, 22.4 = optoSensor->new_TCP)
-        controller.setTcp([0, 0, (22.4 + 3.5) / 100, 0, 0, 0])
+        #TCP-offset = 3.5 + 22.4 cm (3.5 = TCP->optoSensor, 24.9 = optoSensor->new_TCP)
+        controller.setTcp([0, 0, (24.9 + 3.5) / 100, 0, 0, 0])
 
         self.z_forces = []
         self.start_zforce = -1
@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
         #os.system('motion -m')
 
-        rospy.init_node('ReadJoysticks', anonymous=True)
+        rospy.init_node('RobotControl', anonymous=True)
 
         robot_ip = '192.168.1.105'
 
