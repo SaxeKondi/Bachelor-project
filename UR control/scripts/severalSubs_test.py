@@ -28,6 +28,7 @@ class SubNode:
         self.controll_speeds = [0, 0, 0, 0, 0, 0]
 
         self.rotation_max_speed = 0.1
+        self.z_admittance_speed = 0.01
 
         rospy.Subscriber("/xyPlane", Twist, self.xy_sub)     # Suscribirse a movimiento en el plano XY
         rospy.Subscriber("/zAxis", Twist, self.z_sub)        # Suscribirse a movimiento en el eje Z
@@ -80,17 +81,17 @@ class SubNode:
         if self.start_zforce > 0:
             if self.start_zforce - z_force >= 5:
 
-                z_velocity = 0.01
+                self.controll_speeds[3] = self.z_admittance_speed
 
             elif self.start_zforce - z_force <= -5:
 
-                z_velocity = -0.01
+                self.controll_speeds[3] = -self.z_admittance_speed
 
             else:
-                z_velocity = 0
+                self.controll_speeds[3] = 0
 
         # move()
-        self.controller.speedL([self.x_speed, self.y_speed, z_velocity, 0, 0, 0])
+        self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[3], 0, 0, 0])
 
     def zCal_sub(self, msg):
 
