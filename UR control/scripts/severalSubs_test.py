@@ -24,13 +24,8 @@ class SubNode:
         self.z_forces = []
         self.start_zforce = -1
         self.z_cal = False
-
-        self.x_speed = 0
-        self.y_speed = 0
-        self.z_speed = 0
-        self.roll_speed = 0
-        self.pitch_speed = 0
-        self.yaw_speed = 0
+        
+        self.controll_speeds = [0, 0, 0, 0, 0, 0]
 
         self.rotation_max_speed = 0.1
 
@@ -44,22 +39,22 @@ class SubNode:
 
     def move(self):
 
-        self.controller.speedL([[self.x_speed, self.y_speed, self.z_speed, self.roll_speed, self.pitch_speed, self.yaw_speed]])
+        self.controller.speedL(self.controll_speeds)
 
     def xy_sub(self, msg):
 
         print(msg)
         xy_velocities = [msg.linear.x, msg.linear.y, 0, 0, 0, 0] # msg.linear.x, msg.linear.y, msg.linear.z
-        self.x_speed = msg.linear.x
-        self.y_speed = msg.linear.y
+        self.controll_speeds[0] = msg.linear.x
+        self.controll_speeds[1] = msg.linear.y
         # move()
         self.controller.speedL(xy_velocities) # los ultimos 3 valores son la orientacion? ESTOY ENVIANDO VELOCIDADES
 
     def z_sub(self, msg):
 
         print(msg)
-        self.z_speed = msg.linear.z
         z_velocity = [0, 0, msg.linear.z, 0, 0, 0]
+        self.controll_speeds[2] = msg.linear.z
         # move()
         self.controller.speedL(z_velocity)
 
@@ -108,22 +103,22 @@ class SubNode:
 
         print(msg)
         if msg.data == 1:
-            self.roll_speed = self.rotation_max_speed
+            self.controll_speeds[3] = self.rotation_max_speed
             # move()
             self.controller.speedL([0, 0, 0, self.rotation_max_speed, 0, 0])
 
         elif msg.data == -1:
-            self.roll_speed = -self.rotation_max_speed
+            self.controll_speeds[3] = -self.rotation_max_speed
             # move()
             self.controller.speedL([0, 0, 0, -self.rotation_max_speed, 0, 0])
 
         elif msg.data == 0:
-            self.roll_speed = 0
+            self.controll_speeds[3] = 0
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, 0])
 
         else:
-            self.roll_speed = 0
+            self.controll_speeds[3] = 0
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, 0])
 
@@ -132,22 +127,22 @@ class SubNode:
 
         print(msg)
         if msg.data == 1:
-            self.pitch_speed = self.rotation_max_speed
+            self.controll_speeds[4] = self.rotation_max_speed
             # move()
             self.controller.speedL([0, 0, 0, 0, self.rotation_max_speed, 0])
 
         elif msg.data == -1:
-            self.pitch_speed = -self.rotation_max_speed
+            self.controll_speeds[4] = -self.rotation_max_speed
             # move()
             self.controller.speedL([0, 0, 0, 0, -self.rotation_max_speed, 0])
 
         elif msg.data == 0:
-            self.pitch_speed = 0
+            self.controll_speeds[4] = 0
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, 0])
 
         else:
-            self.pitch_speed = 0
+            self.controll_speeds[4] = 0
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, 0])
 
@@ -156,22 +151,22 @@ class SubNode:
 
         print(msg)
         if msg.data == 1:
-            self.yaw_speed = self.rotation_max_speed
+            self.controll_speeds[5] = self.rotation_max_speed
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, self.rotation_max_speed])
 
         elif msg.data == -1:
-            self.yaw_speed = -self.rotation_max_speed
+            self.controll_speeds[5] = -self.rotation_max_speed
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, -self.rotation_max_speed])
 
         elif msg.data == 0:
-            self.yaw_speed = 0
+            self.controll_speeds[5] = 0
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, 0])
 
         else:
-            self.yaw_speed = 0
+            self.controll_speeds[5] = 0
             # move()
             self.controller.speedL([0, 0, 0, 0, 0, 0]) 
 
