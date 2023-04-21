@@ -98,13 +98,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Intent updatedIntent = null;
-//        PendingIntent updatedPendingIntent = PendingIntent.getActivity(
-//                this,
-//                NOTIFICATION_REQUEST_CODE,
-//                notificationIntent,
-//                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-//        );
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
 
@@ -136,15 +129,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to bind NodeMainExecutorService.", Toast.LENGTH_LONG).show();
         }
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-////        unbindService(nodeMainExecutorServiceConnection);
-////        final Intent intent = new Intent(this, NodeMainExecutorService.class);
-////        stopService(intent);
-//    }
-
     @Override
     public void onBackPressed(){
         super.onBackPressed();
