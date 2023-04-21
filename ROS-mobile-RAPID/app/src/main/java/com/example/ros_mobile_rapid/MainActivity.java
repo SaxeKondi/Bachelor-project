@@ -105,9 +105,6 @@ public class MainActivity extends AppCompatActivity {
 //                notificationIntent,
 //                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
 //        );
-        if (savedInstanceState == null) {
-            Log.d("myTag", "This is my message");
-        }
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
 

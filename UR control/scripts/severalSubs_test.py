@@ -18,7 +18,7 @@ import threading
 class SubNode:
     def __init__(self, controller):
         self.controller = controller
-        #TCP-offset = 3.5 + 22.4 cm (3.5 = TCP->optoSensor, 24.9 = optoSensor->new_TCP)
+        #TCP-offset = 3.5 + 24.9 cm (3.5 = TCP->optoSensor, 24.9 = optoSensor->new_TCP)
         controller.setTcp([0, 0, (24.9 + 3.5) / 100, 0, 0, 0])
 
         self.z_forces = []
