@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int NOTIFICATION_REQUEST_CODE = 0;
     private ServiceConnection nodeMainExecutorServiceConnection;
     private NodeMainExecutorService nodeMainExecutorService;
+
+    public static Int8Node ZCal = new Int8Node("ZCal");
+    private static final byte Zcal = 0;
     private MutableLiveData<NodeMainExecutor> nodeMainExecutorMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<NodeConfiguration> nodeConfigurationMutableLiveData= new MutableLiveData<>();
 
@@ -209,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(HomeFragment.ZControl, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.PiCamera, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
+
+        // Publish here to make sure node is launched before Zcal is called.
+        nodeMainExecutor.execute(ZCal, nodeConfiguration);
+        ZCal.editint(Zcal);
     }
 
 

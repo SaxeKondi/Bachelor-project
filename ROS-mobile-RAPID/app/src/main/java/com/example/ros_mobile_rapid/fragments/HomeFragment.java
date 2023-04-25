@@ -23,12 +23,14 @@ import com.example.ros_mobile_rapid.R;
 
 import org.ros.rosjava_geometry.Vector3;
 
+import java.util.concurrent.TimeUnit;
+
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class HomeFragment extends Fragment {
     private ImageView PiCameraView;
     private ImageView USCameraView;
-    private static byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
+    private static final byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
     private Button Roll_pos;
     private Button Roll_neg;
     private Button Pitch_pos;
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         JoystickRobot = getView().findViewById(R.id.joystick_robot);
         JoystickCamera = getView().findViewById(R.id.joystick_camera);
 
@@ -78,6 +81,7 @@ public class HomeFragment extends Fragment {
 
         PiCameraView = getView().findViewById(R.id.pi_cam);
         USCameraView = getView().findViewById(R.id.us_cam);
+
 
         PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override

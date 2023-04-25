@@ -33,8 +33,8 @@ class SubNode:
 
         rospy.Subscriber("/RobotControl", Twist, self.xy_sub)     # Suscribirse a movimiento en el plano XY
         rospy.Subscriber("/ZAxis", Int8, self.z_sub)        # Suscribirse a movimiento en el eje Z
-        # rospy.Subscriber("/optoSensor", String, self.optoSensor_sub)
-        # rospy.Subscriber("/zCal", Bool, self.zCal_sub)
+        rospy.Subscriber("/optoSensor", String, self.optoSensor_sub)
+        rospy.Subscriber("/ZCal", Int8, self.zCal_sub)
         rospy.Subscriber("/Roll", Int8, self.roll)
         rospy.Subscriber("/Pitch", Int8, self.pitch)
         rospy.Subscriber("/Yaw", Int8, self.yaw)
@@ -80,45 +80,37 @@ class SubNode:
             # move(10)
             self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
 
-    # def optoSensor_sub(self, msg):
+    def optoSensor_sub(self, msg):
 
-    #     #print(msg)
-    #     z_velocity = 0
-    #     z_force = ast.literal_eval(msg.data)[2]
+        #print(msg)
+        z_force = ast.literal_eval(msg.data)[2]
         
-    #     if self.z_cal:
+        if self.z_cal:
 
-    #         self.start_zforce = -1
-    #         if len(self.z_forces) != 5:
-    #             self.z_forces.append(z_force)
-    #             print(len(self.z_forces))
+            self.start_zforce = -1
+            if len(self.z_forces) != 5:
+                self.z_forces.append(z_force)
+                print(len(self.z_forces))
 
-    #         elif self.start_zforce == -1:
+            elif self.start_zforce == -1:
 
-    #             self.start_zforce = sum(self.z_forces) / len(self.z_forces)
-    #             print(f"Done calibrating z_force: {self.start_zforce}")
-    #             self.z_cal = False
+                self.start_zforce = sum(self.z_forces) / len(self.z_forces)
+                print(f"Done calibrating z_force: {self.start_zforce}")
+                self.z_cal = False
 
-    #     if self.start_zforce > 0:
-    #         if self.start_zforce - z_force >= 5:
+        if self.z_cal == False and len(self.z_forces) != 5:
+            if self.start_zforce - z_force >= 5:
 
-    #             self.controll_speeds[3] = self.z_admittance_speed
+                self.controll_speeds[2] = -self.z_admittance_speed
 
-    #         elif self.start_zforce - z_force <= -5:
+        # move()
+        self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[2], 0, 0, 0])
 
-    #             self.controll_speeds[3] = -self.z_admittance_speed
+    def zCal_sub(self, msg):
 
-    #         else:
-    #             self.controll_speeds[3] = 0
-
-    #     # move()
-    #     self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[3], 0, 0, 0])
-
-    # def zCal_sub(self, msg):
-
-    #     print(msg.data)
-    #     if msg.data == True:
-    #         self.z_cal = True  
+        print(msg.data)
+        if msg.data == 0:
+            self.z_cal = True  
 
 
     def roll(self, msg):
