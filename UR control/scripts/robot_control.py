@@ -22,7 +22,7 @@ class SubNode:
         controller.setTcp([0, 0, (24.9 + 3.5) / 100, 0, 0, 0])
 
         self.z_forces = []
-        self.start_zforce
+        self.start_zforce = 0
         self.z_cal = False
         
         self.controll_speeds = [0, 0, 0, 0, 0, 0]
@@ -48,21 +48,21 @@ class SubNode:
 
     def xy_sub(self, msg):
 
-        print(msg)
+        # print(msg)
         #Max speed set to 0.05 m/s in Android app
         xy_velocities = [msg.linear.x, msg.linear.y, 0, 0, 0, 0] # msg.linear.x, msg.linear.y, msg.linear.z
         self.controll_speeds[0] = msg.linear.x
         self.controll_speeds[1] = msg.linear.y
         if (msg.linear.x == 0 and msg.linear.y == 0):
             # move()
-            self.controller.speedL([xy_velocities], 10)
+            self.controller.speedL(xy_velocities, 10)
         else:
             # move()
             self.controller.speedL(xy_velocities) # los ultimos 3 valores son la orientacion? ESTOY ENVIANDO VELOCIDADES
 
     def z_sub(self, msg):
 
-        print(msg)
+        # print(msg)
         if msg.data == 1:
             self.controll_speeds[2] = self.z_speed
             # move()
@@ -104,9 +104,8 @@ class SubNode:
             if self.start_zforce - z_force >= -5:
 
                 self.controll_speeds[2] = -self.z_admittance_speed
-
-        # move()
-        self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[2], 0, 0, 0])
+                self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[2], self.controll_speeds[3], self.controll_speeds[4], self.controll_speeds[5]])
+                # move()
 
     def zCal_sub(self, msg):
 
@@ -117,7 +116,7 @@ class SubNode:
 
     def roll(self, msg):
 
-        print(msg)
+        # print(msg)
         if msg.data == 1:
             self.controll_speeds[3] = self.rotation_max_speed
             # move()
@@ -141,7 +140,7 @@ class SubNode:
 
     def pitch(self, msg):
 
-        print(msg)
+        # print(msg)
         if msg.data == 1:
             self.controll_speeds[4] = self.rotation_max_speed
             # move()
@@ -165,7 +164,7 @@ class SubNode:
 
     def yaw(self, msg):
 
-        print(msg)
+        # print(msg)
         if msg.data == 1:
             self.controll_speeds[5] = self.rotation_max_speed
             # move()
