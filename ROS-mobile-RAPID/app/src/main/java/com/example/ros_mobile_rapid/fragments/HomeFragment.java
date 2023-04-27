@@ -23,8 +23,6 @@ import com.example.ros_mobile_rapid.R;
 
 import org.ros.rosjava_geometry.Vector3;
 
-import java.util.concurrent.TimeUnit;
-
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class HomeFragment extends Fragment {

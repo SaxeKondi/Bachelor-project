@@ -217,9 +217,6 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(ZCal, nodeConfiguration);
         ZCal.editint(Zcal);
     }
-
-
-
     @SuppressWarnings("NonStaticInnerClassInSecureContext")
     private final class NodeMainExecutorServiceConnection implements ServiceConnection {
 
