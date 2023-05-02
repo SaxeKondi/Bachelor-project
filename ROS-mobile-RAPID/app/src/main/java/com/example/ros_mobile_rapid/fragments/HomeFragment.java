@@ -37,6 +37,8 @@ public class HomeFragment extends Fragment {
     private Button Yaw_neg;
     private Button Z_pos;
     private Button Z_neg;
+
+    private Button Z_cal;
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
     public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl");
@@ -45,6 +47,8 @@ public class HomeFragment extends Fragment {
     public static Int8Node PitchControl = new Int8Node("Pitch");
     public static Int8Node YawControl = new Int8Node("Yaw");
     public static Int8Node ZControl = new Int8Node("ZAxis");
+
+    public static Int8Node ZCal = new Int8Node("ZCal");
     private Vector3 RobotVector = new Vector3(0,0,0);
     private Vector3 CameraVector = new Vector3(0,0,0);
     @Override
@@ -67,6 +71,9 @@ public class HomeFragment extends Fragment {
 
         Z_pos = getView().findViewById(R.id.z_pos);
         Z_neg = getView().findViewById(R.id.z_neg);
+        Z_pos.setEnabled(false);
+        Z_neg.setEnabled(false);
+        Z_cal = getView().findViewById(R.id.z_cal);
 
         Roll_pos = getView().findViewById(R.id.roll_pos);
         Roll_neg = getView().findViewById(R.id.roll_neg);
@@ -110,6 +117,22 @@ public class HomeFragment extends Fragment {
                 CameraControl.editspeed(CameraVector);
             }
         },10);
+
+
+        Z_cal.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Z_cal.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    ZCal.editint(Rotate_default);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Z_neg.setEnabled(true);
+                    Z_pos.setEnabled(true);
+                    Z_cal.setEnabled(false);
+                }
+                return true;
+            }
+        });
         Z_pos.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

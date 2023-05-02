@@ -1,5 +1,7 @@
 package com.example.ros_mobile_rapid;
 
+import static com.example.ros_mobile_rapid.fragments.HomeFragment.ZCal;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -8,8 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int NOTIFICATION_REQUEST_CODE = 0;
     private ServiceConnection nodeMainExecutorServiceConnection;
     private NodeMainExecutorService nodeMainExecutorService;
-
-    public static Int8Node ZCal = new Int8Node("ZCal");
-    private static final byte Zcal = 0;
     private MutableLiveData<NodeMainExecutor> nodeMainExecutorMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<NodeConfiguration> nodeConfigurationMutableLiveData= new MutableLiveData<>();
 
@@ -202,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
+        nodeMainExecutor.execute(ZCal, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleDepthAngleTextSend, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleAutoStartNode, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
@@ -214,8 +212,6 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
 
         // Publish here to make sure node is launched before Zcal is called.
-        nodeMainExecutor.execute(ZCal, nodeConfiguration);
-        ZCal.editint(Zcal);
     }
     @SuppressWarnings("NonStaticInnerClassInSecureContext")
     private final class NodeMainExecutorServiceConnection implements ServiceConnection {

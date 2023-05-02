@@ -1,5 +1,7 @@
 package com.example.ros_mobile_rapid;
 
+import android.util.Log;
+
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -14,7 +16,6 @@ import org.ros.node.topic.Publisher;
  */
 public class Int8Node extends AbstractNodeMain {
     private final String nodeName, topicName;
-
     private Publisher<std_msgs.Int8> publisher;
     private byte Int8 = 0;
     private boolean send = false;
@@ -43,7 +44,6 @@ public class Int8Node extends AbstractNodeMain {
             @Override
             protected void setup() {
             }
-
             @Override
             protected void loop() throws InterruptedException {
                 if (send){

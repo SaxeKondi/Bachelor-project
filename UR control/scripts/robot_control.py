@@ -19,11 +19,13 @@ class SubNode:
     def __init__(self, controller):
         self.controller = controller
         #TCP-offset = 3.5 + 24.9 cm (3.5 = TCP->optoSensor, 24.9 = optoSensor->new_TCP)
-        controller.setTcp([0, 0, (24.9 + 3.5) / 100, 0, 0, 0])
+        controller.setTcp([(24.9 - 4.4) / 100, 0, (4 + 3.5) / 100, np.pi, np.pi / 2, 0])
 
         self.z_forces = []
         self.start_zforce = 0
         self.z_cal = False
+
+        self.z_control = False
         
         self.controll_speeds = [0, 0, 0, 0, 0, 0]
 
@@ -85,8 +87,8 @@ class SubNode:
 
     def optoSensor_sub(self, msg):
 
-        #print(msg)
-        z_force = ast.literal_eval(msg.data)[2]
+        # print(msg)
+        z_force = -(ast.literal_eval(msg.data)[1])
         
         if self.z_cal:
 
@@ -101,11 +103,16 @@ class SubNode:
                 self.z_cal = False
 
         if self.z_cal == False and len(self.z_forces) == 5:
-            if self.start_zforce - z_force >= -5:
-
-                self.controll_speeds[2] = -self.z_admittance_speed
+            if self.start_zforce - z_force >= 5:
+                print(self.start_zforce - z_force)
+                self.z_control = True
+                self.controll_speeds[2] = self.z_admittance_speed
                 self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[2], self.controll_speeds[3], self.controll_speeds[4], self.controll_speeds[5]])
                 # move()
+            elif self.z_control:
+                self.z_control = False
+                self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], 0, self.controll_speeds[3], self.controll_speeds[4], self.controll_speeds[5]])
+
 
     def zCal_sub(self, msg):
 
@@ -120,12 +127,12 @@ class SubNode:
         if msg.data == 1:
             self.controll_speeds[3] = self.rotation_max_speed
             # move()
-            self.controller.speedL([0, 0, 0, self.rotation_max_speed, 0, 0])
+            self.controller.speedL([0, 0, 0, self.controll_speeds[3], 0, 0])
 
         elif msg.data == -1:
             self.controll_speeds[3] = -self.rotation_max_speed
             # move()
-            self.controller.speedL([0, 0, 0, -self.rotation_max_speed, 0, 0])
+            self.controller.speedL([0, 0, 0, self.controll_speeds[3], 0, 0])
 
         elif msg.data == 0:
             self.controll_speeds[3] = 0
@@ -144,22 +151,22 @@ class SubNode:
         if msg.data == 1:
             self.controll_speeds[4] = self.rotation_max_speed
             # move()
-            self.controller.speedL([0, 0, 0, 0, self.rotation_max_speed, 0])
+            self.controller.speedL([0, 0, 0, 0, self.controll_speeds[4], 0])
 
         elif msg.data == -1:
             self.controll_speeds[4] = -self.rotation_max_speed
             # move()
-            self.controller.speedL([0, 0, 0, 0, -self.rotation_max_speed, 0])
+            self.controller.speedL([0, 0, 0, 0, self.controll_speeds[4], 0])
 
         elif msg.data == 0:
             self.controll_speeds[4] = 0
             # move()
-            self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
+            self.controller.speedL([0, 0, 0, 0, self.controll_speeds[4], 0], 10)
 
         else:
             self.controll_speeds[4] = 0
             # move()
-            self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
+            self.controller.speedL([0, 0, 0, 0, self.controll_speeds[4], 0], 10)
 
 
     def yaw(self, msg):
@@ -168,22 +175,22 @@ class SubNode:
         if msg.data == 1:
             self.controll_speeds[5] = self.rotation_max_speed
             # move()
-            self.controller.speedL([0, 0, 0, 0, 0, self.rotation_max_speed])
+            self.controller.speedL([0, 0, 0, 0, 0, self.controll_speeds[5]])
 
         elif msg.data == -1:
             self.controll_speeds[5] = -self.rotation_max_speed
             # move()
-            self.controller.speedL([0, 0, 0, 0, 0, -self.rotation_max_speed])
+            self.controller.speedL([0, 0, 0, 0, 0, self.controll_speeds[5]])
 
         elif msg.data == 0:
             self.controll_speeds[5] = 0
             # move()
-            self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
+            self.controller.speedL([0, 0, 0, 0, 0, self.controll_speeds[5]], 10)
 
         else:
             self.controll_speeds[5] = 0
             # move()
-            self.controller.speedL([0, 0, 0, 0, 0, 0], 10) 
+            self.controller.speedL([0, 0, 0, 0, 0, self.controll_speeds[5]], 10) 
 
 if __name__ == '__main__':
 
