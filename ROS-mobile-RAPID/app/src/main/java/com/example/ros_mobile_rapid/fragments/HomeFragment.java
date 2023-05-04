@@ -47,7 +47,6 @@ public class HomeFragment extends Fragment {
     public static Int8Node PitchControl = new Int8Node("Pitch");
     public static Int8Node YawControl = new Int8Node("Yaw");
     public static Int8Node ZControl = new Int8Node("ZAxis");
-
     public static Int8Node ZCal = new Int8Node("ZCal");
     private Vector3 RobotVector = new Vector3(0,0,0);
     private Vector3 CameraVector = new Vector3(0,0,0);
@@ -113,7 +112,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onMove(int angle, int strength) {
                 double str = (double) strength / 100;
-                CameraVector = new Vector3(str*Math.cos(angle),str*Math.sin(angle),0);
+                CameraVector = new Vector3(str*Math.cos((angle*Math.PI) / 180),str*Math.sin((angle*Math.PI) / 180),0);
                 CameraControl.editspeed(CameraVector);
             }
         },10);
