@@ -18,7 +18,7 @@ import threading
 class SubNode:
     def __init__(self, controller):
         self.controller = controller
-        #TCP-offset = 3.5 + 24.9 cm (3.5 = TCP->optoSensor, 24.9 = optoSensor->new_TCP)
+        
         controller.setTcp([(24.9 - 4.4) / 100, 0, (4 + 3.5) / 100, np.pi, np.pi / 2, 0])
 
         self.z_forces = []
@@ -27,11 +27,11 @@ class SubNode:
 
         self.z_control = False
         
-        self.controll_speeds = [0, 0, 0, 0, 0, 0]
+        self.controll_speeds = [0, 0, 0, 0, 0, 0] # [x, y, z, rx, ry, rz]
 
-        self.rotation_max_speed = 0.1
-        self.z_speed = 0.05
-        self.z_admittance_speed = 0.01
+        self.rotation_max_speed = 0.1 # rad / s
+        self.z_speed = 0.05 # m / s
+        self.z_admittance_speed = 0.01 # m / s
 
         rospy.Subscriber("/RobotControl", Twist, self.xy_sub)     # Suscribirse a movimiento en el plano XY
         rospy.Subscriber("/ZAxis", Int8, self.z_sub)        # Suscribirse a movimiento en el eje Z
