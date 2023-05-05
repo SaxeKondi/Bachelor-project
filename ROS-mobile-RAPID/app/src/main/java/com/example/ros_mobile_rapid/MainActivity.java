@@ -1,5 +1,7 @@
 package com.example.ros_mobile_rapid;
 
+import static com.example.ros_mobile_rapid.fragments.HomeFragment.ZCal;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -8,8 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -98,16 +98,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Intent updatedIntent = null;
-//        PendingIntent updatedPendingIntent = PendingIntent.getActivity(
-//                this,
-//                NOTIFICATION_REQUEST_CODE,
-//                notificationIntent,
-//                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-//        );
-        if (savedInstanceState == null) {
-            Log.d("myTag", "This is my message");
-        }
         Intent intent = getIntent();
         String masterUri = intent.getStringExtra(CustomMasterChooser.MASTER_URI);
 
@@ -139,15 +129,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to bind NodeMainExecutorService.", Toast.LENGTH_LONG).show();
         }
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-////        unbindService(nodeMainExecutorServiceConnection);
-////        final Intent intent = new Intent(this, NodeMainExecutorService.class);
-////        stopService(intent);
-//    }
-
     @Override
     public void onBackPressed(){
         super.onBackPressed();
@@ -218,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
+        nodeMainExecutor.execute(ZCal, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleDepthAngleTextSend, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleAutoStartNode, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
@@ -228,10 +210,9 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(HomeFragment.ZControl, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.PiCamera, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
+
+        // Publish here to make sure node is launched before Zcal is called.
     }
-
-
-
     @SuppressWarnings("NonStaticInnerClassInSecureContext")
     private final class NodeMainExecutorServiceConnection implements ServiceConnection {
 

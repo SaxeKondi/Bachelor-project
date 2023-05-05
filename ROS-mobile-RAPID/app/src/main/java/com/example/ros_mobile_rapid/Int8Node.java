@@ -1,5 +1,7 @@
 package com.example.ros_mobile_rapid;
 
+import android.util.Log;
+
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -14,9 +16,8 @@ import org.ros.node.topic.Publisher;
  */
 public class Int8Node extends AbstractNodeMain {
     private final String nodeName, topicName;
-
     private Publisher<std_msgs.Int8> publisher;
-    private byte rotation = 0;
+    private byte Int8 = 0;
     private boolean send = false;
 
     public Int8Node(String Name) {
@@ -24,10 +25,9 @@ public class Int8Node extends AbstractNodeMain {
         this.topicName = Name;
     }
 
-    public void editint(byte rotation){
-        this.rotation = rotation;
+    public void editint(byte int8){
+        this.Int8 = int8;
         this.send = true;
-
     }
     @Override
     public GraphName getDefaultNodeName() {
@@ -37,19 +37,18 @@ public class Int8Node extends AbstractNodeMain {
     @Override
     public void onStart(final ConnectedNode connectedNode) {
         publisher = connectedNode.newPublisher(topicName, std_msgs.Int8._TYPE);
-        std_msgs.Int8 rot = publisher.newMessage();
+        std_msgs.Int8 int8 = publisher.newMessage();
         // This CancellableLoop will be canceled automatically when the node shuts
         // down.
         connectedNode.executeCancellableLoop(new CancellableLoop() {
             @Override
             protected void setup() {
             }
-
             @Override
             protected void loop() throws InterruptedException {
                 if (send){
-                    rot.setData(rotation);
-                    publisher.publish(rot);
+                    int8.setData(Int8);
+                    publisher.publish(int8);
                     send = false;
                 }
                 Thread.sleep(100);

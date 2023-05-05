@@ -28,24 +28,26 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class HomeFragment extends Fragment {
     private ImageView PiCameraView;
     private ImageView USCameraView;
-    private static byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
+    private static final byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
     private Button Roll_pos;
     private Button Roll_neg;
     private Button Pitch_pos;
     private Button Pitch_neg;
     private Button Yaw_pos;
     private Button Yaw_neg;
-
     private Button Z_pos;
     private Button Z_neg;
+
+    private Button Z_cal;
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
-    public static JoystickNode RobotControl = new JoystickNode(0.35, "RobotControl");
+    public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl");
     public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl");
     public static Int8Node RollControl = new Int8Node("Roll");
     public static Int8Node PitchControl = new Int8Node("Pitch");
     public static Int8Node YawControl = new Int8Node("Yaw");
     public static Int8Node ZControl = new Int8Node("ZAxis");
+    public static Int8Node ZCal = new Int8Node("ZCal");
     private Vector3 RobotVector = new Vector3(0,0,0);
     private Vector3 CameraVector = new Vector3(0,0,0);
     @Override
@@ -62,11 +64,15 @@ public class HomeFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         JoystickRobot = getView().findViewById(R.id.joystick_robot);
         JoystickCamera = getView().findViewById(R.id.joystick_camera);
 
         Z_pos = getView().findViewById(R.id.z_pos);
         Z_neg = getView().findViewById(R.id.z_neg);
+        Z_pos.setEnabled(false);
+        Z_neg.setEnabled(false);
+        Z_cal = getView().findViewById(R.id.z_cal);
 
         Roll_pos = getView().findViewById(R.id.roll_pos);
         Roll_neg = getView().findViewById(R.id.roll_neg);
@@ -79,8 +85,6 @@ public class HomeFragment extends Fragment {
 
         PiCameraView = getView().findViewById(R.id.pi_cam);
         USCameraView = getView().findViewById(R.id.us_cam);
-
-
 
 
         PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
@@ -99,7 +103,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onMove(int angle, int strength) {
                 double str = (double) strength / 100;
-                RobotVector = new Vector3(str*Math.cos(angle),str*Math.sin(angle),0);
+                RobotVector = new Vector3(str*Math.cos((angle*Math.PI) / 180),str*Math.sin((angle*Math.PI) / 180),0);
                 RobotControl.editspeed(RobotVector);
             }
         },10);
@@ -108,10 +112,26 @@ public class HomeFragment extends Fragment {
             @Override
             public void onMove(int angle, int strength) {
                 double str = (double) strength / 100;
-                CameraVector = new Vector3(str*Math.cos(angle),str*Math.sin(angle),0);
+                CameraVector = new Vector3(str*Math.cos((angle*Math.PI) / 180),str*Math.sin((angle*Math.PI) / 180),0);
                 CameraControl.editspeed(CameraVector);
             }
         },10);
+
+
+        Z_cal.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Z_cal.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
+                    ZCal.editint(Rotate_default);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Z_neg.setEnabled(true);
+                    Z_pos.setEnabled(true);
+                    Z_cal.setEnabled(false);
+                }
+                return true;
+            }
+        });
         Z_pos.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

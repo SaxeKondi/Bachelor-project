@@ -1,0 +1,20 @@
+X:
+Start: -0.1373
+Current measurement: -0.1373
+Largest: -0.0686
+Smallest: -0.2289
+After 30 min: -0.14513904231625446
+
+Y:
+Start: -1.4511
+Current measurement: -1.4745
+Largest: -1.3809
+Smallest: -1.5447
+After 30 min: -1.464149799554664
+
+Z:
+Start: 23.8544
+Current measurement: 23.8544
+Largest: 24.2587
+Smallest: 23.1805
+After 30 min: 23.781159420933673
