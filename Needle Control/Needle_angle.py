@@ -50,7 +50,7 @@ class needle:
         #self.old_time
         #curr_time = rospy.get_time()
         self.depth = float(msg.data)
-        y2 = -1 - self.depth
+        y2 = 0-self.depth
         length =  np.sqrt((self.b**2) + (self.c**2) - np.cos(np.arctan((y2-self.y1)/(self.x2-self.x1))+ (self.v * np.pi/180) + (np.pi/2))*2*self.b*self.c)-self.min_length
         self.duty = length/self.ratio
         self.pi.hardware_PWM(self.controlPin, self.frequency, self.duty)
@@ -96,8 +96,6 @@ class needle:
     def callback2(self,msg):
         if msg.data == True:
             self.start = True
-        # if self.start == True:
-        #     print("sut mig")
         while self.start == True:
             self.duty2 += 1
             print(self.duty2)
