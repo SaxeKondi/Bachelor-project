@@ -1,10 +1,10 @@
 import time
 import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 
 class ServoController:
-    def __init__(self, controlPin = 32, angle = 0, updateInterval = 10):
+    def __init__(self, controlPin = 12, angle = 0, updateInterval = 10):
         self.controlPin = controlPin
 
         self.maxAngle = 180

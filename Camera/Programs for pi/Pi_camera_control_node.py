@@ -7,8 +7,8 @@ import rospy
 from geometry_msgs.msg import Twist
 import ServoControl
 
-horizontalControlPin = 12
-verticalControlPin = 13
+horizontalControlPin = 16
+verticalControlPin = 26
 
 horizontalController = ServoControl.ServoController(horizontalControlPin)
 verticalController = ServoControl.ServoController(verticalControlPin)
@@ -17,7 +17,7 @@ class basic_subscriber:
   
     def __init__(self):
         # initialize the subscriber node now.
-        self.image_sub = rospy.Subscriber("/camera_velocities", Twist, self.cameraControlSub)
+        self.image_sub = rospy.Subscriber("/CameraControl", Twist, self.cameraControlSub)
   
     def cameraControlSub(self, msg):
         horizontalController.changeAngle(round(msg.linear.x))

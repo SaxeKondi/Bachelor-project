@@ -2,33 +2,29 @@
 import sys
 import time
 import random
-#import pigpio
+import pigpio
 import numpy as np
 import rospy
-from std_msgs.msg import String, Bool, Int8
+from std_msgs.msg import String, Bool
 
 
 
 
 class needle:
-    #pi = pigpio.pi()
+    
     def __init__(self):
+        self.pi = pigpio.pi()
         self.controlPin = 12
-        self.controlPin2 = 13
-        self.frequency = 1000
-        self.resolution = 1000
+        self.controlPin = 13
+        self.frequency = 2000
+        self.resolution = 1000000
 
-        #pi.set_PWM_frequency(conrtolPin)
-        #pi.set_PWM_frequency(conrtolPin2)
+        self.pi.hardware_PWM(self.controlPin, self.frequency, 10000)
+        #pi.hardware_PWM(self.conrtolPin2,self.frequency,10000)
 
-        #pi.set_PWM_range(conrtolPin,1000)
-        #pi.set_PWM_range(conrtolPin2,1000)
-
-        #pi.set_PWM_dutycycle(conrtolPin,1)
-        #pi.set_PWM_dutycycle(conrtolPin2,1)
-        self.v = 8.775055743
+        self.v = 10.5
         self.b = 90
-        self.c = 150.7647174
+        self.c = 126.155
         self.x1 = 0
         self.x2 = 23
         self.y1 = 0
@@ -37,27 +33,27 @@ class needle:
         self.min_length = 97
         self.max_length = 147
         self.ratio = (self.max_length - self.min_length)/self.resolution
-        self.y2 = 0 - self.depth
+        self.y2 = 0-self.depth
         self.length =  np.sqrt((self.b**2) + (self.c**2) - np.cos(np.arctan((self.y2-self.y1)/(self.x2-self.x1))+ (self.v * np.pi/180) + (np.pi/2))*2*self.b*self.c)-self.min_length
         self.duty = self.length/self.ratio
-        self.duty2 = 0.0
-        #pi.set_PWM_dutycycle(conrtolPin,duty)
-        self.old_time = rospy.get_time()
+        #self.duty2 = 0.0
+        self.pi.hardware_PWM(self.controlPin, self.frequency, self.duty)
+        #self.old_time = rospy.get_time()
         self.start = False
         #self.pub = rospy.Publisher('/depth', String, queue_size = 10)
-        rospy.Subscriber("/NeedleDepth", String, self.callback)
+        rospy.Subscriber("/chatter", String, self.callback)
         #rospy.Subscriber("/chatter", Bool, self.callback)
-        rospy.Subscriber("/start", Int8, self.callback2)
+        rospy.Subscriber("/start", Bool, self.callback2)
         rospy.Subscriber("/stop", Bool, self.callback3)
         #rospy.Subscriber("/chatter2", Bool, self.callback4)
     def callback(self, msg):
         #self.old_time
         #curr_time = rospy.get_time()
         self.depth = float(msg.data)
-        y2 = 0.0 - self.depth
+        y2 = -1 - self.depth
         length =  np.sqrt((self.b**2) + (self.c**2) - np.cos(np.arctan((y2-self.y1)/(self.x2-self.x1))+ (self.v * np.pi/180) + (np.pi/2))*2*self.b*self.c)-self.min_length
         self.duty = length/self.ratio
-        #pi.set_PWM_dutycycle(conrtolPin,duty)
+        self.pi.hardware_PWM(self.controlPin, self.frequency, self.duty)
         #self.old_time = curr_time
         print(self.depth)
         print(self.duty)
@@ -98,7 +94,7 @@ class needle:
     #         #rospy.sleep(0.2)
             
     def callback2(self,msg):
-        if msg.data == 1:
+        if msg.data == True:
             self.start = True
         # if self.start == True:
         #     print("sut mig")
