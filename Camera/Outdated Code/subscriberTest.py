@@ -6,16 +6,17 @@ import rospy
 # and angular velocity related information.
 # So we import Twist
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Int8
   
   
 class basic_subscriber:
   
     def __init__(self):
         # initialize the subscriber node now.
-        self.image_sub = rospy.Subscriber("/camera_vel", Twist, self.cameraControlSub)
+        self.image_sub = rospy.Subscriber("/ZCal", Int8, self.cameraControlSub)
   
     def cameraControlSub(self, msg):
-        print(f'x = {msg.linear.x}, y = {msg.linear.y}, x+y = {msg.linear.x + msg.linear.y}')
+        print(msg.data)
   
   
 def main():
