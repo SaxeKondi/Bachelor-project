@@ -1,0 +1,15 @@
+<launch>
+  <node 
+    name = "Camera" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_camera_feed_node.py" 
+    output = "screen"
+  />
+
+  <node 
+    name = "Ultrasound" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_ultrasound_feed_node.py" 
+    output = "screen"
+  />
+</launch>
