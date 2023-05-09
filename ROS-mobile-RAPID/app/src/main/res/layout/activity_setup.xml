@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/textInputLayoutArtDepth"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="224dp"
         android:layout_height="65dp"
@@ -52,9 +52,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Connect"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutArtDepth"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutArtDepth"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutArtDepth" />
 
     <TextView
         android:id="@+id/Disconnected_text"

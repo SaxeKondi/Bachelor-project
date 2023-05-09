@@ -1,13 +1,13 @@
 package com.example.ros_mobile_rapid;
 
-import android.util.Log;
-
 import org.ros.concurrent.CancellableLoop;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.NodeMain;
 import org.ros.node.topic.Publisher;
+
+import std_msgs.Header;
 
 /**
  * A simple {@link Publisher} {@link NodeMain}.
@@ -17,6 +17,8 @@ import org.ros.node.topic.Publisher;
 public class Int8Node extends AbstractNodeMain {
     private final String nodeName, topicName;
     private Publisher<std_msgs.Int8> publisher;
+
+    private Publisher<std_msgs.Header> header;
     private byte Int8 = 0;
     private boolean send = false;
 
@@ -38,6 +40,8 @@ public class Int8Node extends AbstractNodeMain {
     public void onStart(final ConnectedNode connectedNode) {
         publisher = connectedNode.newPublisher(topicName, std_msgs.Int8._TYPE);
         std_msgs.Int8 int8 = publisher.newMessage();
+        header = connectedNode.newPublisher(topicName + "header", Header._TYPE);
+        std_msgs.Header int8header = header.newMessage();
         // This CancellableLoop will be canceled automatically when the node shuts
         // down.
         connectedNode.executeCancellableLoop(new CancellableLoop() {
@@ -48,6 +52,8 @@ public class Int8Node extends AbstractNodeMain {
             protected void loop() throws InterruptedException {
                 if (send){
                     int8.setData(Int8);
+                    int8header.setStamp(connectedNode.getCurrentTime());
+                    header.publish(int8header);
                     publisher.publish(int8);
                     send = false;
                 }
