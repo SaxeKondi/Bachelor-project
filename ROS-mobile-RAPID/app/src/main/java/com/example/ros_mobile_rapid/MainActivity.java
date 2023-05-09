@@ -1,7 +1,5 @@
 package com.example.ros_mobile_rapid;
 
-import static com.example.ros_mobile_rapid.fragments.HomeFragment.ZCal;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -199,9 +197,9 @@ public class MainActivity extends AppCompatActivity {
             this.nodeConfigurationMutableLiveData.setValue(nodeConfiguration);
         });
         // Run nodes: http://rosjava.github.io/rosjava_core/0.0.0/javadoc/org/ros/node/NodeMainExecutor.html
-        nodeMainExecutor.execute(ZCal, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleDepthAngleTextSend, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleAutoStartNode, nodeConfiguration);
+        nodeMainExecutor.execute(USFragment.NeedleRetractNode, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.CameraControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RollControl, nodeConfiguration);
