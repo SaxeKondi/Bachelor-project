@@ -72,6 +72,8 @@ public class HomeFragment extends Fragment {
         Z_neg = getView().findViewById(R.id.z_neg);
         Z_pos.setEnabled(false);
         Z_neg.setEnabled(false);
+        Z_neg.setVisibility(View.GONE);
+        Z_pos.setVisibility(View.GONE);
         Z_cal = getView().findViewById(R.id.z_cal);
 
         Roll_pos = getView().findViewById(R.id.roll_pos);
@@ -128,6 +130,9 @@ public class HomeFragment extends Fragment {
                     Z_neg.setEnabled(true);
                     Z_pos.setEnabled(true);
                     Z_cal.setEnabled(false);
+                    Z_cal.setVisibility(View.GONE);
+                    Z_neg.setVisibility(View.VISIBLE);
+                    Z_pos.setVisibility(View.VISIBLE);
                 }
                 return true;
             }
