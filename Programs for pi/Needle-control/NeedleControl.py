@@ -40,6 +40,7 @@ class NeedleController:
         self.yPivot = 1 + self.depth
 
         self.inserting = False
+        self.stopped = True
 
     def setDepth(self, depth):
         if(not self.inserting and self.needleServoLength == self.needleServoMinLength):
@@ -51,19 +52,24 @@ class NeedleController:
 
     def insertNeedle(self):
         self.inserting = True
+        self.stopped = False
         while(self.inserting):
             self.needleServoLength += self.needleQuantization
             if(self.needleServoLength > self.needleServoMaxLength):
                 self.needleServoLength = self.needleServoMaxLength
+                self.inserting = False
             self.needleDuty = round((self.needleServoLength - self.needleServoMinLength) * self.needleRatio)
             self.pi.hardware_PWM(self.needlePin, self.frequency, int(self.needleDuty))
             rospy.sleep(self.needleQuantization / self.needelSpeed)
+    	self.stopped = True
     
     def stopInsertion(self):
         self.inserting = False
 
     def retractNeedle(self):
         self.inserting = False
+        while(not self.stopped):
+            pass
         self.angleServoLength = 0
         self.angleDuty = self.angleServoLength * self.angleRatio
         self.pi.hardware_PWM(self.anglePin, self.frequency, self.angleDuty)
