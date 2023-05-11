@@ -78,7 +78,8 @@
         android:layout_height="wrap_content"
         android:ems="6"
         android:text="Roll +"
-        app:layout_constraintEnd_toStartOf="@+id/pitch_pos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
@@ -89,9 +90,10 @@
         android:ems="6"
         android:text="Roll -"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pitch_neg"
+        app:layout_constraintEnd_toStartOf="@+id/roll_pos"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roll_pos" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/pitch_pos"
@@ -99,8 +101,8 @@
         android:layout_height="wrap_content"
         android:ems="6"
         android:text="Pitch +"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
@@ -110,9 +112,8 @@
         android:ems="6"
         android:text="Pitch -"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pitch_pos" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/yaw_pos"
@@ -120,8 +121,10 @@
         android:layout_height="wrap_content"
         android:ems="6"
         android:text="Yaw +"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pitch_pos"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/yaw_neg"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
@@ -132,8 +135,8 @@
         android:text="Yaw -"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pitch_neg"
-        app:layout_constraintTop_toBottomOf="@+id/yaw_pos" />
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
