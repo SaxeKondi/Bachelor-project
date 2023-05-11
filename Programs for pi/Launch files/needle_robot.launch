@@ -22,4 +22,28 @@
     type = "Pi_ultrasound_feed_node.py" 
     output = "screen"
   />
+  
+  <!-- Node for the needle control -->
+  <node 
+    name = "NeedleControl" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_needle_control_node.py" 
+    output = "screen"
+  />
+  
+  <!-- Node for the robot control -->
+  <node 
+    name = "RobotControl" 
+    pkg = "needle_insertion_robot" 
+    type = "robot_control.py" 
+    output = "screen"
+  />
+  
+  <!-- Node for the Opto sensor -->
+  <node 
+    name = "OptoSensorMeasurements" 
+    pkg = "needle_insertion_robot" 
+    type = "optoSensor_publisher.py" 
+    output = "screen"
+  />
 </launch>
