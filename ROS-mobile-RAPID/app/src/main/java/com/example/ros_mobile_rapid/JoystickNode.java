@@ -21,10 +21,13 @@ public class JoystickNode extends AbstractNodeMain {
     private final double max_speed;
     private Publisher<geometry_msgs.Twist> publisher;
     private Boolean send = false;
-    public JoystickNode(double max_speed, String Name) {
+
+    private long pub_delay = 0;
+    public JoystickNode(double max_speed, String Name, long delay) {
         this.max_speed = max_speed;
         this.nodeName = Name;
         this.topicName = Name;
+        this.pub_delay = delay;
     }
 
     public void editspeed(Vector3 speeds){
@@ -57,7 +60,7 @@ public class JoystickNode extends AbstractNodeMain {
                 publisher.publish(vel);
                 send = false;
                 }
-                Thread.sleep(100);
+                Thread.sleep(pub_delay);
             }
         });
     }
