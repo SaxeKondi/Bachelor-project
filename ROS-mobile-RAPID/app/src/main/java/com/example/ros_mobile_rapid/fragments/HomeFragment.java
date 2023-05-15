@@ -41,8 +41,8 @@ public class HomeFragment extends Fragment {
     private Button Z_cal;
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
-    public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl");
-    public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl");
+    public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl", 10);
+    public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl", 10);
     public static Int8Node RollControl = new Int8Node("Roll");
     public static Int8Node PitchControl = new Int8Node("Pitch");
     public static Int8Node YawControl = new Int8Node("Yaw");
