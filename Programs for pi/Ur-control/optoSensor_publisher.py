@@ -35,7 +35,7 @@ if __name__ == '__main__':
             forces = [lectura[0], lectura[1], lectura[2]]
             torques = [lectura[3], lectura[4], lectura[5]]
 
-            print("Forces:" + str(forces))
+            #print("Forces:" + str(forces))
             #print("Torques:" + str(torques))
 
             pub.publish(str(forces))
