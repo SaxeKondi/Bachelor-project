@@ -203,10 +203,10 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(HomeFragment.PitchControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.YawControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.ZControl, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.ZCal, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.PiCamera, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
-
-        // Publish here to make sure node is launched before Zcal is called.
+        nodeMainExecutor.execute(HomeFragment.LatencyTest, nodeConfiguration);
     }
     @SuppressWarnings("NonStaticInnerClassInSecureContext")
     private final class NodeMainExecutorServiceConnection implements ServiceConnection {

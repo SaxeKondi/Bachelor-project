@@ -6,12 +6,14 @@ import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.USCamera;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,8 +21,10 @@ import androidx.lifecycle.Observer;
 
 import com.example.ros_mobile_rapid.Int8Node;
 import com.example.ros_mobile_rapid.JoystickNode;
+import com.example.ros_mobile_rapid.LatencyTestSubNode;
 import com.example.ros_mobile_rapid.R;
 
+import org.ros.message.Duration;
 import org.ros.rosjava_geometry.Vector3;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -37,11 +41,13 @@ public class HomeFragment extends Fragment {
     private Button Yaw_neg;
     private Button Z_pos;
     private Button Z_neg;
-
     private Button Z_cal;
+    private Button Lat_test;
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
     public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl", 10);
+
+    public static LatencyTestSubNode LatencyTest = new LatencyTestSubNode("Latency");
     public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl", 10);
     public static Int8Node RollControl = new Int8Node("Roll");
     public static Int8Node PitchControl = new Int8Node("Pitch");
@@ -68,6 +74,8 @@ public class HomeFragment extends Fragment {
         JoystickRobot = getView().findViewById(R.id.joystick_robot);
         JoystickCamera = getView().findViewById(R.id.joystick_camera);
 
+        Lat_test = getView().findViewById(R.id.lat_test);
+
         Z_pos = getView().findViewById(R.id.z_pos);
         Z_neg = getView().findViewById(R.id.z_neg);
         Z_pos.setEnabled(false);
@@ -88,7 +96,25 @@ public class HomeFragment extends Fragment {
         PiCameraView = getView().findViewById(R.id.pi_cam);
         USCameraView = getView().findViewById(R.id.us_cam);
 
+        Lat_test.setVisibility(View.GONE);
+//        Lat_test.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    RobotControl.editspeed(new Vector3(1,1,0));
+//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                }
+//                return true;
+//            }
+//        });
 
+        LatencyTest.TimeMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Long>() {
+            @Override
+            public void onChanged(Long dur) {
+                Long temp = dur/2;
+                Log.d("myTag", temp.toString());
+            }
+        });
         PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
@@ -118,8 +144,6 @@ public class HomeFragment extends Fragment {
                 CameraControl.editspeed(CameraVector);
             }
         },10);
-
-
         Z_cal.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

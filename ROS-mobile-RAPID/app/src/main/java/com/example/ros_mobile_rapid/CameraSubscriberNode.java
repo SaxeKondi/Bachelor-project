@@ -27,11 +27,9 @@ public class CameraSubscriberNode extends AbstractNodeMain {
     private final double scaling;
     public Bitmap map;
     public Bitmap map_rotated;
-
     public MutableLiveData<Bitmap> mapMutableLiveData = new MutableLiveData<>();
     public MutableLiveData<Bitmap> mapRotatedMutableLiveData = new MutableLiveData<>();
     private Subscriber<sensor_msgs.CompressedImage> subscriber;
-
     public CameraSubscriberNode(String Name, double scaling) {
         this.nodeName = Name;
         this.topicName = Name;
@@ -70,7 +68,6 @@ public class CameraSubscriberNode extends AbstractNodeMain {
                 mapMutableLiveData.postValue(map);
                 map_rotated = convert_rotate(image);
                 mapRotatedMutableLiveData.postValue((map_rotated));
-
             }
         });
     }
