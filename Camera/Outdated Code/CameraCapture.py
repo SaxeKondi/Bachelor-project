@@ -7,8 +7,8 @@ def rescale_frame(frame, percent=75):
     return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
 
 cap = cv2.VideoCapture(4)
-pixelWidth = 720
-pixelHeight = 480
+pixelWidth = 1280
+pixelHeight = 720
 cap.set(3,pixelWidth)
 cap.set(4,pixelHeight)
 
