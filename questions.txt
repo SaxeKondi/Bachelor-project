@@ -1,0 +1,7 @@
+Why does Raspberry PI DC from Robot? (Has 1k ms ping spike)
+
+Why does Rosnode ping give 28 ms while our latency test gives 7 (14) ms?
+
+How to mount the needle?
+
+How to mount the needle servo motor?
