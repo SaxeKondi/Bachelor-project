@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
     public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl", 10);
-
     public static LatencyTestSubNode LatencyTest = new LatencyTestSubNode("Latency");
     public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl", 10);
     public static Int8Node RollControl = new Int8Node("Roll");
