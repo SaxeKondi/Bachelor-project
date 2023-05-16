@@ -10,8 +10,8 @@ import ServoControl
 horizontalControlPin = 16
 verticalControlPin = 26
 
-horizontalController = ServoControl.ServoController(horizontalControlPin)
-verticalController = ServoControl.ServoController(verticalControlPin)
+horizontalController = ServoControl.ServoController(horizontalControlPin, defaultAngle = 42, maxAngle = 146)
+verticalController = ServoControl.ServoController(verticalControlPin, defaultAngle = 5)
   
 class basic_subscriber:
   
