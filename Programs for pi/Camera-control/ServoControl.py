@@ -2,20 +2,21 @@ import time
 import pigpio
 
 class ServoController:
-    def __init__(self, controlPin, angle = 0, updateInterval = 0):
+    def __init__(self, controlPin, defaultAngle = 0, updateInterval = 10, maxAngle = 180, minAngle = 0):
         self.pi = pigpio.pi()
         self.controlPin = controlPin
 
         self.maxRotation = 200
-        self.maxAngle = 180
-        self.minAngle = 0
+        self.maxAngle = maxAngle
+        self.minAngle = minAngle
 
-        self.targetAngle = angle
-        self.currentAngle = angle
+        self.targetAngle = defaultAngle
+        self.currentAngle = defaultAngle
 
         self.positivePulseRange = [400, 2550]
-        self.minPulseWidth = 500 #given in microseconds
-        self.maxPulseWidth = self.minPulseWidth + ((self.positivePulseRange[1] - self.positivePulseRange[0]) / self.maxRotation) * 180 #given in microseconds
+        self.zeroDegreePulseWidth = 500
+        self.minPulseWidth = self.zeroDegreePulseWidth + ((self.positivePulseRange[1] - self.positivePulseRange[0]) / self.maxRotation) * self.minAngle #given in microseconds
+        self.maxPulseWidth = self.minPulseWidth + ((self.positivePulseRange[1] - self.positivePulseRange[0]) / self.maxRotation) * (self.maxAngle - self.minAngle) #given in microseconds
         
         self.positivePulseWidth = (self.currentAngle / (self.maxAngle - self.minAngle)) * (self.maxPulseWidth - self.minPulseWidth) + self.minPulseWidth
         
