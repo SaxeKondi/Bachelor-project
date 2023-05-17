@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(USFragment.NeedleDepthAngleTextSend, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleAutoStartNode, nodeConfiguration);
         nodeMainExecutor.execute(USFragment.NeedleRetractNode, nodeConfiguration);
+        nodeMainExecutor.execute(USFragment.NeedleStopNode, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RobotControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.CameraControl, nodeConfiguration);
         nodeMainExecutor.execute(HomeFragment.RollControl, nodeConfiguration);

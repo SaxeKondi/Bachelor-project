@@ -26,13 +26,15 @@ public class USFragment extends Fragment {
     private ImageView USCameraView;
     private EditText NeedleDepthAngle;
     private Button NeedleAutoStart;
-
     private Button NeedleRetract;
+
+    private Button NeedleStop;
     public static TextPublisherNode NeedleDepthAngleTextSend = new TextPublisherNode( "NeedleDepthAngle");
     public static Int8Node NeedleAutoStartNode = new Int8Node("NeedleAutoStart");
-
     public static Int8Node NeedleRetractNode = new Int8Node("NeedleRetract");
-    private static byte AutoStart = 1, AutoStop = -1, Auto_default = 0, Retract = 0;
+
+    public static Int8Node NeedleStopNode = new Int8Node("NeedleStop");
+    private static byte AutoStart = 1, AutoStop = -1, Auto_default = 0, Retract = 0, Stop = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class USFragment extends Fragment {
         NeedleAutoStart = getView().findViewById(R.id.needle_auto_start);
 
         NeedleRetract = getView().findViewById(R.id.needle_retract);
+
+        NeedleStop = getView().findViewById(R.id.needle_stop);
         NeedleDepthAngle.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -79,6 +83,13 @@ public class USFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 NeedleAutoStartNode.editint(AutoStart);
+            }
+        });
+
+        NeedleStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NeedleStopNode.editint(Stop);
             }
         });
 

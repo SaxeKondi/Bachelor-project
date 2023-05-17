@@ -40,8 +40,6 @@ public class Int8Node extends AbstractNodeMain {
     public void onStart(final ConnectedNode connectedNode) {
         publisher = connectedNode.newPublisher(topicName, std_msgs.Int8._TYPE);
         std_msgs.Int8 int8 = publisher.newMessage();
-        header = connectedNode.newPublisher(topicName + "header", Header._TYPE);
-        std_msgs.Header int8header = header.newMessage();
         // This CancellableLoop will be canceled automatically when the node shuts
         // down.
         connectedNode.executeCancellableLoop(new CancellableLoop() {
@@ -52,8 +50,6 @@ public class Int8Node extends AbstractNodeMain {
             protected void loop() throws InterruptedException {
                 if (send){
                     int8.setData(Int8);
-                    int8header.setStamp(connectedNode.getCurrentTime());
-                    header.publish(int8header);
                     publisher.publish(int8);
                     send = false;
                 }

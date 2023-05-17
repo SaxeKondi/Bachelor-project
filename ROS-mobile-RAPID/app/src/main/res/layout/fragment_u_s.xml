@@ -7,6 +7,16 @@
     android:background="@color/black"
     tools:context=".fragments.USFragment">
 
+    <Button
+        android:id="@+id/needle_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/needle_retract"
+        app:layout_constraintStart_toEndOf="@+id/needle_auto_start"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
     <ImageView
         android:id="@+id/us_camera_usfragment"
         android:layout_width="0dp"
@@ -23,23 +33,23 @@
         android:layout_height="wrap_content"
         android:text="AutoDepth"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/needle_stop"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayoutArtDepth"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutArtDepth"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="224dp"
-        android:layout_height="65dp"
-        android:hint="Artery depth in mm"
+        android:layout_height="wrap_content"
+        android:hint="Depth in mm"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:hintEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7"
         app:layout_constraintVertical_bias="0.5">
@@ -48,7 +58,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/needle_depth_angle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:digits="0123456789"
             android:gravity="center_horizontal"
             android:inputType="number|numberDecimal"
@@ -69,7 +79,8 @@
         android:layout_height="wrap_content"
         android:text="Retract"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/needle_auto_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toEndOf="@+id/textInputLayoutArtDepth"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
