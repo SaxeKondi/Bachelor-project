@@ -14,8 +14,8 @@ class cameraPublisher:
         self.image = None
         self.cap = cv2.VideoCapture(0)
 
-        self.pixelWidth = 1920
-        self.pixelHeight = 1080
+        self.pixelWidth = 640 * 1,4
+        self.pixelHeight = 480 * 1,4
 
         #sets the resolution
         self.cap.set(3,self.pixelWidth)
