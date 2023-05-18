@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         nodeMainExecutor.execute(HomeFragment.ZCal, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.PiCamera, nodeConfiguration);
         nodeMainExecutor.execute(VideoOnlyFragment.USCamera, nodeConfiguration);
-//        nodeMainExecutor.execute(HomeFragment.LatencyTest, nodeConfiguration);
+        nodeMainExecutor.execute(HomeFragment.LatencyTest, nodeConfiguration);
     }
     @SuppressWarnings("NonStaticInnerClassInSecureContext")
     private final class NodeMainExecutorServiceConnection implements ServiceConnection {
