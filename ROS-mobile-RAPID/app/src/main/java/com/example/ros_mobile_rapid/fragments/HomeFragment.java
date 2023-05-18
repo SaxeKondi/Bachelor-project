@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
     public static JoystickNode RobotControl = new JoystickNode(0.05, "RobotControl", 10);
-    public static LatencyTestSubNode LatencyTest = new LatencyTestSubNode("Latency");
+//    public static LatencyTestSubNode LatencyTest = new LatencyTestSubNode("Latency");
     public static JoystickNode CameraControl = new JoystickNode(1, "CameraControl", 10);
     public static Int8Node RollControl = new Int8Node("Roll");
     public static Int8Node PitchControl = new Int8Node("Pitch");
@@ -95,25 +95,25 @@ public class HomeFragment extends Fragment {
         PiCameraView = getView().findViewById(R.id.pi_cam);
         USCameraView = getView().findViewById(R.id.us_cam);
 
-//        Lat_test.setVisibility(View.GONE);
-        Lat_test.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    RobotControl.editspeed(new Vector3(1,1,0));
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                }
-                return true;
-            }
-        });
+        Lat_test.setVisibility(View.GONE);
+//        Lat_test.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    RobotControl.editspeed(new Vector3(1,1,0));
+//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                }
+//                return true;
+//            }
+//        });
 
-        LatencyTest.TimeMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Long>() {
-            @Override
-            public void onChanged(Long dur) {
-                Long temp = dur/2;
-                Log.d("myTag", temp.toString());
-            }
-        });
+//        LatencyTest.TimeMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Long>() {
+//            @Override
+//            public void onChanged(Long dur) {
+//                Long temp = dur/2;
+//                Log.d("myTag", temp.toString());
+//            }
+//        });
         PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {

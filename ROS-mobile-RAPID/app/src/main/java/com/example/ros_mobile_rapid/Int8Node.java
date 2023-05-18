@@ -48,10 +48,16 @@ public class Int8Node extends AbstractNodeMain {
             }
             @Override
             protected void loop() throws InterruptedException {
-                if (send){
-                    int8.setData(Int8);
-                    publisher.publish(int8);
-                    send = false;
+                if (send) {
+                    if ((int) Int8 != 0) {
+                        int8.setData(Int8);
+                        publisher.publish(int8);
+                    }
+                    else {
+                        int8.setData(Int8);
+                        publisher.publish(int8);
+                        send = false;
+                    }
                 }
                 Thread.sleep(100);
             }
