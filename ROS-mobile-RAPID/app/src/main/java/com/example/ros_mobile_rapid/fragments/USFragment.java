@@ -2,11 +2,13 @@ package com.example.ros_mobile_rapid.fragments;
 
 import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.USCamera;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,14 +29,12 @@ public class USFragment extends Fragment {
     private EditText NeedleDepthAngle;
     private Button NeedleAutoStart;
     private Button NeedleRetract;
-
     private Button NeedleStop;
     public static TextPublisherNode NeedleDepthAngleTextSend = new TextPublisherNode( "NeedleDepthAngle");
     public static Int8Node NeedleAutoStartNode = new Int8Node("NeedleAutoStart");
     public static Int8Node NeedleRetractNode = new Int8Node("NeedleRetract");
-
     public static Int8Node NeedleStopNode = new Int8Node("NeedleStop");
-    private static byte AutoStart = 1, AutoStop = -1, Auto_default = 0, Retract = 0, Stop = 0;
+    private static byte AutoStart = 0, Retract = 0, Stop = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class USFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_u_s, container, false);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         USCameraView = getView().findViewById(R.id.us_camera_usfragment);
@@ -79,24 +80,33 @@ public class USFragment extends Fragment {
             }
         });
 
-        NeedleAutoStart.setOnClickListener(new View.OnClickListener() {
+        NeedleAutoStart.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                NeedleAutoStartNode.editint(AutoStart);
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    NeedleAutoStartNode.editint(AutoStart);
+                }
+                return true;
             }
         });
 
-        NeedleStop.setOnClickListener(new View.OnClickListener() {
+        NeedleStop.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                NeedleStopNode.editint(Stop);
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    NeedleStopNode.editint(Stop);
+                }
+                return true;
             }
         });
 
-        NeedleRetract.setOnClickListener(new View.OnClickListener() {
+        NeedleRetract.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                NeedleRetractNode.editint(Retract);
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    NeedleRetractNode.editint(Retract);
+                }
+                return true;
             }
         });
         USCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {

@@ -7,14 +7,19 @@ import android.graphics.Matrix;
 import androidx.lifecycle.MutableLiveData;
 
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBufferOutputStream;
+import org.ros.concurrent.CancellableLoop;
+import org.ros.internal.message.MessageBuffers;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.NodeMain;
+import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
 
 import sensor_msgs.CompressedImage;
+import std_msgs.Int8;
 
 
 /**
@@ -30,6 +35,12 @@ public class CameraSubscriberNode extends AbstractNodeMain {
     public MutableLiveData<Bitmap> mapMutableLiveData = new MutableLiveData<>();
     public MutableLiveData<Bitmap> mapRotatedMutableLiveData = new MutableLiveData<>();
     private Subscriber<sensor_msgs.CompressedImage> subscriber;
+
+    private Publisher<sensor_msgs.CompressedImage> publisher;
+
+    private sensor_msgs.CompressedImage subimg;
+
+    private boolean send;
     public CameraSubscriberNode(String Name, double scaling) {
         this.nodeName = Name;
         this.topicName = Name;
@@ -61,13 +72,33 @@ public class CameraSubscriberNode extends AbstractNodeMain {
     public void onStart(ConnectedNode connectedNode) {
 
         subscriber = connectedNode.newSubscriber(topicName, sensor_msgs.CompressedImage._TYPE);
+
+        publisher = connectedNode.newPublisher(topicName+"pub", sensor_msgs.CompressedImage._TYPE);
+        sensor_msgs.CompressedImage compimage = publisher.newMessage();
         subscriber.addMessageListener(new MessageListener<sensor_msgs.CompressedImage>() {
             @Override
             public void onNewMessage(sensor_msgs.CompressedImage image) {
-                map = convert(image);
-                mapMutableLiveData.postValue(map);
-                map_rotated = convert_rotate(image);
-                mapRotatedMutableLiveData.postValue((map_rotated));
+                subimg = image;
+//                map = convert(image);
+//                mapMutableLiveData.postValue(map);
+//                map_rotated = convert_rotate(image);
+//                mapRotatedMutableLiveData.postValue((map_rotated));
+                send = true;
+            }
+        });
+
+        connectedNode.executeCancellableLoop(new CancellableLoop() {
+            @Override
+            protected void setup() {
+            }
+            @Override
+            protected void loop() throws InterruptedException {
+                if (send){
+                    compimage.setData(subimg.getData());
+                    publisher.publish(compimage);
+                    send = false;
+                }
+                Thread.sleep(1);
             }
         });
     }

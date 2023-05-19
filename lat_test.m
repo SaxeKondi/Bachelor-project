@@ -213,10 +213,10 @@ plot(x,old_phone, "blue")
 plot(x,old_phone_5g, "green")
 plot(x,new_phone, "red")
 plot(x,new_phone_5g, "magenta")
-legend({'old phone', 'old phone 5g', 'new phone', 'new phone 5g'})
+legend({'old phone', 'old phone 5GHz', 'new phone', 'new phone 5GHz'})
 title('Plot of latency between the phone and Raspberry Pi')
 
-xlabel('Iteration') 
+xlabel('Measurement number') 
 ylabel('Latency [ms]') 
 grid
 hold off
