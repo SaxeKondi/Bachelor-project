@@ -5,20 +5,21 @@ import rospy
 # and angular velocity related information.
 # So we import Twist
 from std_msgs.msg import String, Bool, Int8
-import NeedleController
+import NeedleControl
 
 anglePin = 12
 needlePin = 13
 
-NeedleControl = NeedleController(anglePin, needlePin)
+NeedleControl = NeedleControl.NeedleController(anglePin, needlePin)
   
 class basic_subscriber:
   
     def __init__(self):
         # initialize the subscriber node now.
-        self.image_sub = rospy.Subscriber("/NeedleDepthAngle", string, self.setAngle)
+        self.image_sub = rospy.Subscriber("/NeedleDepthAngle", String, self.setAngle)
         self.image_sub = rospy.Subscriber("/NeedleAutoStart", Int8, self.insert)
         self.image_sub = rospy.Subscriber("/NeedleRetract", Int8, self.retract)
+        self.image_sub = rospy.Subscriber("/NeedleStop", Int8, self.stop)
   
     def setAngle(self, msg):
         depth = float(msg.data)
@@ -29,6 +30,9 @@ class basic_subscriber:
         NeedleControl.insertNeedle()
 
     def retract(self, msg):
+        NeedleControl.retractNeedle()
+
+    def stop(self, msg):
         NeedleControl.stopInsertion()
   
   
@@ -45,4 +49,5 @@ if __name__ == '__main__':
         main()
     except rospy.ROSInterruptException:
         pass
+
 

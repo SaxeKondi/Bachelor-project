@@ -10,7 +10,7 @@ class ultrasoundPublisher:
     def __init__(self):
         # Params
         self.image = None
-        self.cap = cv2.VideoCapture(5)  #Might need to be changed depending on which id the ultrasound scanner gets
+        self.cap = cv2.VideoCapture(1)  #Might need to be changed depending on which id the ultrasound scanner gets
         self.pixelWidth = 720
         self.pixelHeight = 480
 
@@ -34,15 +34,15 @@ class ultrasoundPublisher:
     def start(self):
         while not rospy.is_shutdown():
             _, self.image = self.cap.read()
-            self.image = self.image[self.starty:self.endy , self.startx:self.endx]
 
-            cv2.imshow("ultrasound", self.image)
-            if cv2.waitKey(1) == ord('q'):
-                #exit while loop
-                break
+            
 
             if self.image is not None:
-                #self.image = cv2.resize(self.image, (720,576))
+                self.image = self.image[self.starty:self.endy , self.startx:self.endx]
+                # cv2.imshow("ultrasound", self.image)
+                # if cv2.waitKey(1) == ord('q'):
+                #     #exit while loop
+                #     break
                 self.pub.publish(self.br.cv2_to_compressed_imgmsg(self.image))
 
             self.loop_rate.sleep()

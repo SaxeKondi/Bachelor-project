@@ -13,8 +13,8 @@ class NeedleController:
         self.angleDuty = 0
         self.needleDuty = 0
 
-        self.angleServoMinLength = 92.922 + 4.25 #4.25 is the hole diameter
-        self.angleServoMaxLength = 142.114
+        self.angleServoMinLength = 93.814 + 4.25 #4.25 is the hole diameter
+        self.angleServoMaxLength = 141.948 + 4.25 #4.25 is the hole diameter
         self.angleServoLength = self.angleServoMinLength
         self.angleRatio = self.resolution / (self.angleServoMaxLength - self.angleServoMinLength)
 
@@ -28,7 +28,7 @@ class NeedleController:
         #Set both of the actuators length to 0
         self.pi.hardware_PWM(self.anglePin, self.frequency, 5000)
         self.pi.hardware_PWM(self.needlePin, self.frequency, 5000)
-        time.sleep(0.1)
+        time.sleep(2)
         self.pi.hardware_PWM(self.anglePin, self.frequency, self.angleDuty)
         self.pi.hardware_PWM(self.needlePin, self.frequency, self.needleDuty)
 
@@ -48,6 +48,7 @@ class NeedleController:
             self.yPivot = 1 + self.depth
             self.angleServoLength = np.sqrt(self.b**2 + self.c**2 - np.cos(np.pi/2 + self.v * np.pi / 180 - np.arctan2(self.yPivot, self.xPivot)) * 2 * self.b * self.c) - self.angleServoMinLength
             self.angleDuty = round(self.angleServoLength * self.angleRatio)
+            print(self.angleDuty)
             self.pi.hardware_PWM(self.anglePin, self.frequency, int(self.angleDuty))
 
     def insertNeedle(self):
@@ -59,9 +60,10 @@ class NeedleController:
                 self.needleServoLength = self.needleServoMaxLength
                 self.inserting = False
             self.needleDuty = round((self.needleServoLength - self.needleServoMinLength) * self.needleRatio)
+            print(self.needleDuty)
             self.pi.hardware_PWM(self.needlePin, self.frequency, int(self.needleDuty))
             rospy.sleep(self.needleQuantization / self.needelSpeed)
-    	self.stopped = True
+        self.stopped = True
     
     def stopInsertion(self):
         self.inserting = False
@@ -70,9 +72,11 @@ class NeedleController:
         self.inserting = False
         while(not self.stopped):
             pass
-        self.angleServoLength = 0
-        self.angleDuty = self.angleServoLength * self.angleRatio
-        self.pi.hardware_PWM(self.anglePin, self.frequency, self.angleDuty)
+        self.needleServoLength = self.needleServoMinLength
+        self.needleDuty = round((self.needleServoLength - self.needleServoMinLength)  * self.needleRatio)
+        print(self.needleDuty)
+        self.pi.hardware_PWM(self.needlePin, self.frequency, int(self.needleDuty))
+
 
 
 
