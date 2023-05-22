@@ -42,6 +42,8 @@ public class HomeFragment extends Fragment {
     private Button Z_pos;
     private Button Z_neg;
     private Button Z_cal;
+
+    private Button Speed_button;
     private Button Lat_test;
     private JoystickView JoystickRobot;
     private JoystickView JoystickCamera;
@@ -82,6 +84,7 @@ public class HomeFragment extends Fragment {
         Z_neg.setVisibility(View.GONE);
         Z_pos.setVisibility(View.GONE);
         Z_cal = getView().findViewById(R.id.z_cal);
+        Speed_button = getView().findViewById(R.id.SpeedButton);
 
         Roll_pos = getView().findViewById(R.id.roll_pos);
         Roll_neg = getView().findViewById(R.id.roll_neg);
@@ -114,6 +117,24 @@ public class HomeFragment extends Fragment {
 //                Log.d("myTag", temp.toString());
 //            }
 //        });
+
+                Speed_button.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (RobotControl.getspeed() == 0.05) {
+                        Speed_button.setText("Slow");
+                        RobotControl.setspeed(0.01);
+                    }
+                    else {
+                        Speed_button.setText("Fast");
+                        RobotControl.setspeed(0.05);
+                    }
+                }
+                return true;
+            }
+        });
         PiCamera.mapMutableLiveData.observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {

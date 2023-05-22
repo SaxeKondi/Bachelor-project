@@ -36,9 +36,9 @@ public class CameraSubscriberNode extends AbstractNodeMain {
     public MutableLiveData<Bitmap> mapRotatedMutableLiveData = new MutableLiveData<>();
     private Subscriber<sensor_msgs.CompressedImage> subscriber;
 
-    private Publisher<sensor_msgs.CompressedImage> publisher;
+//    private Publisher<sensor_msgs.CompressedImage> publisher;
 
-    private sensor_msgs.CompressedImage subimg;
+//    private sensor_msgs.CompressedImage subimg;
 
     private boolean send;
     public CameraSubscriberNode(String Name, double scaling) {
@@ -73,33 +73,33 @@ public class CameraSubscriberNode extends AbstractNodeMain {
 
         subscriber = connectedNode.newSubscriber(topicName, sensor_msgs.CompressedImage._TYPE);
 
-        publisher = connectedNode.newPublisher(topicName+"pub", sensor_msgs.CompressedImage._TYPE);
-        sensor_msgs.CompressedImage compimage = publisher.newMessage();
+//        publisher = connectedNode.newPublisher(topicName+"pub", sensor_msgs.CompressedImage._TYPE);
+//        sensor_msgs.CompressedImage compimage = publisher.newMessage();
         subscriber.addMessageListener(new MessageListener<sensor_msgs.CompressedImage>() {
             @Override
             public void onNewMessage(sensor_msgs.CompressedImage image) {
-                subimg = image;
-//                map = convert(image);
-//                mapMutableLiveData.postValue(map);
-//                map_rotated = convert_rotate(image);
-//                mapRotatedMutableLiveData.postValue((map_rotated));
-                send = true;
+//                subimg = image;
+                map = convert(image);
+                mapMutableLiveData.postValue(map);
+                map_rotated = convert_rotate(image);
+                mapRotatedMutableLiveData.postValue((map_rotated));
+//                send = true;
             }
         });
 
-        connectedNode.executeCancellableLoop(new CancellableLoop() {
-            @Override
-            protected void setup() {
-            }
-            @Override
-            protected void loop() throws InterruptedException {
-                if (send){
-                    compimage.setData(subimg.getData());
-                    publisher.publish(compimage);
-                    send = false;
-                }
-                Thread.sleep(1);
-            }
-        });
+//        connectedNode.executeCancellableLoop(new CancellableLoop() {
+//            @Override
+//            protected void setup() {
+//            }
+//            @Override
+//            protected void loop() throws InterruptedException {
+//                if (send){
+//                    compimage.setData(subimg.getData());
+//                    publisher.publish(compimage);
+//                    send = false;
+//                }
+//                Thread.sleep(1);
+//            }
+//        });
     }
 }

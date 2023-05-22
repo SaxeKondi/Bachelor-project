@@ -9,6 +9,16 @@
 
 
     <Button
+        android:id="@+id/SpeedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minEms="4"
+        android:text="Fast"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/lat_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +27,16 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current mode"
+        app:layout_constraintBottom_toTopOf="@+id/SpeedButton"
+        app:layout_constraintEnd_toEndOf="@+id/SpeedButton"
+        app:layout_constraintStart_toStartOf="@+id/SpeedButton"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystick_robot"

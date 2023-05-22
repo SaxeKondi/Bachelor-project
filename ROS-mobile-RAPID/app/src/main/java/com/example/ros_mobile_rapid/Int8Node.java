@@ -59,7 +59,7 @@ public class Int8Node extends AbstractNodeMain {
                         send = false;
                     }
                 }
-                Thread.sleep(100);
+                Thread.sleep(10);
             }
         });
     }

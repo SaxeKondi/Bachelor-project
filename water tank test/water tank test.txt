@@ -1,0 +1,12 @@
+Test 1: 30.45 sec
+Test 2: 43.52 sec
+Test 3: 37.33 sec
+Test 4: 35.78 sec
+Test 5: 27.78 sec
+
+Test 1: 47.94 sec
+Test 2: 39.92 sec
+Test 3: 38.74 sec
+Test 4: 38.89 sec 
+Test 5: 41.81 sec
+
