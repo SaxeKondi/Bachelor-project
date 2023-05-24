@@ -37,7 +37,7 @@ class NeedleController:
         self.b = 90
         self.c = 150.765
         self.xPivot = 23
-        self.yPivot = 1 + self.depth
+        self.yPivot = self.depth
 
         self.inserting = False
         self.stopped = True
@@ -45,7 +45,7 @@ class NeedleController:
     def setDepth(self, depth):
         if(not self.inserting and self.needleServoLength == self.needleServoMinLength):
             self.depth = depth
-            self.yPivot = 1 + self.depth
+            self.yPivot = self.depth
             self.angleServoLength = np.sqrt(self.b**2 + self.c**2 - np.cos(np.pi/2 + self.v * np.pi / 180 - np.arctan2(self.yPivot, self.xPivot)) * 2 * self.b * self.c) - self.angleServoMinLength
             self.angleDuty = round(self.angleServoLength * self.angleRatio)
             print(self.angleDuty)

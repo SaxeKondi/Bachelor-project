@@ -1,0 +1,5 @@
+test1 : tid = 50.62
+test2 : tid = 51.38
+test3 : tid = 40.98
+test4 : tid = 42.73
+test5 : tid = 58.31

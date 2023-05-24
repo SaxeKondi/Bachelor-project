@@ -139,7 +139,7 @@ class SubNode:
         self.controll_pos = self.receiver.getActualTCPPose()
         self.controll_speeds = [0, 0, 0, 0, 0, 0] # [x, y, z, rx, ry, rz]
 
-        self.rotation_max_speed = 0.1 # rad / s
+        self.rotation_max_speed = 0.05 # rad / s
         self.z_speed = 0.05 # m / s
         self.z_admittance_speed = 0.01 # m / s
 
@@ -284,68 +284,60 @@ class SubNode:
     def roll(self, msg):
         self.lastUpdatedRX = time.time() * 1000
         # print(msg)
-        if msg.data == 0:
-            self.stopRotation()
+        if msg.data == 1:
+            self.controll_speeds[3] = self.rotation_max_speed
+            self.move()
+            # self.controller.speedL([0, 0, 0, self.controll_speeds[3], 0, 0])
 
-        elif(not self.movingRX and not self.movingRY and not self.movingRZ):
-            if msg.data == 1:
-                self.movingRX = True
-                self.controll_pos[3:6] = rotateTCP(self.controll_pos[3:6], np.pi/4, 0, 0)
-                self.rotate()
+        elif msg.data == -1:
+            self.controll_speeds[3] = -self.rotation_max_speed
+            self.move()
+            # self.controller.speedL([0, 0, 0, self.controll_speeds[3], 0, 0])
 
-            elif msg.data == -1:
-                self.movingRX = True
-                self.controll_pos[3:6] = rotateTCP(self.controll_pos[3:6], -np.pi/4, 0, 0)
-                self.rotate()
+        elif msg.data == 0:
+            self.controll_speeds[3] = 0
+            self.move()
+            # self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
 
 
     def pitch(self, msg):
         self.lastUpdatedRY = time.time() * 1000
         # print(msg)
-        if msg.data == 0:
-            self.stopRotation()
+        if msg.data == 1:
+            self.controll_speeds[4] = self.rotation_max_speed
+            self.move()
+            # self.controller.speedL([0, 0, 0, 0, self.controll_speeds[4], 0])
 
-        elif(not self.movingRX and not self.movingRY and not self.movingRZ):
-            if msg.data == 1:
-                self.movingRY = True
-                self.controll_pos[3:6] = rotateTCP(self.controll_pos[3:6], 0, np.pi/4, 0)
-                self.rotate()
+        elif msg.data == -1:
+            self.controll_speeds[4] = -self.rotation_max_speed
+            self.move()
+            # self.controller.speedL([0, 0, 0, 0, self.controll_speeds[4], 0])
 
-            elif msg.data == -1:
-                self.movingRY = True
-                self.controll_pos[3:6] = rotateTCP(self.controll_pos[3:6], 0, -np.pi/4, 0)
-                self.rotate()
+        elif msg.data == 0:
+            self.controll_speeds[4] = 0
+            self.move()
 
 
     def yaw(self, msg):
+        if msg.data == 1:
+            self.controll_speeds[5] = self.rotation_max_speed
+            self.move()
+            # self.controller.speedL([0, 0, 0, 0, 0, self.controll_speeds[5]])
 
-        self.lastUpdatedRZ = time.time() * 1000
-        # print(msg)
-        if msg.data == 0:
-            self.stopRotation()
+        elif msg.data == -1:
+            self.controll_speeds[5] = -self.rotation_max_speed
+            self.move()
+            # self.controller.speedL([0, 0, 0, 0, 0, self.controll_speeds[5]])
 
-        elif(not self.movingRX and not self.movingRY and not self.movingRZ):
-            if msg.data == 1:
-                self.movingRZ = True
-                self.controll_pos[3:6] = rotateTCP(self.controll_pos[3:6], 0, 0, np.pi/4)
-                self.rotate()
-
-            elif msg.data == -1:
-                self.movingRZ = True
-                self.controll_pos[3:6] = rotateTCP(self.controll_pos[3:6], 0, 0, -np.pi/4)
-                self.rotate()
+        elif msg.data == 0:
+            self.controll_speeds[5] = 0
+            self.move()
 
     def timerCallback(self, data):
         if (not all(v == 0 for v in self.controll_speeds)):
             if(time.time() * 1000 - self.lastUpdated > 100):
                 self.controll_speeds = [0, 0, 0, 0, 0, 0]
                 self.move()
-        if(self.movingRX and time.time() * 1000 - self.lastUpdatedRX > 100):
-            self.stopRotation()
-        if(self.movingRY and time.time() * 1000 - self.lastUpdatedRY > 100):
-            self.stopRotation()
-        if(self.movingRZ and time.time() * 1000 - self.lastUpdatedRZ > 100):
-            self.stopRotation()
 
 
 if __name__ == '__main__':

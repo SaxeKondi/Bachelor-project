@@ -18,6 +18,13 @@ class ultrasoundPublisher:
         self.endx = int(self.pixelWidth - self.pixelWidth/20)
         self.starty = int(self.pixelHeight/9)
         self.endy = int(self.pixelHeight - self.pixelHeight/9)
+        
+        #needle line
+        #y = a*x+b
+        self.a = 12.25
+        self.b = -2435.75
+        self.startLinePoint = (int((0-self.b)/self.a),0)
+        self.endLinePoint = (int(((self.endy-self.starty)-self.b)/self.a),(self.endy-self.starty))
 
         #sets the resolution
         self.cap.set(3,self.pixelWidth)
@@ -39,6 +46,7 @@ class ultrasoundPublisher:
 
             if self.image is not None:
                 self.image = self.image[self.starty:self.endy , self.startx:self.endx]
+                cv2.line(self.image, self.startLinePoint, self.endLinePoint, (0,0,255), 2)
                 # cv2.imshow("ultrasound", self.image)
                 # if cv2.waitKey(1) == ord('q'):
                 #     #exit while loop
