@@ -6,14 +6,12 @@ import static com.example.ros_mobile_rapid.fragments.VideoOnlyFragment.USCamera;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,10 +19,8 @@ import androidx.lifecycle.Observer;
 
 import com.example.ros_mobile_rapid.Int8Node;
 import com.example.ros_mobile_rapid.JoystickNode;
-import com.example.ros_mobile_rapid.LatencyTestSubNode;
 import com.example.ros_mobile_rapid.R;
 
-import org.ros.message.Duration;
 import org.ros.rosjava_geometry.Vector3;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -32,7 +28,7 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class HomeFragment extends Fragment {
     private ImageView PiCameraView;
     private ImageView USCameraView;
-    private static final byte Rotate_pos = 1, Rotate_neg = -1, Rotate_default = 0;
+    private static final byte Rotate_pos_fast = -1, Rotate_neg_fast = 1, Rotate_default = 0, Rotate_pos_slow = -1, Rotate_neg_slow = 1;
     private Button Roll_pos;
     private Button Roll_neg;
     private Button Pitch_pos;
@@ -42,7 +38,6 @@ public class HomeFragment extends Fragment {
     private Button Z_pos;
     private Button Z_neg;
     private Button Z_cal;
-
     private Button Speed_button;
     private Button Lat_test;
     private JoystickView JoystickRobot;
@@ -188,7 +183,12 @@ public class HomeFragment extends Fragment {
                     Z_neg.setEnabled(false);
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    ZControl.editint(Rotate_pos);
+                    if (RobotControl.getspeed() == 0.05) {
+                        ZControl.editint(Rotate_neg_fast);
+                    }
+                    else {
+                        ZControl.editint(Rotate_neg_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Z_neg.setEnabled(true);
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -206,7 +206,12 @@ public class HomeFragment extends Fragment {
                     Z_pos.setEnabled(false);
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Z_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    ZControl.editint(Rotate_neg);
+                    if (RobotControl.getspeed() == 0.05) {
+                        ZControl.editint(Rotate_pos_fast);
+                    }
+                    else {
+                        ZControl.editint(Rotate_pos_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Z_pos.setEnabled(true);
                     Z_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -223,7 +228,12 @@ public class HomeFragment extends Fragment {
                     Roll_neg.setEnabled(false);
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    RollControl.editint(Rotate_pos);
+                    if (RobotControl.getspeed() == 0.05) {
+                        RollControl.editint(Rotate_pos_fast);
+                    }
+                    else {
+                        RollControl.editint(Rotate_pos_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Roll_neg.setEnabled(true);
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -241,7 +251,12 @@ public class HomeFragment extends Fragment {
                     Roll_pos.setEnabled(false);
                     Roll_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    RollControl.editint(Rotate_neg);
+                    if (RobotControl.getspeed() == 0.05) {
+                        RollControl.editint(Rotate_neg_fast);
+                    }
+                    else {
+                        RollControl.editint(Rotate_neg_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Roll_pos.setEnabled(true);
                     Roll_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -259,7 +274,12 @@ public class HomeFragment extends Fragment {
                     Pitch_neg.setEnabled(false);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    PitchControl.editint(Rotate_pos);
+                    if (RobotControl.getspeed() == 0.05) {
+                        PitchControl.editint(Rotate_pos_fast);
+                    }
+                    else {
+                        PitchControl.editint(Rotate_pos_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Pitch_neg.setEnabled(true);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -277,7 +297,12 @@ public class HomeFragment extends Fragment {
                     Pitch_pos.setEnabled(false);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Pitch_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
-                    PitchControl.editint(Rotate_neg);
+                    if (RobotControl.getspeed() == 0.05) {
+                        PitchControl.editint(Rotate_neg_fast);
+                    }
+                    else {
+                        PitchControl.editint(Rotate_neg_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Pitch_pos.setEnabled(true);
                     Pitch_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -294,7 +319,12 @@ public class HomeFragment extends Fragment {
                     Yaw_neg.setEnabled(false);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
                     Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
-                    YawControl.editint(Rotate_pos);
+                    if (RobotControl.getspeed() == 0.05) {
+                        YawControl.editint(Rotate_neg_fast);
+                    }
+                    else {
+                        YawControl.editint(Rotate_neg_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Yaw_neg.setEnabled(true);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
@@ -312,7 +342,12 @@ public class HomeFragment extends Fragment {
                     Yaw_pos.setEnabled(false);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
                     Yaw_neg.setBackgroundColor(getResources().getColor(R.color.blue_main_500));
-                    YawControl.editint(Rotate_neg);
+                    if (RobotControl.getspeed() == 0.05) {
+                        YawControl.editint(Rotate_pos_fast);
+                    }
+                    else {
+                        YawControl.editint(Rotate_pos_slow);
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Yaw_pos.setEnabled(true);
                     Yaw_pos.setBackgroundColor(getResources().getColor(R.color.blue_main_200));
