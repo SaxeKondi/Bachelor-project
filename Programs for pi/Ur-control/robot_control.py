@@ -186,7 +186,7 @@ class SubNode:
         self.movingRX = False 
         self.movingRY = False 
         self.movingRZ = False
-        self.controller.stopL(3)
+        self.controller.stopL(3, True)
         self.controll_pos = self.receiver.getActualTCPPose()
 
         
@@ -205,27 +205,37 @@ class SubNode:
             # self.controller.speedL(xy_velocities) # los ultimos 3 valores son la orientacion? ESTOY ENVIANDO VELOCIDADES
 
     def z_sub(self, msg):
+        self.controll_speeds[0] = 0
+        self.controll_speeds[1] = 0
 
         # print(msg)
-        if msg.data == 1:
-            self.controll_speeds[2] = self.z_speed
+        if msg.data == 2:
+            self.controll_speeds[2] = self.z_admittance_speed
+            self.controll_speeds[0:3] = xyzSpeedTCP_2_base(self.controll_pos[3:6], self.controll_speeds[0:3])
             self.move()
-            # self.controller.speedL([0, 0, self.z_speed, 0, 0, 0])
+
+        elif msg.data == 1:
+            self.controll_speeds[2] = self.z_speed
+            self.controll_speeds[0:3] = xyzSpeedTCP_2_base(self.controll_pos[3:6], self.controll_speeds[0:3])
+            self.move()
 
         elif msg.data == -1:
             self.controll_speeds[2] = -self.z_speed
+            self.controll_speeds[0:3] = xyzSpeedTCP_2_base(self.controll_pos[3:6], self.controll_speeds[0:3])
             self.move()
-            # self.controller.speedL([0, 0, -self.z_speed, 0, 0, 0])
+
+        elif msg.data == -2:
+            self.controll_speeds[2] = self.z_admittance_speed
+            self.controll_speeds[0:3] = xyzSpeedTCP_2_base(self.controll_pos[3:6], self.controll_speeds[0:3])
+            self.move()
 
         elif msg.data == 0:
             self.controll_speeds[2] = 0
             self.move()
-            # self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
 
         else:
             self.controll_speeds[2] = 0
             self.move()
-            # self.controller.speedL([0, 0, 0, 0, 0, 0], 10)
 
     def optoSensor_sub(self, msg):
 
@@ -248,12 +258,18 @@ class SubNode:
             if self.start_zforce - z_force >= 5:
                 print(self.start_zforce - z_force)
                 self.z_control = True
+                self.controll_speeds[0] = 0
+                self.controll_speeds[1] = 0
                 self.controll_speeds[2] = self.z_admittance_speed
+                self.controll_speeds[0:3] = xyzSpeedTCP_2_base(self.controll_pos[3:6], self.controll_speeds[0:3])
                 # self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], self.controll_speeds[2], self.controll_speeds[3], self.controll_speeds[4], self.controll_speeds[5]])
                 self.move()
             elif self.z_control:
                 self.z_control = False
+                self.controll_speeds[0] = 0
+                self.controll_speeds[1] = 0
                 self.controll_speeds[2] = 0
+                self.controll_speeds[0:3] = xyzSpeedTCP_2_base(self.controll_pos[3:6], self.controll_speeds[0:3])
                 # self.controller.speedL([self.controll_speeds[0], self.controll_speeds[1], 0, self.controll_speeds[3], self.controll_speeds[4], self.controll_speeds[5]])
                 self.move()
 
