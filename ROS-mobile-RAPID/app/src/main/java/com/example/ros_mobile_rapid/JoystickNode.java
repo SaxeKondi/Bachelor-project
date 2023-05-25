@@ -23,9 +23,6 @@ public class JoystickNode extends AbstractNodeMain {
     private double max_speed;
     private Publisher<geometry_msgs.Twist> publisher;
     private Boolean send = false;
-
-    private long timer;
-
     private long pub_delay = 0;
     public JoystickNode(double max_speed, String Name, long delay) {
         this.max_speed = max_speed;
@@ -41,10 +38,6 @@ public class JoystickNode extends AbstractNodeMain {
     public void editspeed(Vector3 speeds){
         this.send = true;
         this.speeds = speeds.scale(max_speed);
-    }
-
-    public long returntime(){
-        return timer;
     }
 
     @Override
@@ -71,7 +64,6 @@ public class JoystickNode extends AbstractNodeMain {
                 vel.getLinear().setZ(speeds.getZ());
                 publisher.publish(vel);
                 send = false;
-                timer = Calendar.getInstance().getTimeInMillis();
                 }
                 Thread.sleep(pub_delay);
             }
