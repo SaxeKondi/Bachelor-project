@@ -46,15 +46,3 @@ def speedTCP_2_base(rotVec, xyzSpeed):
     RBase2TCP = rotVec_2_rotMat(rotVec)                                 #Get rotation matrix from base to tcp
     xyzSpeedBase = np.matmul(RBase2TCP, xyzSpeed)             #Find the speed of the TCP seen from base
     return xyzSpeedBase.round(10).tolist()
-
-
-# def rotateTCP(rotVec, rotation):
-#     Rbase2tcp = rotVec_2_rotMat(rotVec)
-
-#     Rtcp2tcpnew = fixedAngleXYZ_2_RotMat(rotation)
-
-#     RotMat = np.matmul(Rbase2tcp, Rtcp2tcpnew)
-
-#     angles = rotMat_2_FixedAngleXYZ(RotMat)
-
-#     return angles.tolist()

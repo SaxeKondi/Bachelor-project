@@ -63,7 +63,6 @@ class SubNode:
 
         elif (not all(v == 0 for v in self.TCPSpeeds[3:6])):               #If the TCP is rotating
             self.rotating = True
-            self.baseSpeeds[3:6] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[3:6])
             self.baseSpeeds[0:3] = [0,0,0]                                  #Set translation to zero 
             self.controller.speedL(self.baseSpeeds, 1.2)
 
@@ -76,7 +75,6 @@ class SubNode:
                 self.rotating = False
                 
             else:
-                self.baseSpeeds[0:3] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[0:3])
                 self.baseSpeeds[3:6] = [0,0,0]                              #Set rotation to zero 
                 self.controller.speedL(self.baseSpeeds, 1.2)
             
@@ -88,6 +86,7 @@ class SubNode:
         xy_velocities = [msg.linear.x, msg.linear.y, 0, 0, 0, 0] # msg.linear.x, msg.linear.y, msg.linear.z
         self.TCPSpeeds[0] = msg.linear.x
         self.TCPSpeeds[1] = msg.linear.y
+        self.baseSpeeds[0:3] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[0:3])
         self.move()
 
 
@@ -108,6 +107,7 @@ class SubNode:
         elif msg.data == 0:
             self.TCPSpeeds[2] = 0
             
+        self.baseSpeeds[0:3] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[0:3])
         self.move()
 
     def optoSensor_sub(self, msg):
@@ -132,11 +132,13 @@ class SubNode:
                 print(self.start_zforce - z_force)
                 self.z_control = True
                 self.TCPSpeeds[2] = self.z_admittance_speed
+                self.baseSpeeds[0:3] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[0:3])
                 self.move()
 
             elif self.z_control:
                 self.z_control = False
                 self.TCPSpeeds[2] = 0
+                self.baseSpeeds[0:3] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[0:3])
                 self.move()
 
 
@@ -147,63 +149,63 @@ class SubNode:
 
     def roll(self, msg):
         self.lastUpdatedRotation = time.time() * 1000
-        if(not self.rotating):
-            if msg.data == 2:
-                self.TCPSpeeds[3] = self.rotationFast
-                
-            elif msg.data == 1:
-                self.TCPSpeeds[3] = self.rotationSlow
+        if msg.data == 2:
+            self.TCPSpeeds[3] = self.rotationFast
+            
+        elif msg.data == 1:
+            self.TCPSpeeds[3] = self.rotationSlow
 
-            elif msg.data == -1:
-                self.TCPSpeeds[3] = -self.rotationSlow
+        elif msg.data == -1:
+            self.TCPSpeeds[3] = -self.rotationSlow
 
-            elif msg.data == -2:
-                self.TCPSpeeds[3] = -self.rotationFast
+        elif msg.data == -2:
+            self.TCPSpeeds[3] = -self.rotationFast
 
         elif msg.data == 0:
             self.TCPSpeeds[3] = 0
 
+        self.baseSpeeds[3:6] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[3:6])
         self.move()
 
     def pitch(self, msg):
         self.lastUpdatedRotation = time.time() * 1000
-        if(not self.rotating):
-            if msg.data == 2:
-                self.TCPSpeeds[4] = self.rotationFast
-                
-            elif msg.data == 1:
-                self.TCPSpeeds[4] = self.rotationSlow
+        if msg.data == 2:
+            self.TCPSpeeds[4] = self.rotationFast
+            
+        elif msg.data == 1:
+            self.TCPSpeeds[4] = self.rotationSlow
 
-            elif msg.data == -1:
-                self.TCPSpeeds[4] = -self.rotationSlow
+        elif msg.data == -1:
+            self.TCPSpeeds[4] = -self.rotationSlow
 
-            elif msg.data == -2:
-                self.TCPSpeeds[4] = -self.rotationFast
+        elif msg.data == -2:
+            self.TCPSpeeds[4] = -self.rotationFast
 
         elif msg.data == 0:
             self.TCPSpeeds[4] = 0
 
+        self.baseSpeeds[3:6] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[3:6])
         self.move()
 
 
     def yaw(self, msg):
         self.lastUpdatedRotation = time.time() * 1000
-        if(not self.rotating):
-            if msg.data == 2:
-                self.TCPSpeeds[5] = self.rotationFast
-                
-            elif msg.data == 1:
-                self.TCPSpeeds[5] = self.rotationSlow
+        if msg.data == 2:
+            self.TCPSpeeds[5] = self.rotationFast
+            
+        elif msg.data == 1:
+            self.TCPSpeeds[5] = self.rotationSlow
 
-            elif msg.data == -1:
-                self.TCPSpeeds[5] = -self.rotationSlow
+        elif msg.data == -1:
+            self.TCPSpeeds[5] = -self.rotationSlow
 
-            elif msg.data == -2:
-                self.TCPSpeeds[5] = -self.rotationFast
+        elif msg.data == -2:
+            self.TCPSpeeds[5] = -self.rotationFast
 
         elif msg.data == 0:
             self.TCPSpeeds[5] = 0
 
+        self.baseSpeeds[3:6] = speedTCP_2_base(self.controll_pos[3:6], self.TCPSpeeds[3:6])
         self.move()
 
     def timerCallback(self, data):
