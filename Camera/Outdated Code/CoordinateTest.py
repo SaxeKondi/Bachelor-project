@@ -36,20 +36,7 @@ def rotMat_2_FixedAngleXYZ(rotMat):
     return [x,y,z]
 
 def rotVec_2_rotMat(rotVec):
-    theta = vecLength(rotVec)
-    ux = rotVec[0]/theta
-    uy = rotVec[1]/theta
-    uz = rotVec[2]/theta
-
-    c = np.cos(theta)
-    s = np.sin(theta)
-    C = 1-np.cos(theta)
-
-    rotMat = np.array([[ux*ux*C+c, ux*uy*C-uz*s, ux*uz*C+uy*s],
-                          [uy*ux*C+uz*s, uy*uy*C+c, uy*uz*C-ux*s],
-                          [uz*ux*C-uy*s, uz*uy*C+ux*s, uz*uz*C+c]])
-
-    print(f'theta: {theta}    u: {[ux, uy, uz]}')
+    rotMat = sciRot.from_rotvec(rotvec)
 
     return rotMat
 
@@ -107,24 +94,15 @@ def xyzSpeedTCP_2_base(rotVec, xyzSpeed):
     return xyzSpeedBase
 
 
-# rotvec = [-0.3463, 1.5149263896, -1.476148737
-rotvec = [-0.20849481538089476, 1.5356036402259001, -0.8114280234844693]
-rotvec = [1.577, 1.346, -2.232]
+matrix = [[1,0,0],[0,0,-1],[0,1,0]]
+print(matrix)
+
+Rot = sciRot.from_matrix(matrix)
+
+rotVec = Rot.as_rotvec()
+
+rotation = sciRot.from_rotvec(rotVec)
 
 
 
-# print(getRotationVector(rotvec, 10, 10, 90))
-
-vec = [3, 4, 0, 1, 8]
-
-npvec = np.array([5,6,7])
-
-vec[1:3] = npvec[1:3]
-
-# [[-0.16080479  0.3332909   0.92900969]
-#  [-0.57970248  0.72990098 -0.36220105]
-#  [-0.79880339 -0.59679288  0.07583799]]
-
-# [[-0.46073588  0.52605671 -0.7148334 ]
-#  [ 0.38675732 -0.60591907 -0.69518404]
-#  [-0.79883742 -0.59676328  0.07571237]]
+print(rotation.as_euler('xyz'))
