@@ -150,16 +150,16 @@ class SubNode:
     def roll(self, msg):
         self.lastUpdatedRotation = time.time() * 1000
         if msg.data == 2:
-            self.TCPSpeeds[3] = self.rotationFast
+            self.TCPSpeeds[3] = self.rotationSlow
             
         elif msg.data == 1:
-            self.TCPSpeeds[3] = self.rotationSlow
+            self.TCPSpeeds[3] = self.rotationFast
 
         elif msg.data == -1:
-            self.TCPSpeeds[3] = -self.rotationSlow
+            self.TCPSpeeds[3] = -self.rotationFast
 
         elif msg.data == -2:
-            self.TCPSpeeds[3] = -self.rotationFast
+            self.TCPSpeeds[3] = -self.rotationSlow
 
         elif msg.data == 0:
             self.TCPSpeeds[3] = 0
@@ -170,16 +170,16 @@ class SubNode:
     def pitch(self, msg):
         self.lastUpdatedRotation = time.time() * 1000
         if msg.data == 2:
-            self.TCPSpeeds[4] = self.rotationFast
+            self.TCPSpeeds[4] = self.rotationSlow
             
         elif msg.data == 1:
-            self.TCPSpeeds[4] = self.rotationSlow
+            self.TCPSpeeds[4] = self.rotationFast
 
         elif msg.data == -1:
-            self.TCPSpeeds[4] = -self.rotationSlow
+            self.TCPSpeeds[4] = -self.rotationFast
 
         elif msg.data == -2:
-            self.TCPSpeeds[4] = -self.rotationFast
+            self.TCPSpeeds[4] = -self.rotationSlow
 
         elif msg.data == 0:
             self.TCPSpeeds[4] = 0
@@ -191,16 +191,16 @@ class SubNode:
     def yaw(self, msg):
         self.lastUpdatedRotation = time.time() * 1000
         if msg.data == 2:
-            self.TCPSpeeds[5] = self.rotationFast
+            self.TCPSpeeds[5] = self.rotationSlow
             
         elif msg.data == 1:
-            self.TCPSpeeds[5] = self.rotationSlow
+            self.TCPSpeeds[5] = self.rotationFast
 
         elif msg.data == -1:
-            self.TCPSpeeds[5] = -self.rotationSlow
+            self.TCPSpeeds[5] = -self.rotationFast
 
         elif msg.data == -2:
-            self.TCPSpeeds[5] = -self.rotationFast
+            self.TCPSpeeds[5] = -self.rotationSlow
 
         elif msg.data == 0:
             self.TCPSpeeds[5] = 0
