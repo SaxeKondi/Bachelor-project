@@ -28,7 +28,7 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class HomeFragment extends Fragment {
     private ImageView PiCameraView;
     private ImageView USCameraView;
-    private static final byte Rotate_pos_fast = -1, Rotate_neg_fast = 1, Rotate_default = 0, Rotate_pos_slow = -1, Rotate_neg_slow = 1;
+    private static final byte Rotate_pos_fast = -1, Rotate_neg_fast = 1, Rotate_default = 0, Rotate_pos_slow = -2, Rotate_neg_slow = 2;
     private Button Roll_pos;
     private Button Roll_neg;
     private Button Pitch_pos;
