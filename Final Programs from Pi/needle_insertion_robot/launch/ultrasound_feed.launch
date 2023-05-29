@@ -1,0 +1,8 @@
+<launch>
+  <node 
+    name = "Ultrasound" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_ultrasound_feed_node.py" 
+    output = "screen"
+  />
+</launch>

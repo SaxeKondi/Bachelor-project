@@ -56,6 +56,8 @@ class SubNode:
         rospy.Timer(rospy.Duration(0.045), self.timerCallback)
 
     def move(self):
+        if(self.controller.isConnected() == False):
+            self.controller.reconnect()
         
         if (all(v == 0 for v in self.TCPSpeeds)):                      #If the TCP should be stationary
             self.baseSpeeds = [0,0,0,0,0,0]
