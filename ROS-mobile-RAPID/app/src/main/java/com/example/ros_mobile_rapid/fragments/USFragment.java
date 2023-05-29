@@ -33,9 +33,10 @@ public class USFragment extends Fragment {
     public static TextPublisherNode NeedleDepthAngleTextSend = new TextPublisherNode( "NeedleDepthAngle");
     public static Int8Node NeedleAutoStartNode = new Int8Node("NeedleAutoStart");
     public static Int8Node NeedleRetractNode = new Int8Node("NeedleRetract");
-    public static Int8Node NeedleStopNode = new Int8Node("NeedleStop");
+    public static TextPublisherNode NeedleStopNode = new TextPublisherNode("tissue_type");
     private static byte AutoStart = 0, Retract = 0, Stop = 0;
 
+    private static String blood = "b";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class USFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    NeedleStopNode.editint(Stop);
+                    NeedleStopNode.edittext(blood);
                 }
                 return true;
             }

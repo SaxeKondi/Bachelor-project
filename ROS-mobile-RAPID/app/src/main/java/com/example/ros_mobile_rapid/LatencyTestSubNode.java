@@ -53,7 +53,7 @@ public class LatencyTestSubNode extends AbstractNodeMain {
             @Override
             public void onNewMessage(geometry_msgs.Twist twist) {
                 timer = Calendar.getInstance().getTimeInMillis();
-                timer_robot = RobotControl.returntime();
+//                timer_robot = RobotControl.returntime();
                 TimeMutableLiveData.postValue(timer - timer_robot);
             }
         });

@@ -26,7 +26,6 @@ public class TextPublisherNode extends AbstractNodeMain {
     public void edittext(String input){
         this.text = input;
         this.send = true;
-
     }
     @Override
     public GraphName getDefaultNodeName() {
