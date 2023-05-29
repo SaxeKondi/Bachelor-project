@@ -1,0 +1,50 @@
+<launch>
+  <!-- Node for the camera feed -->
+  <node 
+    name = "Camera" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_camera_feed_node.py" 
+    output = "screen"
+  />
+
+  <!-- Node for the camera control -->
+  <node 
+    name = "CameraControl" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_camera_control_node.py" 
+    output = "screen"
+  />
+
+  <!-- Node for the ultrasound feed -->
+  <node 
+    name = "Ultrasound" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_ultrasound_feed_node.py" 
+    output = "screen"
+  />
+  
+  <!-- Node for the needle control -->
+  <node 
+    name = "NeedleControl" 
+    pkg = "needle_insertion_robot" 
+    type = "Pi_needle_control_node.py" 
+    output = "screen"
+  />
+  
+  <!-- Node for the robot control -->
+  <node 
+    name = "RobotControl" 
+    pkg = "needle_insertion_robot" 
+    type = "robot_control.py" 
+    output = "screen"
+  />
+  
+  <!-- Node for the Opto sensor -->
+  <node 
+    name = "OptoSensorMeasurements" 
+    pkg = "needle_insertion_robot" 
+    type = "optoSensor_publisher.py" 
+    output = "screen"
+  />
+  
+</launch>
