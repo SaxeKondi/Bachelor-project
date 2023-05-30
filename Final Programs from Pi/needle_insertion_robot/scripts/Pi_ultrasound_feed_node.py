@@ -32,7 +32,7 @@ class ultrasoundPublisher:
 
         self.br = CvBridge()
         # Node cycle rate (in Hz).
-        self.loop_rate = rospy.Rate(15)
+        self.loop_rate = rospy.Rate(14)
 
         # Publishers
         self.pub = rospy.Publisher('USCamera', CompressedImage, queue_size=1)
