@@ -130,7 +130,7 @@ class SubNode:
                 self.z_cal = False
 
         if self.z_cal == False and len(self.z_forces) == 5:
-            if self.start_zforce - z_force >= 5:
+            if self.start_zforce - z_force >= 20:
                 print(self.start_zforce - z_force)
                 self.z_control = True
                 self.TCPSpeeds[2] = self.z_admittance_speed
