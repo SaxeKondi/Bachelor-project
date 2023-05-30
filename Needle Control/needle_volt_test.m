@@ -72,7 +72,7 @@ figure(4)
 hold on
 plot(scope_time_4, scope_voltage_input_4);
 plot(scope_time_4, scope_voltage_output_4)
-xline(6.31)
+%xline(6.31)
 yline(1.70426)
 yline(1.42285)
 legend({'Input','Position'})
