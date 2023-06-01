@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.ros_mobile_rapid'
+    compileSdkVersion 33
+    buildToolsVersion "31.0.0"
+
+    defaultConfig {
+        applicationId "com.example.ros_mobile_rapid"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    //implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'androidx.work:work-runtime:2.8.0'
+
+    //implementation 'androidx.work:work-runtime-ktx:2.7.0-alpha05'
+    //implementation 'androidx.work:work-runtime-ktx:2.8.0'
+
+    //implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.6.0' // mantener: la 1.7.0 genera error.
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    // ROS
+    implementation "org.ros.rosjava_core:rosjava:0.3.6"
+    implementation "org.ros.rosjava_messages:diagnostic_msgs:1.12.7"
+    implementation 'org.ros.rosjava_messages:geometry_msgs:1.12.7'
+    // implementation 'org.ros.rosjava_messages:nav_msgs:1.12.7'
+    implementation 'org.ros.rosjava_messages:std_msgs:0.5.11'
+    // implementation 'org.ros.rosjava_messages:map_msgs:1.13.0'
+    implementation 'org.ros.rosjava_messages:sensor_msgs:1.12.7'
+    implementation 'org.ros.rosjava_bootstrap:message_generation:0.3.3'
+    implementation 'org.ros.android_core:android_core_components:0.4.0'
+
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // To use constraint layout compose
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha04"
+
+    //Joystick view
+    implementation 'io.github.controlwear:virtualjoystick:1.10.1'
+
+    //Viewpager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+}

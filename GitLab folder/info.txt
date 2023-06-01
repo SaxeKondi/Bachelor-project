@@ -1,0 +1,2 @@
+The Pi programs folder contains all the programming running on the Raspberry Pi.
+The ROS-mobile-RAPID folder contains the code for the Android app.

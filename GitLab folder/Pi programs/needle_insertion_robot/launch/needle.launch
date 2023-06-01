@@ -1,0 +1,10 @@
+<launch>
+  <!-- Node for the needle control -->
+  <node 
+    name = "NeedleControl" 
+    pkg = "needle_insertion_robot" 
+    type = "NeedleNode.py" 
+    output = "screen"
+  />
+
+</launch>
