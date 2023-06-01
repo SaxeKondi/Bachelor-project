@@ -1,0 +1,1 @@
+These are the catkin packages used to launch the program at the same time with ROS.
