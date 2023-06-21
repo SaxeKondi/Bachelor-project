@@ -33,10 +33,10 @@ class NeedleController:
         self.pi.hardware_PWM(self.needlePin, self.frequency, self.needleDuty)
 
         self.depth = 0
-        self.v = 8.775
+        self.v = 8.775 //actual value: 10.643
         self.b = 90
-        self.c = 150.765
-        self.xPivot = 23
+        self.c = 150.765 // actaul value: 151.608
+        self.xPivot = 23   //actual value: 28
         self.yPivot = self.depth
 
         self.inserting = False
