@@ -23,7 +23,7 @@ class basic_subscriber:
   
     def setAngle(self, msg):
         depth = float(msg.data)
-        if(depth >= 13 and depth <= 40):
+        if(depth >= 13 and depth <= 40): //Values for the actual system used for testing during bachelor project: 17.2 and 53.9
             NeedleControl.setDepth(depth)
 
     def insert(self, msg):
