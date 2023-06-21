@@ -33,15 +33,37 @@ class NeedleController:
         self.pi.hardware_PWM(self.needlePin, self.frequency, self.needleDuty)
 
         self.depth = 0
-        self.v = 8.775 //actual value: 10.643
+        self.v = 8.775 #actual value: 10.643. this value is in degrees and can be calculated using: arctan(x/h)
         self.b = 90
-        self.c = 150.765 // actaul value: 151.608
-        self.xPivot = 23   //actual value: 28
+        self.c = 150.765 #actaul value: 151.608
+        self.xPivot = 23   #actual value: 28
         self.yPivot = self.depth
+
+
+        #Values for calulating servo length without using v NOT TESTED!
+        #self.depth = 0 #y
+        #self.BC = 90
+        #self.AC = 150.765 // actaul value: 151.608
+        #self.xPivot = 23   //actual value: 28
+        #self.yPivot = self.depth
+        #self.h = 149
 
         self.inserting = False
         self.stopped = True
 
+    
+    #setDepth method that uses values that are easier to change to reflect changes on the physical mechanism NOT TESTED!    
+    #def setDepth(self, depth):
+    #    if(not self.inserting and self.needleServoLength == self.needleServoMinLength):
+    #        self.depth = depth
+    #        self.yPivot = self.depth
+    #        self.angleServoLength = np.sqrt(self.BC**2 + self.AC**2 - np.cos(np.pi - np.arctan2(self.h, self.xPivot) - np.arctan2(self.yPivot, self.xPivot)) * 2 * self.BC * self.AC) - self.angleServoMinLength
+    #        self.angleDuty = round(self.angleServoLength * self.angleRatio)
+    #        print(self.angleDuty)
+    #        self.pi.hardware_PWM(self.anglePin, self.frequency, int(self.angleDuty))
+
+
+    
     def setDepth(self, depth):
         if(not self.inserting and self.needleServoLength == self.needleServoMinLength):
             self.depth = depth
